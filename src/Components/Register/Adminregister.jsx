@@ -316,7 +316,7 @@ const Adminregister = ({ onFormSwitch }) => {
       setLoading(true);
       // setLoading(true); // Set loading to true when the registration process starts
       const response = await axios.post(
-        "http://127.0.0.1:9090/register/user/create",
+        "https://distachapp.onrender.com/register/user/create",
         formData
       );
 

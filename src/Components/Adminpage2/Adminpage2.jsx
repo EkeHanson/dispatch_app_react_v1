@@ -11,18 +11,20 @@ const Adminpage2 = () => {
   const [loading, setLoading] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [riderData, setRiderData] = useState([]);
-  const [formData, setFormData] = useState({
+  const [formDataE, setFormDataE] = useState({
     name: "",
     contact_person: "",
     phone_number: "",
     rider: "",
     riderPhone: "",
-    riderAddress: "",
+    riderAddress: "",});
+
+    const [formDataO, setFormDataO] = useState({
     order_number: "",
     reserved_quantity: 0,
     amount_returned_by_customer: 0,
     quantity_sold: 0,
-    amount_charged: "",
+    amount_charged: 0,
     gift_or_discount: 0,
     quantity_delivered: 0,
     amount_paid: 0,
@@ -39,7 +41,7 @@ const Adminpage2 = () => {
     const fetchData = async () => {
       try {
         console.log('trying to get riders')
-        const riderResponse = await axios.get("https://distachapp.onrender.com/rider/");
+        const riderResponse = await axios.get("http://localhost:9090/rider/");
 
         if (riderResponse.status === 200) {
           setRiderData(riderResponse.data);
@@ -60,7 +62,7 @@ const Adminpage2 = () => {
     if (name === "rider") {
       const selectedRider = riderData.find((rider) => rider.id === parseInt(value, 10));
       if (selectedRider) {
-        setFormData((prevData) => ({
+        setFormDataE((prevData) => ({
           ...prevData,
           rider: selectedRider.id,
           riderPhone: selectedRider.phone,
@@ -68,31 +70,56 @@ const Adminpage2 = () => {
         }));
       }
     } else {
-      setFormData((prevData) => ({ ...prevData, [name]: value }));
+      setFormDataE((prevData) => ({ ...prevData, [name]: value }));
+      setFormDataO((prevData) => ({ ...prevData, [name]: value }));
     }
   };
 
   const handleSubmit = async () => {
     try {
-      console.log("I am about to create an establishment")
       setLoading(true);
-      const response = await axios.post("http://127.0.0.1:9090/establishment/create/", formData);
-
-      if (response.status === 201) {
+  
+      // Ensure riderId is added to formDataE
+      const selectedRider = riderData.find((rider) => rider.id === parseInt(formDataE.rider, 10));
+      if (selectedRider) {
+        formDataE.rider = selectedRider.id;
+      }
+  
+      const responseE = await axios.post("http://localhost:9090/establishment/create/", formDataE);
+      console.log(responseE.data);
+  
+      if (responseE.status === 201) {
         console.log("Establishment data sent successfully!!");
         toast.success("Establishment data sent successfully!!");
-        navigate("/rider-page-1");
+        const establishmentId = responseE.data.id;
+        const updatedFormDataO = {
+          ...formDataO,
+          establishment: establishmentId,
+        };
+        // Use the establishment ID from the response or any other relevant data for the order creation
+         // Assuming responseE.data has the establishment ID
+        const responseO = await axios.post(`http://localhost:9090/order/create/`, updatedFormDataO);
+  
+        if (responseO.status === 201) {
+          console.log("Order data sent successfully!!");
+          toast.success("Order data sent successfully!!");
+          navigate("/rider-page-1");
+        } else {
+          console.error("Failed to send order data");
+          toast.error("Failed to send order data");
+        }
       } else {
         console.error("Failed to send establishment data");
         toast.error("Failed to send establishment data");
       }
     } catch (error) {
-      console.error("Error sending establishment data:", error);
+      console.error("Error sending data:", error);
       toast.error("An error occurred. Please try again later.");
     } finally {
       setLoading(false);
     }
   };
+
 
   const handleCloseModal = () => {
     setShowModal(false);
@@ -128,7 +155,7 @@ const Adminpage2 = () => {
                 <input
                   type="text"
                   name="name"
-                  value={formData.name || ''}
+                  value={formDataE.name || ''}
                   onChange={handleChange}
                   className="form-control rounded-pill w-100 border-1 py-3 px-3"
                 />
@@ -140,7 +167,7 @@ const Adminpage2 = () => {
                 <input
                   type="text"
                   name="contact_person"
-                  value={formData.contact_person || ''}
+                  value={formDataE.contact_person || ''}
                   onChange={handleChange}
                   className="form-control rounded-pill w-100 border-1 py-3 px-3"
                 />
@@ -152,7 +179,7 @@ const Adminpage2 = () => {
                   <input
                     type="tel"
                     name="phone_number"
-                    value={formData.phone_number || ''}
+                    value={formDataE.phone_number || ''}
                     onChange={handleChange}
                     className="form-control rounded-pill w-100 border-1 py-3 px-3"
                   />
@@ -174,7 +201,7 @@ const Adminpage2 = () => {
                   className="form-select rounded-pill w-100 border-1 py-3 px-3 numero"
                   aria-label="Rider" 
                   name="rider" 
-                  value={formData.rider}
+                  value={formDataE.rider}
                   onChange={handleChange}
                 >
                   <option value="" disabled>
@@ -196,7 +223,7 @@ const Adminpage2 = () => {
                     <input
                       type="tel"
                       name="riderPhone"
-                      value={formData.riderPhone}
+                      value={formDataE.riderPhone}
                       onChange={handleChange}
                       readOnly={true}
                       className="form-control rounded-pill w-100 border-1 py-3 px-3"
@@ -209,7 +236,7 @@ const Adminpage2 = () => {
                     <input
                       type="text"
                       name="riderAddress"
-                      value={formData.riderAddress}
+                      value={formDataE.riderAddress}
                       onChange={handleChange}
                       readOnly={true}
                       className="form-control rounded-pill w-100 border-1 py-3 px-3"
@@ -233,7 +260,7 @@ const Adminpage2 = () => {
                 <input
                   type="text"
                   name="order_number"
-                  value={formData.order_number}
+                  value={formDataO.order_number}
                   onChange={handleChange}
                   className="form-control rounded-pill w-100 border-1 py-3 px-3"
                 />
@@ -245,7 +272,7 @@ const Adminpage2 = () => {
                 <input
                   type="text"
                   name="created"
-                  value={formData.created}
+                  value={formDataO.created}
                   onChange={handleChange}
                   className="rounded-pill w-100 border-1 py-3 px-3 form-control"
                 />
@@ -257,7 +284,7 @@ const Adminpage2 = () => {
                 <input
                   type="text"
                   name="series"
-                  value={formData.series}
+                  value={formDataO.series}
                   onChange={handleChange}
                   className="rounded-pill w-100 border-1 py-3 px-3 form-control"
                 />
@@ -269,7 +296,7 @@ const Adminpage2 = () => {
                 <input
                   type="number"
                   name="reserved_quantity"
-                  value={formData.reserved_quantity}
+                  value={formDataO.reserved_quantity}
                   onChange={handleChange}
                   className="rounded-pill w-100 border-1 py-3 px-3 form-control"
                 />
@@ -281,7 +308,7 @@ const Adminpage2 = () => {
                 <input
                   type="number"
                   name="amount_returned_by_customer"
-                  value={formData.amount_returned_by_customer}
+                  value={formDataO.amount_returned_by_customer}
                   onChange={handleChange}
                   className="rounded-pill w-100 border-1 py-3 px-3 form-control"
                 />
@@ -293,7 +320,7 @@ const Adminpage2 = () => {
                 <input
                   type="number"
                   name="quantity_sold"
-                  value={formData.quantity_sold}
+                  value={formDataO.quantity_sold}
                   onChange={handleChange}
                   className="rounded-pill w-100 border-1 py-3 px-3 form-control"
                 />
@@ -305,7 +332,7 @@ const Adminpage2 = () => {
                 <input
                   type="text"
                   name="amount_charged"
-                  value={formData.amount_charged}
+                  value={formDataO.amount_charged}
                   onChange={handleChange}
                   className="rounded-pill w-100 border-1 py-3 px-3 form-control"
                 />
@@ -317,7 +344,7 @@ const Adminpage2 = () => {
                 <input
                   type="number"
                   name="gift_or_discount"
-                  value={formData.gift_or_discount}
+                  value={formDataO.gift_or_discount}
                   onChange={handleChange}
                   className="rounded-pill w-100 border-1 py-3 px-3 form-control"
                 />
@@ -329,7 +356,7 @@ const Adminpage2 = () => {
                 <input
                   type="number"
                   name="quantity_delivered"
-                  value={formData.quantity_delivered}
+                  value={formDataO.quantity_delivered}
                   onChange={handleChange}
                   className="rounded-pill w-100 border-1 py-3 px-3 form-control"
                 />
@@ -341,7 +368,7 @@ const Adminpage2 = () => {
                 <input
                   type="number"
                   name="amount_paid"
-                  value={formData.amount_paid}
+                  value={formDataO.amount_paid}
                   onChange={handleChange}
                   className="rounded-pill w-100 border-1 py-3 px-3 form-control"
                 />
@@ -353,7 +380,7 @@ const Adminpage2 = () => {
                 <input
                   type="number"
                   name="balance"
-                  value={formData.balance}
+                  value={formDataO.balance}
                   onChange={handleChange}
                   className="rounded-pill w-100 border-1 py-3 px-3 form-control"
                 />
@@ -365,7 +392,7 @@ const Adminpage2 = () => {
                 <input
                   type="text"
                   name="confirm"
-                  value={formData.confirm}
+                  value={formDataO.confirm}
                   onChange={handleChange}
                   className="rounded-pill w-100 border-1 py-3 px-3 form-control"
                 />

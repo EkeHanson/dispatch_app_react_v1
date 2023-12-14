@@ -2,17 +2,49 @@ import React, { useEffect, useState } from "react";
 import "./Ownerslog.css";
 import img4 from "../Assets/Circle chart.png";
 import Currentdate from "../Currentdate/Currentdate";
+import Managmentlog from "../Managementlog/Managmentlog";
 import axios from "axios";
 
 const Ownerslog = () => {
+  const [orderData, setorderData] = useState([]);
   const [establishmentData, setEstablishmentData] = useState([]);
+  const [selectedOption, setSelectedOption] = useState(""); // State to store the selected option
+  const [numberOfItemsToday, setNumberOfItemsToday] = useState(""); // State to store the selected option
+  const [numberOfItemsYesterday, setNumberOfItemsYesterday] = useState(""); // State to store the selected option
+
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const establishmentResponse = await axios.get("https://distachapp.onrender.com/establishment/");
-        if (establishmentResponse.status === 200) {
-          setEstablishmentData(establishmentResponse.data);
+        
+        const orderResponse = await axios.get("https://distachapp.onrender.com/order/");
+        const estblishmentResponse = await axios.get("https://distachapp.onrender.com/establishment/");
+        if (orderResponse.status === 200) {
+
+
+          const today = new Date();
+          const todayDate = today.toISOString().split('T')[0]; // Format: YYYY-MM-DD
+
+          // Get yesterday's date
+          const yesterday = new Date();
+          yesterday.setDate(yesterday.getDate() - 1);
+          const yesterdayDate = yesterday.toISOString().split('T')[0]; // Format: YYYY-MM-DD
+
+          // Filter the items that were created on the desired date
+          const ordersCreatedToday = orderResponse.data.filter(
+            (item) => item.created.substring(0, 10) === todayDate
+          );
+
+          const ordersCreatedYesterday = orderResponse.data.filter(
+            (item) => item.created.substring(0, 10) === yesterdayDate
+          );
+
+
+          setorderData(orderResponse.data);
+          setEstablishmentData(estblishmentResponse.data);
+          setNumberOfItemsYesterday(ordersCreatedYesterday.length)
+          setNumberOfItemsToday(ordersCreatedToday.length)
+         
         } else {
           console.error("Failed to fetch establishment data");
         }
@@ -25,47 +57,176 @@ const Ownerslog = () => {
     fetchData();
   }, []);
 
-
-
-  const [totalEarnings, setTotalEarnings] = useState("");
-  const [order, setOrder] = useState("");
-  const [amtPaid, setAmtPaid] = useState("");
-  const [totalDebt, setTotalDebt] = useState("");
-  const [totalAmtPaid, setTotalAmtPaid] = useState("");
-  const [totalAmtSupplied, setTotalAmtSupplied] = useState("");
-
-  const getData = async () => {
-    try {
-      const response = await axios.get(
-        "https://jsonplaceholder.typicode.com/posts"
-      );
-
-      console.log(response);
-      setTotalEarnings(response.data.length);
-      setOrder(response.data.length);
-      setAmtPaid(response.data.length);
-      setTotalDebt(response.data.length);
-      setTotalAmtPaid(response.data.length);
-      setTotalAmtSupplied(response.data.length);
-      // if (response.ok) {
-      //   // Handle successful login
-      //   const responseData = await response.json();
-      //   console.log("Login successful:", responseData);
-      //   console.log(response)
-
-      // } else {
-      //   // Handle failed login
-      //   console.error("Login failed:", response.status);
-      //   // navigate('/Rider-login')
-      // }
-    } catch (error) {
-      console.error("Error during login:", error);
+   
+    
+  const calculateTotalAmountPaid = () => {
+    if (orderData.length === 0) {
+      return 0;
     }
+    const totalAmountPaid = orderData.reduce((accumulator, currentValue) => {
+      return accumulator + parseFloat(currentValue.balance);
+    }, 0);
+    return totalAmountPaid;
   };
 
-  useEffect(() => {
-    getData();
-  }, []);
+  const calculateTotalReservedQuantity = () => {
+    if (orderData.length === 0) {
+      return 0;
+    }
+    const totalReservedQuantity = orderData.reduce((accumulator, currentValue) => {
+      return accumulator + parseFloat(currentValue.reserved_quantity);
+    }, 0);
+    return totalReservedQuantity;
+  };
+
+  const calculateTotalQuantityDelivered = () => {
+    if (orderData.length === 0) {
+      return 0;
+    }
+    const totalQuantityDelivered = orderData.reduce((accumulator, currentValue) => {
+      return accumulator + parseFloat(currentValue.quantity_delivered);
+    }, 0);
+    return totalQuantityDelivered;
+  };
+
+  const calculateTotalEarnings = () => {
+    if (orderData.length === 0) {
+      return 0;
+    }
+
+    const totalEarnings = orderData.reduce((accumulator, currentValue) => {
+      return accumulator + parseFloat(currentValue.quantity_sold);
+    }, 0);
+    return totalEarnings;
+  };
+
+
+  
+  const totalDebt = calculateTotalReservedQuantity() - calculateTotalAmountPaid() 
+  
+
+  const getSelectedEstablishment = () => {
+    if (selectedOption === "All establishment") {
+      return (
+        <div className="row gy-4 justify-content-center">
+          
+              {/* Display details for all establishments */}
+
+              <div className="row mt-5">
+              <div className="col-lg-6 col-md-6 col-sm-12">
+                <p className="fs-2 mt-5">Overview</p>
+              </div>
+              <div className="col-lg-6 col-md-6 col-sm-12">
+                <p className="text-dark mt-5 pt-3 text-normal text-end">
+                  Fecha Uitima Entrega:{" "}
+                  <span className="fw-bold">
+                    <Currentdate />
+                  </span>
+                </p>
+              </div>
+            </div>
+            
+
+            <div className="col-lg-6 col-md-12 col-sm-12">
+              <div className="card w-100 plates p-5 d-flex justify-content-center rounded-5">
+                <div className="row g-0 justify-content-center align-items-center text-center">
+                  <div className="col-lg-6 col-md-6 col-sm-12">
+                    <img className="img-fluid w-75" src={img4} alt="" />
+                  </div>
+
+                  <div className="col-lg-6 col-md-6 col-sm-12 text-light pt-4 px-auto">
+                    <p className="text-light">Total earnings</p>
+                    <h2>
+                      <span className="success-class fw-bold">
+                      &euro;{calculateTotalEarnings()}
+                      </span>
+                    </h2>
+                    <p className="text-light">compared to 52,000 yesterday</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+
+            <div className="col-lg-6 col-md-12 col-sm-10 ">
+              <div className="card w-100 plates p-5 d-flex justify-content-center rounded-5">
+                <div className="row g-0row g-0 justify-content-center align-items-center text-center">
+                  <div className="col-lg-6 col-sm-12 ">
+                    <img className="img-fluid w-75" src={img4} alt="" />
+                  </div>
+
+                  <div className="col-lg-6 col-md-6 col-sm-10 text-light pt-4 px-auto">
+                    <p className="text-light">Order trent</p>
+                    <h2>
+
+                      <span className="success-class fw-bold">{numberOfItemsToday} orders</span>
+                    </h2>
+                    <p className="text-light">compared to  {numberOfItemsYesterday}  yesterday</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div className="row text-center mt-5 gy-4 mb-5 pb-5">
+              <div className="col-lg-3 col-md-6 col-sm-6">
+                <div className="card plates rounded-4 w-100 py-3">
+                  <h6 className="text-light">Total Amount Paid</h6>
+                  <h1 className="text-light">&euro;{calculateTotalAmountPaid()}</h1>
+                </div>
+              </div>
+              <div className="col-lg-3 col-md-6 col-sm-6">
+                <div className="card plates rounded-4 w-100 py-3">
+                  <h6 className="text-light">Total debts</h6>
+                  <h1 className="text-light own">&euro;{totalDebt}</h1>
+                </div>
+              </div>
+              <div className="col-lg-3 col-md-6 col-sm-6">
+                <div className="card plates rounded-4 w-100 py-3">
+                  <h6 className="text-light">Total Amount Reserved</h6>
+                  <h1 className="text-light">&euro;{calculateTotalReservedQuantity()}</h1>
+                </div>
+              </div>
+              <div className="col-lg-3 col-md-6 col-sm-6">
+                <div className="card plates rounded-4 w-100 py-3">
+                  <h6 className="text-light own">Total amount supplied</h6>
+                  <h1 className="text-light">&euro;{calculateTotalQuantityDelivered()}</h1>
+                </div>
+              </div>
+            </div>
+            <div className="container-fluid footer py-4 bg-light text-center mt-5 mb-0">
+        <div className="row justify-content-center ">
+          <div className="col-lg-4 col-md-12 col-sm-6">
+            <p className="mb-0">
+              <i className="bi bi-geo-alt-fill "></i>
+              Avda de Espana 2428710-EL MOLAR (MADRID)
+            </p>
+          </div>
+          <div className="col-lg-4 col-md-12 col-sm-6">
+            <i className="bi bi-telephone-fill"></i>+918410517
+          </div>
+          <div className="col-lg-4 col-md-12 col-sm-6">
+            <i className="bi bi-envelope-at-fill"></i>
+            <a href="/">loteriaelmolar@yahoo.es</a>
+          </div>
+        </div>
+      </div>
+            </div>
+         
+      );
+    } else {
+      const selectedEstablishment = establishmentData.find(
+        (item) => `${item.name} - ${item.contact_person} - ${item.phone_number}` === selectedOption
+      );
+      if (selectedEstablishment) {
+        return (
+          <Managmentlog selectedEstablishmentName = {selectedEstablishment.name} selectedEstablishmentId = {selectedEstablishment.id}/>
+          
+        );
+      } else {
+        return null;
+      }
+    }
+  };
 
   return (
     <div className="container-fluid">
@@ -89,113 +250,21 @@ const Ownerslog = () => {
           <select
             className="form-select rounded-pill py-3"
             aria-label="Default select example"
+            onChange={(e) => setSelectedOption(e.target.value)}
           >
-            <option selected>Select an establishment</option>
-                  {establishmentData.map((item, index) => (
-                  <option key={index} value={item.id}>
-                    {item.name} {item.contact_person} - {item.phone_number}
-            </option>
+            <option >All establishment</option>
+            {establishmentData.map((item, index) => (
+              <option key={index} value={`${item.name} - ${item.contact_person} - ${item.phone_number}`}>
+                {item.name} - {item.contact_person} - {item.phone_number}
+              </option>
             ))}
           </select>
-          <div className="row gy-4 justify-content-center">
-            <div className="row mt-5">
-              <div className="col-lg-6 col-md-6 col-sm-12">
-                <p className="fs-2 mt-5">Overview</p>
-              </div>
-              <div className="col-lg-6 col-md-6 col-sm-12">
-                <p className="text-dark mt-5 pt-3 text-normal text-end">
-                  Fecha Uitima Entrega:{" "}
-                  <span className="fw-bold">
-                    <Currentdate />
-                  </span>
-                </p>
-              </div>
-            </div>
 
-            <div className="col-lg-6 col-md-12 col-sm-12">
-              <div className="card w-100 plates p-5 d-flex justify-content-center rounded-5">
-                <div className="row g-0 justify-content-center align-items-center text-center">
-                  <div className="col-lg-6 col-md-6 col-sm-12">
-                    <img className="img-fluid w-75" src={img4} alt="" />
-                  </div>
+          {getSelectedEstablishment()}
 
-                  <div className="col-lg-6 col-md-6 col-sm-12 text-light pt-4 px-auto">
-                    <p className="text-light">Total earnings</p>
-                    <h2>
-                      <span className="success-class fw-bold">
-                      &euro;{totalEarnings}
-                      </span>
-                    </h2>
-                    <p className="text-light">compared to 52,000 yesterday</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className="col-lg-6 col-md-12 col-sm-10 ">
-              <div className="card w-100 plates p-5 d-flex justify-content-center rounded-5">
-                <div className="row g-0row g-0 justify-content-center align-items-center text-center">
-                  <div className="col-lg-6 col-sm-12 ">
-                    <img className="img-fluid w-75" src={img4} alt="" />
-                  </div>
-
-                  <div className="col-lg-6 col-md-6 col-sm-10 text-light pt-4 px-auto">
-                    <p className="text-light">Order trent</p>
-                    <h2>
-                      <span className="success-class fw-bold">{order} order</span>
-                    </h2>
-                    <p className="text-light">compared to 52,000 yesterday</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className="row text-center mt-5 gy-4 mb-5 pb-5">
-              <div className="col-lg-3 col-md-6 col-sm-6">
-                <div className="card plates rounded-4 w-100 py-3">
-                  <h6 className="text-light">Total amount paid</h6>
-                  <h1 className="text-light">&euro;{amtPaid}</h1>
-                </div>
-              </div>
-              <div className="col-lg-3 col-md-6 col-sm-6">
-                <div className="card plates rounded-4 w-100 py-3">
-                  <h6 className="text-light">Total debts</h6>
-                  <h1 className="text-light own">&euro;{totalDebt}</h1>
-                </div>
-              </div>
-              <div className="col-lg-3 col-md-6 col-sm-6">
-                <div className="card plates rounded-4 w-100 py-3">
-                  <h6 className="text-light">Total amount reserved</h6>
-                  <h1 className="text-light">&euro;{totalAmtPaid}</h1>
-                </div>
-              </div>
-              <div className="col-lg-3 col-md-6 col-sm-6">
-                <div className="card plates rounded-4 w-100 py-3">
-                  <h6 className="text-light own">Total amount supplied</h6>
-                  <h1 className="text-light">&euro;{totalAmtSupplied}</h1>
-                </div>
-              </div>
-            </div>
-          </div>
         </div>
       </div>
-      <div className="container-fluid footer py-4 bg-light text-center mt-5 mb-0">
-        <div className="row justify-content-center ">
-          <div className="col-lg-4 col-md-12 col-sm-6">
-            <p className="mb-0">
-              <i class="bi bi-geo-alt-fill "></i>
-              Avda de Espana 2428710-EL MOLAR (MADRID)
-            </p>
-          </div>
-
-          <div className="col-lg-4 col-md-12 col-sm-6">
-            <i class="bi bi-telephone-fill"></i>+918410517
-          </div>
-
-          <div className="col-lg-4 col-md-12 col-sm-6">
-            <i class="bi bi-envelope-at-fill"></i>
-            <a href="/">loteriaelmolar@yahoo.es</a>
-          </div>
-        </div>
-      </div>
+     
     </div>
   );
 };

@@ -36,14 +36,14 @@ const Establish = () => {
         <div className="rounded-5 overlay">
           {responseData.map((item, index) => (
             <div key={index} className="container position-relative">
-              <Link to="/admin-page">
+              <Link to={`/admin-page?establishmentId=${item.id}`}>
                 <img className="w-100 " src={img4} alt="" />
               </Link>
               <div className="text-light fs-4 my-3">
                 <Example establishmentId={item.id} />
               </div>
               <div className="position-absolute top-50 end-0 translate-middle mt-5 text-light">
-                {item.name}
+                {item.name} 
               </div>
               <div className="middle"></div>
             </div>

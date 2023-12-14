@@ -1,27 +1,91 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { useLocation } from "react-router-dom";
+import axios from "axios";
 import "./Addorder.css";
-// import { Link } from "react-router-dom";
 import Successmodal from "../Successmodal/Successmodal";
+
 
 
 const Addorder = () => {
 
-  // const [formData, setFormData] = useState({
-  //   name: "",
-  //   contact_person: "",
-  //   phone_number: "",
-  //   rider: "",
-  //   riderPhone: "",
-  //   riderAddress: "",
-  //   order_number: "",
-  //   reserved_quantity: "",
-  //   amount_returned_by_customer: "",
-  //   quantity_sold: "",
-  //   amount_charged: "",
-  //   gift_or_discount: "",
-  // });
+  const location = useLocation();
+  const queryParams = new URLSearchParams(location.search);
+  const establishmentId = queryParams.get("establishmentId");
+  const parsedEstablishmentId = establishmentId ? parseInt(establishmentId, 10) : null
+
+
+  useEffect(() => {
+    console.log("Establishment ID:", establishmentId);
+  }, [establishmentId]);
+
+  const [formDataO, setFormDataO] = useState({
+    order_number: "",
+    reserved_quantity: 0,
+    amount_returned_by_customer: 0,
+    quantity_sold: 0,
+    amount_charged: 0,
+    gift_or_discount: 0,
+    quantity_delivered: 0,
+    amount_paid: 0,
+    balance: 0,
+    discount: 0,
+    confirm: false,
+    created: new Date().toISOString(), 
+    series: "",
+  });
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    let parsedValue = value;
+  
+    // Convert numeric fields to numbers
+    if (['reserved_quantity', 'amount_returned_by_customer', 'amount_charged',].includes(name)) {
+      parsedValue = parseInt(value, 10);
+      // Check if parsing was successful, otherwise set it to zero
+      parsedValue = isNaN(parsedValue) ? 0 : parsedValue;
+    }
+  
+    // Convert boolean field to lowercase
+    if (name === 'confirm') {
+      parsedValue = value.toLowerCase() === 'true'; // Assuming 'true' or 'false' strings are sent
+    }
+  
+    setFormDataO((prevData) => ({ ...prevData, [name]: parsedValue }));
+  };
+
+  const handleSubmit = async () => {
+    try {
+      if (parsedEstablishmentId !== null) {
+        const updatedFormDataO = {
+          order_number: formDataO.order_number,
+          reserved_quantity: parseInt(formDataO.reserved_quantity, 10),
+          amount_returned_by_customer: parseInt(formDataO.amount_returned_by_customer, 10),
+          quantity_sold: parseInt(formDataO.quantity_sold, 10),
+          amount_charged: parseInt(formDataO.amount_charged, 10),
+          gift_or_discount: parseInt(formDataO.gift_or_discount, 10),
+          establishment: parsedEstablishmentId,
+        };
+  
+        console.log("About to create an Order");
+        const responseO = await axios.post(`https://distachapp.onrender.com/order/create/`, updatedFormDataO);
+        console.log("Response Object:", responseO);
+        console.log("Just passed creating an Order");
+  
+        if (responseO.status === 201) {
+          console.log("Order data sent successfully!!");
+        }
+      } else {
+        console.error("Establishment ID is null");
+        // Handle the case when establishmentId is null (e.g., show an error message)
+      }
+    } catch (error) {
+      console.error("Error sending data:", error);
+    }
+  };
+  
 
   return (
+    
     <div>
       <div className="container-fluid bg bg-light">
         <div className="">
@@ -57,7 +121,10 @@ const Addorder = () => {
               Number
             </label>
             <input
-              type="number"
+              type="text"
+              name="order_number"
+              value={formDataO.order_number || ''}
+              onChange={handleChange}
               className="rounded-pill w-100 border-1 py-3 px-3 form-control"
             />
           </div>
@@ -66,7 +133,10 @@ const Addorder = () => {
               Reserve Quantity
             </label>
             <input
-              type="text"
+              type="Number"
+              name="reserved_quantity"
+              value={formDataO.reserved_quantity || ''}
+              onChange={handleChange}
               className="rounded-pill w-100 border-1 py-3 px-3 form-control"
             />
           </div>
@@ -75,7 +145,10 @@ const Addorder = () => {
               Amount returned by customer
             </label>
             <input
-              type="text"
+              type="Number"
+              name="amount_returned_by_customer"
+              value={formDataO.amount_returned_by_customer || ''}
+              onChange={handleChange}
               className="rounded-pill w-100 border-1 py-3 px-3 form-control"
             />
           </div>
@@ -85,6 +158,9 @@ const Addorder = () => {
             </label>
             <input
               type="text"
+              name="quantity_sold"
+              value={formDataO.quantity_sold || ''}
+              onChange={handleChange}
               className="rounded-pill w-100 border-1 py-3 px-3 form-control"
             />
           </div>
@@ -93,7 +169,10 @@ const Addorder = () => {
               Amount charger
             </label>
             <input
-              type="text"
+              type="Number"
+              name="amount_charged"
+              value={formDataO.amount_charged || ''}
+              onChange={handleChange}
               className="rounded-pill w-100 border-1 py-3 px-3 form-control"
             />
           </div>
@@ -102,20 +181,17 @@ const Addorder = () => {
               Gift/Discount
             </label>
             <input
-              type="text"
+              type="Number"
+              name="gift_or_discount"
+              value={formDataO.gift_or_discount || ''}
+              onChange={handleChange}
               className="rounded-pill w-100 border-1 py-3 px-3 form-control"
             />
           </div>
         </div>
         <div className="text-center mt-3 w-75 mx-auto">
-          {/* <Link
-            to="/confirm"
-            type="submit"
-            className="save text-decoration-none rounded-pill text-light w-100 py-3 mt-5 mb-5"
-          >
-            Save
-          </Link> */}
-          <Successmodal/>
+
+          <Successmodal handleSubmit={handleSubmit}/>
         </div>
       </div>
       <div className="container-fluid footer py-4 bg-light text-center mt-5 mb-0">

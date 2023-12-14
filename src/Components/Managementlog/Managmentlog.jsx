@@ -5,18 +5,19 @@ import "./Managmentlog.css";
 
 
 
-const Managmentlog = () => {
+const Managmentlog = ({selectedEstablishmentId, selectedEstablishmentName }) => {
   const [responseData, setResponseData] = useState([]);
 
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get("https://distachapp.onrender.com/order/");
-  
+        console.log("trying to fetch establishment by id")
+        
+        const response = await axios.get(`https://distachapp.onrender.com/order/by_establishment/${selectedEstablishmentId}`);
+        console.log(response.data)
         if (response.status === 200) {
           setResponseData(response.data);
-          console.log(response.data)
         } else {
           console.error("Failed to fetch data");
         }
@@ -27,10 +28,7 @@ const Managmentlog = () => {
   
     fetchData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-
-
+  }, [selectedEstablishmentId]);
 
 
 
@@ -49,7 +47,7 @@ const Managmentlog = () => {
           <div className="col-lg-8 col-md-6 col-sm-12 p-5">
             <p>Buenas noches,</p>
             <h1 className="text-light text-center fw-bold">
-              ESTABLISHMENT DEL LOTTERY
+              {selectedEstablishmentName}
             </h1>
           </div>
         </div>
@@ -93,17 +91,18 @@ const Managmentlog = () => {
                 </tr>
               </thead>
               <tbody className="text-center position-relative">
-              {responseData.map((item, index) => (
+              {Array.isArray(responseData) ? (responseData.map((item, index) => (
               
-                <tr>
-                  <td key={index} className="p-4 text-left">{(new Date(item.created)).getDate()}-{(new Date(item.created)).getMonth() + 1}-{(new Date(item.created)).getFullYear()}</td>
+                <tr key={index}>
+                  <td  className="p-4 text-left">{(new Date(item.created)).getDate()}-{(new Date(item.created)).getMonth() + 1}-{(new Date(item.created)).getFullYear()}</td>
                   <td className="p-4 text-center">{item.order_number}</td>
                   <td className="p-4 text-center">{item.series}</td>
-                <td className="p-4 text-center">{item.quantity_delivered}</td>
-                <td className="p-4 text-center">${item.amount_paid}</td>
+                  <td className="p-4 text-center">{item.quantity_delivered}</td>
+                  <td className="p-4 text-center">${item.amount_paid}</td>
                   <td className="p-4 text-center">${item.balance}</td>
                   <td className="p-4 text-center">${item.discount}</td>
                   <td className="p-5 text-center ">$GIFT NOT IN The Order API</td>
+                   
                    <div className="position-relative re">
 
                     <div className="vertical-letters position-absolute">
@@ -116,11 +115,37 @@ const Managmentlog = () => {
                       <span>e</span>
                       <span>d</span>
                     </div>
-                    </div>
-                  
+                  </div>
                 </tr>
-                ))} 
-          
+               ))
+               ) : (
+                
+                  <tr>
+                    
+                    <td className="p-4 text-center">{responseData['created']}</td>
+                    <td className="p-4 text-center">{responseData['order_number']}</td>
+                    <td className="p-4 text-center">{responseData['series']}</td>
+                    <td className="p-4 text-center">{responseData['quantity_delivered']}</td>
+                    <td className="p-4 text-center">{responseData['amount_paid']}</td>
+                    <td className="p-4 text-center">{responseData['balance']}</td>
+                    <td className="p-4 text-center">{responseData['discount']}</td>
+                    <td className="p-5 text-center ">$GIFT NOT IN The Order API</td>
+                    
+                    <div className="position-relative re">
+
+                      <div className="vertical-letters position-absolute">
+                        <span>A</span>
+                        <span>p</span>
+                        <span>p</span>
+                        <span>r</span>
+                        <span>o</span>
+                        <span>v</span>
+                        <span>e</span>
+                        <span>d</span>
+                      </div>
+                    </div>
+                  </tr>
+                )}
               </tbody>
             </table>
           </div>

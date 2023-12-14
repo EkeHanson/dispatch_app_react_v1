@@ -10,7 +10,7 @@ function Example({ establishmentId }) {
   const handleCopyLink = () => {
     const riderData = { id: establishmentId, someOtherData: 'example' }; // Example data to include in the link
     const queryParams = new URLSearchParams(riderData).toString();
-    const riderPageLink = `https://distachapp.onrender.com/rider-page-2?${queryParams}`;
+    const riderPageLink = `http://localhost:9090/rider-page-2?${queryParams}`;
     navigator.clipboard.writeText(riderPageLink)
       .then(() => {
         console.log('Link copied to clipboard:', riderPageLink);
@@ -30,7 +30,7 @@ function Example({ establishmentId }) {
     console.log('About to delete establishment');
     if (establishmentId) {
       try {
-        const response = await axios.delete(`http://localhost:9090/establishment/${establishmentId}`);
+        const response = await axios.delete(`https://distachapp.onrender.com/establishment/${establishmentId}`);
         if (response.status === 204) {
           console.log('Establishment deleted successfully');
           // Handle deletion success

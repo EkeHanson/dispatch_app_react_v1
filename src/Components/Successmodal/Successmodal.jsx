@@ -6,11 +6,13 @@ import './Successmodal.css'
 import { Link } from 'react-router-dom';
 
 
-function Successmodal() {
+function Successmodal({ handleSubmit }) {
   const [showModal, setShowModal] = useState(false);
 
   const handleSaveClick = () => {
+    handleSubmit();
     setShowModal(true);
+    
   };
 
   const handleCloseModal = () => {

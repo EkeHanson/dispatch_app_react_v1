@@ -237,68 +237,7 @@ const Lotery = () => {
                 <h3 className="fw-bold">Invoice</h3>
               </div>
               <div className=" w-100">
-                {/* <table className="table-1 table-bordered table-responsive align-middle w-100">
-                  <thead>
-                    <tr>
-                      <th scope="col" className="p-4">
-                        Date
-                      </th>
-                      <th scope="col" className="p-4">
-                        Series
-                      </th>
-                      <th scope="col" className="p-4">
-                        Quantity delivered
-                      </th>
-                      <th scope="col" className="p-4">
-                       Amount paid
-                      </th>
-                      <th scope="col" className="p-4">
-                       Balance
-                      </th>
-                      <th scope="col" className="p-4">
-                        Discount
-                      </th>
-                      <th scope="col" className="p-4">
-                      <Link to="/pending">Pending <i class="bi bi-chevron-down"></i></Link>
-                        
-                      </th>
-                    </tr>
-                  </thead>
-                  <tbody className="text-center">
-                    <tr>
-                      <td className="p-4 text-center">3356</td>
-                      <td className="p-4 text-center">24-46</td>
-                      <td className="p-4 text-center">$200</td>
-                      <td className="p-4 text-center">$200</td>
-                      <td className="p-4 text-center">$500</td>
-                      <td className="p-4 text-center">$200</td>
-                    </tr>
-                    <tr className="text-center">
-                      <td className="p-4">3356</td>
-                      <td className="p-4">24-46</td>
-                      <td className="p-4">$200</td>
-                      <td className="p-4">$200</td>
-                      <td className="p-4">$500</td>
-                      <td className="p-4">$200</td>
-                    </tr>
-                    <tr>
-                      <td className="p-4"></td>
-                      <td className="p-4"></td>
-                      <td className="p-4"></td>
-                      <td className="p-4"></td>
-                      <td className="p-4"></td>
-                      <td className="p-4"></td>
-                    </tr>
-                    <tr>
-                      <td className="p-4"></td>
-                      <td className="p-4"></td>
-                      <td className="p-4"></td>
-                      <td className="p-4"></td>
-                      <td className="p-4"></td>
-                      <td className="p-4"></td>
-                    </tr>
-                  </tbody>
-                </table> */}
+                
                 <ResponsiveExample/>
                 <div className="mt-3 fw-bold">
                   <i class="bi bi-plus-lg est"></i>
@@ -307,12 +246,7 @@ const Lotery = () => {
                   </a>
                 </div>
                 <div className="text-center mt-3">
-                  {/* <button
-                    type="submit"
-                    className="save rounded-pill text-light w-50 py-3 mt-5 mb-5"
-                  >
-                    Entregar
-                  </button> */}
+                  
                   <Successmodal2/>
                 </div>
               </div>

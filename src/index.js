@@ -17,6 +17,7 @@ import Rider from './Components/Riderpage/Rider';
 import Lottery from './Components/Lotery/Lottery';
 import Addorder from './Components/Addneworder/Addorder';
 import Adminpage2 from './Components/Adminpage2/Adminpage2';
+import Adminpage2Edit from './Components/Adminpage2Edit/Adminpage2Edit.jsx';
 import Confirmpage from './Components/Confirmation/Confirmpage';
 import Establish from './Components/Establishment/Establish';
 import Adminregister from './Components/Register/Adminregister.jsx'
@@ -68,6 +69,10 @@ import Managerlinkmodal from './Components/Copymanagermodal/Managerlinkmodal.jsx
     {
       path: "/edit-company",
       element: <Adminpage2/>,
+    },
+    {
+      path: "/edit-company-detail",
+      element: <Adminpage2Edit/>,
     },
     {
       path: "/confirm",

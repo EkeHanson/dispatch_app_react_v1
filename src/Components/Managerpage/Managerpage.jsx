@@ -68,7 +68,7 @@ const Managerpage = () => {
               </Link>
             </div>
             <div className="fs-5 col-lg-6 col-md-6 col-sm-12 text-end">
-              <Link  to={`/edit-company?establishmentId=${establishmentId}`} className="icon text-decoration-none ">
+              <Link  to={`/edit-company-detail?establishmentId=${establishmentId}`} className="icon text-decoration-none ">
                 <i class="bi bi-plus-lg fw-bolder fs-4"></i>Edit Company details
               </Link>
             </div>

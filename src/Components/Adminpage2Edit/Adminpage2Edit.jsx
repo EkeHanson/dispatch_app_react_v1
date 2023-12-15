@@ -1,16 +1,23 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import "./Adminpage2.css";
 import Footer from "../Footer/Footer";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Managerlinkmodal from "../Copymanagermodal/Managerlinkmodal";
 
-const Adminpage2 = () => {
+const Adminpage2Edit = () => {
+
+  const location = useLocation();
+  const queryParams = new URLSearchParams(location.search);
+  const establishmentId = queryParams.get('establishmentId');
+
+
   const [loading, setLoading] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [riderData, setRiderData] = useState([]);
+  const [establishmentRiderResponseData, setEstablishmentRiderResponseData] = useState({})
   const [formDataE, setFormDataE] = useState({
     name: "",
     contact_person: "",
@@ -40,11 +47,24 @@ const Adminpage2 = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        console.log('trying to get riders')
-        const riderResponse = await axios.get("http://localhost:9090/rider/");
+        const riderResponse = await axios.get(`https://distachapp.onrender.com/rider/`);
+        const establishmentResponse = await axios.get(`https://distachapp.onrender.com/establishment/${establishmentId}`);
+        const riderID = `${JSON.stringify(establishmentResponse.data.rider)}`
 
-        if (riderResponse.status === 200) {
+        const establishmentRiderResponse = await axios.get(`https://distachapp.onrender.com/rider/${riderID}`);
+        const establishmentRiderResponseData =  establishmentRiderResponse.data
+
+        if (riderResponse.status === 200 && establishmentResponse.status === 200) {
           setRiderData(riderResponse.data);
+          setEstablishmentRiderResponseData(establishmentRiderResponseData);
+          const establishmentData = establishmentResponse.data;
+          const selectedRider = riderResponse.data.find((rider) => rider.id === establishmentData.rider);
+          setFormDataE({
+            ...establishmentData,
+            rider: selectedRider ? selectedRider.id : "", // Ensure rider matches from riderData
+            riderPhone: selectedRider ? selectedRider.phone : "",
+            riderAddress: selectedRider ? selectedRider.address : "",
+          });
         } else {
           console.error("Failed to fetch rider data");
         }
@@ -52,9 +72,10 @@ const Adminpage2 = () => {
         console.error("Error fetching data:", error);
       }
     };
-
+  
     fetchData();
-  }, []);
+  }, [establishmentId]);
+  
 
   const handleChange = (e) => {
     console.log('Getting and Setting riders')
@@ -125,6 +146,12 @@ const Adminpage2 = () => {
     setShowModal(false);
   };
 
+   // Output the state values for debugging
+   console.log("formDataE.rider:", formDataE.rider);
+   console.log("formDataE.rider:", typeof formDataE.rider);
+   console.log("establishmentRiderResponseData:", establishmentRiderResponseData);
+   console.log("establishmentRiderResponseData:", typeof establishmentRiderResponseData);
+
   return (
     <div>
       <form onSubmit={handleSubmit}>
@@ -136,7 +163,7 @@ const Adminpage2 = () => {
         </div>
         <div className="row justify-content-center align-items-center">
           <div className="col-lg-8 col-md-6 col-sm-12 p-5">
-            <h1 className="text-light text-center fw-bold">Lottery Company</h1>
+            <h1 className="text-light text-center fw-bold">{formDataE.name}</h1>
           </div>
         </div>
       </div>
@@ -150,7 +177,7 @@ const Adminpage2 = () => {
             <div className="row mt-5 pt-3">
               <div className="col-lg-6 col-md-12 col-sm-12">
                 <label htmlFor="contactPerson" className="mb-3">
-                  Name of Establishment
+                  Name of Establishment to be edited
                 </label>
                 <input
                   type="text"
@@ -197,22 +224,27 @@ const Adminpage2 = () => {
                 <label htmlFor="name" className="mb-3">
                   Select Rider
                 </label>
-                <select
-                  className="form-select rounded-pill w-100 border-1 py-3 px-3 numero"
-                  aria-label="Rider" 
-                  name="rider" 
-                  value={formDataE.rider}
-                  onChange={handleChange}
-                >
-                  <option value="" disabled>
-                    Select Rider
-                  </option>
-                  {riderData.map((rider, index) => (
-                  <option key={index} value={rider.id}>
-                  {rider.first_name} {rider.last_name} - {rider.phone}
-                  </option>
-                  ))}
-                </select>
+                  <select
+                    className="form-select rounded-pill w-100 border-1 py-3 px-3 numero"
+                    aria-label="Rider" 
+                    name="rider" 
+                    value={formDataE.rider}
+                    onChange={handleChange}
+                  >
+                    <option value="" disabled>
+                      Select Rider
+                    </option>
+                    {riderData.map((rider, index) => (
+                      <option
+                        key={index}
+                        value={rider.id}
+                        selected={rider.id === establishmentRiderResponseData.id} // Update the selected attribute here
+                      >
+                        {rider.first_name} {rider.last_name} - {rider.phone}
+                      </option>
+                    ))}
+                  </select>
+                
               </div>
               <div>
                 <div className="row mt-5 pt-3">
@@ -444,4 +476,4 @@ const Adminpage2 = () => {
   );
 };
 
-export default Adminpage2;
+export default Adminpage2Edit;

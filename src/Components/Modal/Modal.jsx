@@ -10,7 +10,7 @@ function Example({ establishmentId }) {
   const handleCopyLink = () => {
     const riderData = { id: establishmentId, someOtherData: 'example' }; // Example data to include in the link
     const queryParams = new URLSearchParams(riderData).toString();
-    const riderPageLink = `http://localhost:9090/rider-page-2?${queryParams}`;
+    const riderPageLink = `https://distachapp.onrender.com/rider-page-2?${queryParams}`;
     navigator.clipboard.writeText(riderPageLink)
       .then(() => {
         console.log('Link copied to clipboard:', riderPageLink);

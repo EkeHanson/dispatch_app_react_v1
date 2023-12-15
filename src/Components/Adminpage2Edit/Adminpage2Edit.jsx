@@ -49,6 +49,7 @@ const Adminpage2Edit = () => {
       try {
         const riderResponse = await axios.get(`https://distachapp.onrender.com/rider/`);
         const establishmentResponse = await axios.get(`https://distachapp.onrender.com/establishment/${establishmentId}`);
+        const orderResponse = await axios.get(`https://distachapp.onrender.com/order/by_establishment/${establishmentId}`);
         const riderID = `${JSON.stringify(establishmentResponse.data.rider)}`
 
         const establishmentRiderResponse = await axios.get(`https://distachapp.onrender.com/rider/${riderID}`);
@@ -59,13 +60,18 @@ const Adminpage2Edit = () => {
           setEstablishmentRiderResponseData(establishmentRiderResponseData);
           const establishmentData = establishmentResponse.data;
           const selectedRider = riderResponse.data.find((rider) => rider.id === establishmentData.rider);
+
+
+          
           setFormDataE({
             ...establishmentData,
             rider: selectedRider ? selectedRider.id : "", // Ensure rider matches from riderData
             riderPhone: selectedRider ? selectedRider.phone : "",
             riderAddress: selectedRider ? selectedRider.address : "",
           });
-        } else {
+        } 
+        
+        else {
           console.error("Failed to fetch rider data");
         }
       } catch (error) {
@@ -101,15 +107,16 @@ const Adminpage2Edit = () => {
       setLoading(true);
   
       // Ensure riderId is added to formDataE
-      const selectedRider = riderData.find((rider) => rider.id === parseInt(formDataE.rider, 10));
-      if (selectedRider) {
-        formDataE.rider = selectedRider.id;
-      }
-  
-      const responseE = await axios.post("https://distachapp.onrender.com/establishment/create/", formDataE);
+        const rider = establishmentRiderResponseData.id;
+        const updatedFormDataE = {
+          ...formDataE,
+          rider: rider};
+
+      const responseE = await axios.put(`https://distachapp.onrender.com/establishment/${establishmentId}/`, updatedFormDataE);
       console.log(responseE.data);
   
       if (responseE.status === 201) {
+
         console.log("Establishment data sent successfully!!");
         toast.success("Establishment data sent successfully!!");
         const establishmentId = responseE.data.id;
@@ -118,8 +125,8 @@ const Adminpage2Edit = () => {
           establishment: establishmentId,
         };
         // Use the establishment ID from the response or any other relevant data for the order creation
-         // Assuming responseE.data has the establishment ID
-        const responseO = await axios.post(`https://distachapp.onrender.com/order/create/`, updatedFormDataO);
+        //  Assuming responseE.data has the establishment ID
+        const responseO = await axios.put(`https://distachapp.onrender.com/order/${establishmentId}/`, updatedFormDataO);
   
         if (responseO.status === 201) {
           console.log("Order data sent successfully!!");
@@ -150,7 +157,6 @@ const Adminpage2Edit = () => {
    console.log("formDataE.rider:", formDataE.rider);
    console.log("formDataE.rider:", typeof formDataE.rider);
    console.log("establishmentRiderResponseData:", establishmentRiderResponseData);
-   console.log("establishmentRiderResponseData:", typeof establishmentRiderResponseData);
 
   return (
     <div>

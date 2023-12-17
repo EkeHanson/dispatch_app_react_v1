@@ -11,6 +11,8 @@ const Ownerslogin = () => {
   //   e.preventDefault();
   //   console.log();
   // };
+  const apiHostname = process.env.REACT_APP_API_HOSTNAME;
+  const [loading, setLoading] = useState(false); // State for loading
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -25,12 +27,14 @@ const Ownerslogin = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
 
     console.log(formData);
 
     // Call the login API endpoint with formData
     try {
-      const response = await axios.post("https://distachapp.onrender.com/jwt_token/", {
+      const response = await axios.post(`${apiHostname}/jwt_token/`, {
+
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -52,6 +56,9 @@ const Ownerslogin = () => {
       }
     } catch (error) {
       console.error("Error during login:", error);
+    }
+    finally {
+      setLoading(false); // Set loading to false regardless of success or failure
     }
 
   }
@@ -115,7 +122,7 @@ const Ownerslogin = () => {
                         to="/log-owner"
                         className="btn btn-primary w-75 rounded-pill py-2"
                       >
-                        Login
+                        {loading ? "login in..." : "Login"}
                       </button>
                     </div>
 

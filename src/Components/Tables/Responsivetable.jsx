@@ -2,92 +2,197 @@ import React, { useState, useEffect } from "react";
 import Table from "react-bootstrap/Table";
 import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
+import { BsCaretDownFill } from "react-icons/bs";
 
-function ResponsiveExample({ establishmentId }) {
+function ResponsiveExample({ selectedOrderId }) {
+  const apiHostname = process.env.REACT_APP_API_HOSTNAME;
+
   const columnTypes = [
     "Date",
     "Series",
-    "Quantity Delivered",
-    "Amount Paid",
+    "Quantity delivered",
+    "Amount paid",
     "Balance",
     "Discount",
-    "Confirm",
+    "Confirmation",
   ];
 
   const [cellValues, setCellValues] = useState([]);
-
   const [confirmationStatus, setConfirmationStatus] = useState([]);
-
   const [showModal, setShowModal] = useState(false);
-  const [modalAction, setModalAction] = useState("");
   const [modalRowIndex, setModalRowIndex] = useState(null);
 
   const handleCloseModal = () => setShowModal(false);
-  const handleShowModal = (action, rowIndex) => {
-    setModalAction(action);
+  const handleShowModal = (rowIndex) => {
     setModalRowIndex(rowIndex);
     setShowModal(true);
   };
 
-  const handleInputChange = (rowIndex, colIndex, value) => {
-    const newCellValues = [...cellValues];
-    newCellValues[rowIndex][colIndex].value = value;
-    setCellValues(newCellValues);
+  const handleInputChange = async (rowIndex, colIndex, value) => {
+    try {
+      const newCellValues = [...cellValues];
+  
+      // Ensure the row exists before updating its value
+      if (!newCellValues[rowIndex]) {
+        newCellValues[rowIndex] = createEmptyRow(); // Create a new empty row if it doesn't exist
+      }
+  
+      newCellValues[rowIndex].value[colIndex] = value;
+  
+      setCellValues(newCellValues);
+    } catch (error) {
+      console.error("Could not update data:", error);
+    }
   };
 
   const handleConfirmationClick = (rowIndex, status) => {
-    const newStatus = [...confirmationStatus];
-    newStatus[rowIndex] = status;
-    setConfirmationStatus(newStatus);
-
-    handleCloseModal();
-  };
-
-  const handleModalAction = () => {
-    if (modalAction === "Approve") {
-      handleConfirmationClick(modalRowIndex, "Approved");
-    } else if (modalAction === "Pending") {
-      handleConfirmationClick(modalRowIndex, "Pending");
+    try {
+      if (status !== 'Approved' && status !== 'Pending') {
+        throw new Error('Invalid confirmation status');
+      }
+  
+      const newStatus = [...confirmationStatus];
+      newStatus[rowIndex] = status;
+      setConfirmationStatus(newStatus);
+  
+      const newCellValues = [...cellValues];
+  
+      if (!newCellValues[rowIndex]) {
+        newCellValues[rowIndex] = createEmptyRow(); // Create a new empty row if it doesn't exist
+      }
+  
+      newCellValues[rowIndex][6] = { value: status }; // Ensure that the structure exists before setting 'value'
+  
+      setCellValues(newCellValues);
+    } catch (error) {
+      console.error('Error updating confirmation status:', error);
     }
-
-    handleCloseModal();
   };
+  
+  const handleModalAction = (action) => {
+    if (modalRowIndex !== null) {
+      try {
+        if (action !== 'Approved' && action !== 'Pending') {
+          throw new Error('Invalid confirmation status');
+        }
+  
+        handleConfirmationClick(modalRowIndex, action);
+        handleCloseModal();
+      } catch (error) {
+        console.error('Error handling modal action:', error);
+      }
+    }
+  };
+
+  const handleSave = async () => {
+    try {
+      // Retrieve the confirmed value from the confirmationStatus state based on the modalRowIndex
+      const confirmedValue = confirmationStatus[modalRowIndex];
+  
+      // Check if the confirmed value is neither 'Approved' nor 'Pending'
+      if (confirmedValue !== 'Approved' && confirmedValue !== 'Pending') {
+        throw new Error('Invalid confirmed value');
+      }
+  
+      // Format the row according to the server's expected data format
+      const formattedRow = {
+        order: selectedOrderId,
+        series: cellValues[modalRowIndex].value[1],
+        quantity_delivered: parseInt(cellValues[modalRowIndex].value[2]),
+        amount_paid: parseInt(cellValues[modalRowIndex].value[3]),
+        balance: parseInt(cellValues[modalRowIndex].value[4]),
+        discount: parseInt(cellValues[modalRowIndex].value[5]),
+        confirmed: confirmedValue,
+      };
+  
+      // Construct data to be sent in the POST request
+      const data = formattedRow;
+  
+      const response = await fetch(`${apiHostname}/invoice/create/`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      });
+  
+      if (!response.ok) {
+        throw new Error("Failed to save data to the backend");
+      } else {
+        console.log("Data saved successfully:", data);
+        window.location.reload();
+        // Additional logic or UI updates upon successful save
+      }
+    } catch (error) {
+      console.error("Error saving data:", error);
+    }
+  };
+  
+  
 
   useEffect(() => {
-    const loadDataFromBackend = async () => {
+    const fetchData = async () => {
       try {
-        const url = `https://distachapp.onrender.com/order/by_establishment/${establishmentId}`;
-        const response = await fetch(url);
+        const response = await fetch(
+          `${apiHostname}/invoice/invoices-by-order/${selectedOrderId}/`
+        );
+  
         if (!response.ok) {
-          throw new Error("Failed to fetch data from the backend");
+          throw new Error("Failed to fetch data from the endpoint");
         }
+  
         const data = await response.json();
+        console.log("Received Data:", data);
+  
         if (Array.isArray(data) && data.length > 0) {
-          const updatedCellValues = data.map((order) => {
-            const formattedDate = new Date(order.created).toISOString().split('T')[0];
-            return {
-
-            value: [
-              { value: formattedDate, type: "Date" },
-              { value: order.series || "", type: "text" },
-              { value: order.quantity_delivered || "", type: "number" },
-              { value: order.amount_paid || "", type: "number" },
-              { value: order.balance || "", type: "number" },
-              { value: order.discount || "", type: "number" },
-              { value: order.confirmed ? "Approved" : "Pending", type: "text" },
-            ],
-          };
+          const formattedCellValues = data.map((item) => {
+            // Format the 'created' date field to 'yyyy-MM-dd' format
+            const formattedDate = new Date(item.created).toISOString().substring(0, 10);
+  
+             return {
+              value: [
+                formattedDate,
+                item.series,
+                item.quantity_delivered,
+                item.amount_paid,
+                item.balance,
+                item.discount,
+                item.confirmed,
+              ],
+              type: "text",
+            };
           });
-          setCellValues(updatedCellValues);
-          setConfirmationStatus(Array(data.length).fill("pending"));
+  
+          setCellValues(formattedCellValues);
+          // Set the confirmationStatus state based on mapped values
+          const mappedConfirmationStatus = formattedCellValues.map((row) => row.value[6]);
+          setConfirmationStatus(mappedConfirmationStatus);
+        } else {
+          throw new Error("Invalid data format received from the API");
         }
       } catch (error) {
-        console.error("Error loading data from the backend:", error);
+        console.error("Error fetching data:", error);
       }
     };
+  
+    fetchData();
+  }, [selectedOrderId, apiHostname]);
+  
+  
+  
 
-    loadDataFromBackend();
-  }, [establishmentId]);
+  const createEmptyRow = () => {
+    return {
+      value: ["", "", "", "", "", "", ""], // Default values for each column
+      type: "text",
+    };
+  };
+  // Ensure there's always an empty row for user input at the end
+  useEffect(() => {
+    if (cellValues.length === 0 || cellValues[cellValues.length - 1].value.some(value => value !== "")) {
+      setCellValues((prevCellValues) => [...prevCellValues, createEmptyRow()]);
+    }
+  }, [cellValues]);
 
   return (
     <>
@@ -106,34 +211,28 @@ function ResponsiveExample({ establishmentId }) {
                 <td key={colIndex}>
                   {colIndex === 6 && (
                     <>
-                      {confirmationStatus[rowIndex] === "Pending" && (
-                        <Button onClick={() => handleShowModal("Approve", rowIndex)}>
-                          Approve
-                        </Button>
-                      )}
-                      {confirmationStatus[rowIndex] === "Approved" && (
-                        <Button onClick={() => handleShowModal("Pending", rowIndex)}>
-                          Pending
-                        </Button>
-                      )}
                       {confirmationStatus[rowIndex] !== "Approved" &&
-                        confirmationStatus[rowIndex] !== "Pending" && (
-                          <>
-                            <Button onClick={() => handleShowModal("Pending", rowIndex)}>
-                              Pending
-                            </Button>
-                            <Button onClick={() => handleShowModal("Approve", rowIndex)}>
-                              Approve
-                            </Button>
-                          </>
-                        )}
+                      confirmationStatus[rowIndex] !== "Pending" ? (
+                        <Button
+                          onClick={() => handleShowModal(rowIndex)}
+                          variant="link"
+                          style={{ padding: 0 }}
+                          className="text-decoration-none bg-transparent"
+                        >
+                          {cell} Pending <BsCaretDownFill />
+                        </Button>
+                      ) : (
+                        cell
+                      )}
                     </>
                   )}
                   {colIndex !== 6 && (
                     <input
-                      type={row.value[colIndex].type}
-                      value={cell.value}
-                      onChange={(e) => handleInputChange(rowIndex, colIndex, e.target.value)}
+                      type={columnTypes[colIndex]}
+                      value={cell} // Use cell directly from cellValues state
+                      onChange={(e) =>
+                        handleInputChange(rowIndex, colIndex, e.target.value)
+                      }
                       onClick={(e) => e.stopPropagation()}
                     />
                   )}
@@ -143,20 +242,40 @@ function ResponsiveExample({ establishmentId }) {
           ))}
         </tbody>
       </Table>
-
+      <div className="text-center">
+        <button
+          className="btn-link text-decoration-none border-0 text-light fw-bold rounded-pill w-50 py-3 mt-5 mb-5"
+          onClick={handleSave}
+        >
+          Save From ResponsiveTable
+        </button>
+      </div>
       <Modal show={showModal} onHide={handleCloseModal}>
         <Modal.Header closeButton>
           <Modal.Title>Confirm Action</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          {`Are you sure you want to ${modalAction.toLowerCase()} this item?`}
+          {modalRowIndex !== null && (
+            <>
+              <Button
+                variant="primary"
+                className="mr-2"
+                onClick={() => handleModalAction("Approved")}
+              >
+                Approved
+              </Button>
+              <Button
+                variant="secondary"
+                onClick={() => handleModalAction("Pending")}
+              >
+                Pending
+              </Button>
+            </>
+          )}
         </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={handleCloseModal}>
             Cancel
-          </Button>
-          <Button variant="primary" onClick={handleModalAction}>
-            {modalAction}
           </Button>
         </Modal.Footer>
       </Modal>

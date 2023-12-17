@@ -7,6 +7,8 @@ import Successmodal from "../Successmodal/Successmodal";
 
 
 const Addorder = () => {
+  const apiHostname = process.env.REACT_APP_API_HOSTNAME;
+      
 
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
@@ -67,7 +69,7 @@ const Addorder = () => {
         };
   
         console.log("About to create an Order");
-        const responseO = await axios.post(`https://distachapp.onrender.com/order/create/`, updatedFormDataO);
+        const responseO = await axios.post(`${apiHostname}/order/create/`, updatedFormDataO);
         console.log("Response Object:", responseO);
         console.log("Just passed creating an Order");
   

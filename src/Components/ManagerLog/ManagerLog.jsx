@@ -1,25 +1,50 @@
 import React, { useState, useEffect } from "react";
+import { useParams } from 'react-router-dom';
 import axios from "axios";
-import "./Managmentlog.css";
+import "./ManagerLog.css"
 
 
 
 
-const Managmentlog = ({selectedEstablishmentId, selectedEstablishmentName }) => {
+const ManagerLog = () => {
   const apiHostname = process.env.REACT_APP_API_HOSTNAME;
+
+  const { establishmentId } = useParams();
   
   const [responseData, setResponseData] = useState([]);
+  const [EstablishmentResponseData, setEstablishmentResponseData] = useState([]);
+  const [InvoiceResponseData, setInvoiceResponseData] = useState([]);
 
 
   useEffect(() => {
     const fetchData = async () => {
-      try {
-        console.log("trying to fetch establishment by id")
+        try {
+            const params = new URLSearchParams(window.location.search);
+            const establishmentId = params.get('establishmentId'); // Retrieve establishmentId from URL
+    
+            if (!establishmentId) {
+              console.error('Establishment ID not found in URL');
+              return;
+            }
+    
+            console.log("Trying to fetch establishment by id:", establishmentId);
+    
+        const response1 = await axios.get(`${apiHostname}/establishment/${establishmentId}`);
+        const response = await axios.get(`${apiHostname}/order/by_establishment/${establishmentId}`);
         
-        const response = await axios.get(`${apiHostname}/order/by_establishment/${selectedEstablishmentId}`);
-        console.log(response.data)
-        if (response.status === 200) {
+        console.log(response.data);
+  
+        if (response.status === 200 && response1.status === 200) {
           setResponseData(response.data);
+          setEstablishmentResponseData(response1.data);
+          
+          const InvoiceResponse = await axios.get(`${apiHostname}/invoice/`);
+          if (InvoiceResponse.status === 200) {
+            setInvoiceResponseData(InvoiceResponse.data);
+            console.log(InvoiceResponseData);
+          } else {
+            console.error("Failed to fetch invoice data");
+          }
         } else {
           console.error("Failed to fetch data");
         }
@@ -30,7 +55,8 @@ const Managmentlog = ({selectedEstablishmentId, selectedEstablishmentName }) => 
   
     fetchData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [selectedEstablishmentId]);
+  }, [establishmentId]);
+  
 
 
 
@@ -49,7 +75,7 @@ const Managmentlog = ({selectedEstablishmentId, selectedEstablishmentName }) => 
           <div className="col-lg-8 col-md-6 col-sm-12 p-5">
             <p>Buenas noches,</p>
             <h1 className="text-light text-center fw-bold">
-              {selectedEstablishmentName}
+              {EstablishmentResponseData.name}from  Manager Log component
             </h1>
           </div>
         </div>
@@ -176,4 +202,4 @@ const Managmentlog = ({selectedEstablishmentId, selectedEstablishmentName }) => 
   );
 };
 
-export default Managmentlog;
+export default ManagerLog;

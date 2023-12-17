@@ -6,6 +6,8 @@ import Managmentlog from "../Managementlog/Managmentlog";
 import axios from "axios";
 
 const Ownerslog = () => {
+
+  const apiHostname = process.env.REACT_APP_API_HOSTNAME;
   const [orderData, setorderData] = useState([]);
   const [establishmentData, setEstablishmentData] = useState([]);
   const [selectedOption, setSelectedOption] = useState(""); // State to store the selected option
@@ -17,8 +19,8 @@ const Ownerslog = () => {
     const fetchData = async () => {
       try {
         
-        const orderResponse = await axios.get("https://distachapp.onrender.com/order/");
-        const estblishmentResponse = await axios.get("https://distachapp.onrender.com/establishment/");
+        const orderResponse = await axios.get(`${apiHostname}/order/`);
+        const estblishmentResponse = await axios.get(`${apiHostname}/establishment/`);
         if (orderResponse.status === 200) {
 
 
@@ -55,7 +57,7 @@ const Ownerslog = () => {
     };
 
     fetchData();
-  }, []);
+  }, [apiHostname]);
 
    
     

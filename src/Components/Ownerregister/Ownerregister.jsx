@@ -2,22 +2,30 @@ import React, { useState } from "react";
 import "./Ownerregister.css";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
+// import Loader from 'react-loader-spinner';
 
-const Ownerregister = () => {
+const Ownerregister = ({ onFormSwitch }) => {
+
+  const apiHostname = process.env.REACT_APP_API_HOSTNAME;
+  const [activeState] = useState("adminRegister");
   const [formData, setFormData] = useState({
-    firstName: "",
+    first_name: "",
+    last_name: "",
     email: "",
     password: "",
   });
 
   const [errors, setErrors] = useState({
-    firstName: "",
+    first_name: "",
+    last_name: "",
     email: "",
+    username: "",
     password: "",
   });
 
   const navigate = useNavigate();
-
+  const [registrationError, setRegistrationError] = useState(null); // State to hold th
+  const [loading, setLoading] = useState(false); // State for loading
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prevData) => ({
@@ -35,11 +43,20 @@ const Ownerregister = () => {
     let valid = true;
     const newErrors = { ...errors };
 
-    if (!formData.firstName.trim()) {
-      newErrors.firstName = "First Name is required";
+    if (!formData.first_name.trim()) {
+      newErrors.first_name = "First Name is required";
       valid = false;
     }
 
+    if (!formData.last_name.trim()) {
+      newErrors.last_name = "Last Name is required";
+      valid = false;
+    }
+
+    if (!formData.username?.trim()) {
+      newErrors.username = "Username is required";
+      valid = false;
+    }
     if (!formData.email.trim()) {
       newErrors.email = "Email is required";
       valid = false;
@@ -56,20 +73,16 @@ const Ownerregister = () => {
 
   const handleRegistration = async () => {
     try {
-      const response = await axios.post(
-        "https://jsonplaceholder.typicode.com/todos/1",
+      setLoading(true);
+      // setLoading(true); // Set loading to true when the registration process starts
+      const response = await axios.post(`${apiHostname}/register/user/create`,
         formData
       );
 
       // Handle successful registration
       console.log("Registration successful:", response.data);
-      
-
-      // Assume the backend returns an authentication token
-      const authToken = response.data.token;
-
-      // Save the token to local storage or state for future API requests
-      localStorage.setItem("authToken", authToken);
+      navigate("/admin-login");
+      console.log("Server Response:", response);
     } catch (error) {
       if (error.response) {
         // The request was made, but the server responded with a status code
@@ -79,25 +92,18 @@ const Ownerregister = () => {
           error.response.status
         );
         console.error("Error data:", error.response.data);
-        setErrors({
-          ...errors,
-          registration: "Registration failed. Please try again.",
-        });
+        setRegistrationError("Registration failed. Please try again.");
       } else if (error.request) {
         // The request was made but no response was received
         console.error("No response received from the server");
-        setErrors({
-          ...errors,
-          registration: "No response received from the server.",
-        });
+        setRegistrationError("No response received from the server.");
       } else {
         // Something happened in setting up the request that triggered an Error
         console.error("Error during request setup:", error.message);
-        setErrors({
-          ...errors,
-          registration: "An error occurred. Please try again.",
-        });
+        setRegistrationError("An error occurred. Please try again.");
       }
+    } finally {
+      setLoading(false); // Set loading to false regardless of success or failure
     }
   };
 
@@ -106,7 +112,6 @@ const Ownerregister = () => {
 
     if (validateForm()) {
       await handleRegistration();
-      navigate('/Owner-login')
     } else {
       console.log("Form validation failed");
     }
@@ -118,23 +123,60 @@ const Ownerregister = () => {
         <div className="col-lg-6 col-md-7 col-sm-12">
           <div className="card rounded-5 w-100 p-5 mx-auto shadow">
             <form onSubmit={handleSubmit}>
-              <h2 className="text-center text-color">Owner Register</h2>
+              {activeState === "adminRegister" && (
+                <div>
+                  <h2 className="text-center text-color">Admin Register</h2>
+                </div>
+              )}
+              {activeState === "ownerRegister" && (
+                <div>
+                  <h2 className="text-center text-color">Owner Register</h2>
+                </div>
+              )}
+
               <div className="my-4">
-                <label>First Name:</label>
+                <label className="my-2">First Name:</label>
                 <br />
                 <input
                   className="rounded-pill w-100 py-2 px-2"
                   type="text"
-                  name="firstName"
-                  value={formData.firstName}
+                  name="first_name"
+                  value={formData.first_name}
                   onChange={handleChange}
                 />
 
-                <span style={{ color: "red" }}>{errors.firstName}</span>
+                <span style={{ color: "red" }}>{errors.first_name}</span>
               </div>
 
               <div className="my-4">
-                <label>Email Address: </label>
+                <label className="my-2">Last Name:</label>
+                <br />
+                <input
+                  className="rounded-pill w-100 py-2 px-2"
+                  type="text"
+                  name="last_name"
+                  value={formData.last_name}
+                  onChange={handleChange}
+                />
+
+                <span style={{ color: "red" }}>{errors.last_name}</span>
+              </div>
+
+              <div className="my-4">
+                <label className="my-2"> Username: </label>
+                <br></br>
+                <input
+                  className="rounded-pill w-100 py-2 px-2"
+                  type="text"
+                  name="username"
+                  value={formData.username}
+                  onChange={handleChange}
+                />
+                <span style={{ color: "red" }}>{errors.username}</span>
+              </div>
+
+              <div className="my-4">
+                <label className="my-2">Email Address: </label>
                 <br></br>
                 <input
                   className="rounded-pill w-100 py-2 px-2"
@@ -147,7 +189,7 @@ const Ownerregister = () => {
               </div>
 
               <div className="my-4">
-                <label>Password:</label>
+                <label className="my-2">Password:</label>
                 <br />
                 <input
                   className="rounded-pill w-100 py-2 px-2"
@@ -163,17 +205,45 @@ const Ownerregister = () => {
               <div className="text-center my-5">
                 <button
                   type="submit"
-                  className="w-75 rounded-pill py-2 text-light butn-bg"
+                  className="w-75 rounded-pill py-2 text-light butn-bg text-bold"
+                  disabled={loading} // Use 'loading' directly without curly braces
                 >
-                  Register
+                  {loading ? "Registering..." : "Register"}
                 </button>
               </div>
-              <div className="text-center">
-                <p>
-                  Not admin?{" "}
-                   <Link>register as owner</Link>
-                </p>
-              </div>
+              {activeState === "adminRegister" && (
+                <div className="text-center">
+                  <p>
+                    Not admin?{" "}
+                    <Link
+                      className="text-decoration-none"
+                      onClick={() => navigate("/owner-register")}
+                    >
+                    
+                      register as owner
+                    </Link>
+                  </p>
+                </div>
+              )}
+              {activeState === "ownerRegister" && (
+                <div className="text-center">
+                  <p>
+                    Not ?{" "}
+                    <Link
+                      className="text-decoration-none"
+                      onClick={() => navigate("/Adminregister")}
+                    >
+                   
+                      register as admin
+                    </Link>
+                  </p>
+                </div>
+              )}
+              {registrationError && (
+                <div className="text-center mt-3">
+                  <p style={{ color: "red" }}>{registrationError}</p>
+                </div>
+              )}
             </form>
           </div>
           {errors.registration && (
@@ -183,6 +253,7 @@ const Ownerregister = () => {
       </div>
     </div>
   );
-};
+  
+}
 
 export default Ownerregister;

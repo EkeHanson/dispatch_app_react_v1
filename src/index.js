@@ -22,6 +22,7 @@ import Confirmpage from './Components/Confirmation/Confirmpage';
 import Establish from './Components/Establishment/Establish';
 import Adminregister from './Components/Register/Adminregister.jsx'
 // import Managerpage from './Components/Managerpage/Managerpage';
+import ManagerLog from './Components/ManagerLog/ManagerLog.jsx';
 import Riderlogin from './Components/Riderlogin/Riderlogin';
 import Managmentlog from './Components/Managementlog/Managmentlog';
 import Managerpage from './Components/Managerpage/Managerpage';
@@ -44,6 +45,10 @@ import Managerlinkmodal from './Components/Copymanagermodal/Managerlinkmodal.jsx
     {
       path: "/log-owner",
       element: <Ownerslog />,
+    },
+    {
+      path: "/log-manager",
+      element: <ManagerLog />,
     },
     {
       path: "/Admin-login",

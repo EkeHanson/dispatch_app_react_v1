@@ -9,6 +9,8 @@ import Managerlinkmodal from "../Copymanagermodal/Managerlinkmodal";
 
 const Adminpage2Edit = () => {
 
+  const apiHostname = process.env.REACT_APP_API_HOSTNAME;
+
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
   const establishmentId = queryParams.get('establishmentId');
@@ -47,12 +49,12 @@ const Adminpage2Edit = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const riderResponse = await axios.get(`https://distachapp.onrender.com/rider/`);
-        const establishmentResponse = await axios.get(`https://distachapp.onrender.com/establishment/${establishmentId}`);
-        const orderResponse = await axios.get(`https://distachapp.onrender.com/order/by_establishment/${establishmentId}`);
+        const riderResponse = await axios.get(`${apiHostname}/rider/`);
+        const establishmentResponse = await axios.get(`${apiHostname}/establishment/${establishmentId}`);
+        const orderResponse = await axios.get(`${apiHostname}/order/by_establishment/${establishmentId}`);
         const riderID = `${JSON.stringify(establishmentResponse.data.rider)}`
 
-        const establishmentRiderResponse = await axios.get(`https://distachapp.onrender.com/rider/${riderID}`);
+        const establishmentRiderResponse = await axios.get(`${apiHostname}/rider/${riderID}`);
         const establishmentRiderResponseData =  establishmentRiderResponse.data
 
         if (riderResponse.status === 200 && establishmentResponse.status === 200) {
@@ -80,7 +82,7 @@ const Adminpage2Edit = () => {
     };
   
     fetchData();
-  }, [establishmentId]);
+  }, [establishmentId, apiHostname]);
   
 
   const handleChange = (e) => {
@@ -112,7 +114,7 @@ const Adminpage2Edit = () => {
           ...formDataE,
           rider: rider};
 
-      const responseE = await axios.put(`https://distachapp.onrender.com/establishment/${establishmentId}/`, updatedFormDataE);
+      const responseE = await axios.put(`${apiHostname}/establishment/${establishmentId}/`, updatedFormDataE);
       console.log(responseE.data);
   
       if (responseE.status === 201) {
@@ -126,7 +128,7 @@ const Adminpage2Edit = () => {
         };
         // Use the establishment ID from the response or any other relevant data for the order creation
         //  Assuming responseE.data has the establishment ID
-        const responseO = await axios.put(`https://distachapp.onrender.com/order/${establishmentId}/`, updatedFormDataO);
+        const responseO = await axios.put(`${apiHostname}/order/${establishmentId}/`, updatedFormDataO);
   
         if (responseO.status === 201) {
           console.log("Order data sent successfully!!");

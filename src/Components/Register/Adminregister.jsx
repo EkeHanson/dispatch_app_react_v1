@@ -247,7 +247,13 @@ import { Link, useNavigate } from "react-router-dom";
 // import Loader from 'react-loader-spinner';
 
 const Adminregister = ({ onFormSwitch }) => {
-  const [activeState] = useState("adminRegister");
+
+  
+  const apiHostname = process.env.REACT_APP_API_HOSTNAME;
+    
+
+  const [activeState, setActiveState] = useState("adminRegister");
+  const [loading, setLoading] = useState(false); // State for loading
   const [formData, setFormData] = useState({
     first_name: "",
     last_name: "",
@@ -265,7 +271,6 @@ const Adminregister = ({ onFormSwitch }) => {
 
   const navigate = useNavigate();
   const [registrationError, setRegistrationError] = useState(null); // State to hold th
-  const [loading, setLoading] = useState(false); // State for loading
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prevData) => ({
@@ -316,7 +321,7 @@ const Adminregister = ({ onFormSwitch }) => {
       setLoading(true);
       // setLoading(true); // Set loading to true when the registration process starts
       const response = await axios.post(
-        "https://distachapp.onrender.com/register/user/create",
+        `${apiHostname}/register/user/create`,
         formData
       );
 
@@ -350,6 +355,7 @@ const Adminregister = ({ onFormSwitch }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
 
     if (validateForm()) {
       await handleRegistration();
@@ -458,11 +464,10 @@ const Adminregister = ({ onFormSwitch }) => {
                     Not admin?{" "}
                     <Link
                       className="text-decoration-none"
-                      onClick={() => navigate("/owner-register")}
+                      onClick={() => setActiveState("/ownerRegister")}
                     >
-                      {" "}
-                      register as owner
-                    </Link>{" "}
+                    register as owner
+                    </Link>
                   </p>
                 </div>
               )}
@@ -472,11 +477,11 @@ const Adminregister = ({ onFormSwitch }) => {
                     Not admin?{" "}
                     <Link
                       className="text-decoration-none"
-                      onClick={() => navigate("/admin-register")}
+                      onClick={() => setActiveState("/adminRegister")}
                     >
-                      {" "}
+                      
                       register as admin
-                    </Link>{" "}
+                    </Link>
                   </p>
                 </div>
               )}

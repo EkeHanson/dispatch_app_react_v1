@@ -1,0 +1,109 @@
+:root {
+    --primary-color: #17476E;
+    --secondary-color: red;
+}
+
+
+.container {
+    margin: 0px !important;
+}
+
+.icon {
+    color: var(--primary-color) !important;
+}
+
+input,
+select {
+    outline: 2px solid var(--primary-color);
+}
+
+body {
+    font-family: poppins;
+    /* background-color: white; */
+}
+
+.manager-log {
+    background-image: url(../Assets/Rectangle\ 7.png);
+    background-size: cover;
+    background-position: center;
+    height: 40vh !important;
+    width: 100%;
+    margin: 0px;
+}
+
+.table {
+    width: 100% !important;
+}
+
+table,
+td,
+th {
+    border: 2px solid var(--primary-color);
+    padding: 10px;
+}
+
+table {
+    width: 100 !important;
+}
+
+.vertical-letters {
+    display: flex;
+    flex-direction: column;
+    font-size: 9.6px;
+    font-weight: bold;
+    width: 15px;
+    padding: 3px;
+    color: black;
+    left: 4.7rem;
+    bottom: -3.0rem;
+    background-color: rgb(86, 255, 86);
+}
+
+@media screen and (max-width:1118px) {
+    .vertical-letters {
+        display: flex;
+        flex-direction: column;
+        font-size: 9.6px;
+        font-weight: bold;
+        width: 15px;
+        padding: 3px;
+        color: black;
+        left: 4.7rem;
+        bottom: -3.0rem;
+        background-color: rgb(86, 255, 86);
+    }
+}
+
+@media screen and (min-width:1118px) {
+    .vertical-letters {
+        display: flex;
+        flex-direction: column;
+        font-size: 9.6px;
+        font-weight: bold;
+        width: 15px;
+        padding: 3px;
+        color: black;
+        left: 6.5rem;
+        bottom: -3.0rem;
+        background-color: rgb(86, 255, 86);
+    }
+}
+
+/* .sea{
+    border: 2px solid var(--primary-color) !important;
+} */
+
+/* input[type="number"], input[type="date"]{
+    padding: 20px;
+    width: 180px;
+    border-collapse: collapse !important;
+    border: none !important;
+    outline: none !important;
+} */
+
+@media screen and (max-width:768px) {
+    input {
+        padding: 10px;
+        width: 100px;
+    }
+}

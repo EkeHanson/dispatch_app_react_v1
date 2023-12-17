@@ -5,12 +5,15 @@ import Footer from "../Footer/Footer";
 import axios from "axios";
 
 const Adminslogin = ({ onformSwitch }) => {
+  const apiHostname = process.env.REACT_APP_API_HOSTNAME;
+
   const [formData, setFormData] = useState({
     email: "",
     password: "",
   });
   
   const [activeState, setActiveState] = useState('adminLogin'); // Add state for activeState
+  const [loading, setLoading] = useState(false); // State for loading
 
   const navigate = useNavigate();
 
@@ -21,9 +24,10 @@ const Adminslogin = ({ onformSwitch }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
 
     try {
-      const response = await axios.post("https://distachapp.onrender.com/jwt_token/", formData);
+            const response = await axios.post(`${apiHostname}/jwt_token/`, formData);
       
 
       if (response.status === 200) {
@@ -50,6 +54,8 @@ const Adminslogin = ({ onformSwitch }) => {
       }
     } catch (error) {
       console.error("Error during login:", error);
+    }finally {
+      setLoading(false); // Set loading to false regardless of success or failure
     }
   };
 
@@ -94,9 +100,11 @@ const Adminslogin = ({ onformSwitch }) => {
                     <div className="mt-5 text-center">
                       <button
                         type="submit"
+                        disabled={loading} // Use 'loading' directly without curly brace
                         className="btn btn-primary w-75 rounded-pill py-2"
+
                       >
-                        Login
+                        {loading ? "login in..." : "Login"}
                       </button>
                     </div>
 

@@ -8,12 +8,14 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import Example from '../Modal/Modal';
 
 const Establish = () => {
+  const apiHostname = process.env.REACT_APP_API_HOSTNAME;
+ 
   const [responseData, setResponseData] = useState([]);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get('https://distachapp.onrender.com/establishment/');
+        const response = await axios.get(`${apiHostname}/establishment/`);
 
         if (response.status === 200) {
           setResponseData(response.data);
@@ -40,7 +42,7 @@ const Establish = () => {
                 <img className="w-100 " src={img4} alt="" />
               </Link>
               <div className="text-light fs-4 my-3">
-                <Example establishmentId={item.id} />
+                <Example establishmentId={item.id} managerName = {item.name} managerPhone = {item.phone_number}/>
               </div>
               <div className="position-absolute top-50 end-0 translate-middle mt-5 text-light">
                 {item.name} 

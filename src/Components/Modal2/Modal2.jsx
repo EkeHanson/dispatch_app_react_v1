@@ -5,6 +5,8 @@ import axios from 'axios';
 // import './Modal.css';
 
 function Examplem({riderId, first_name, last_name, phone}) {
+  
+  const apiHostname = process.env.REACT_APP_API_HOSTNAME;
   const [showModal, setShowModal] = useState(false);
   // const [riderId, setRiderId] = useState(null); // State to store the rider ID
 
@@ -35,7 +37,7 @@ function Examplem({riderId, first_name, last_name, phone}) {
     if (riderId) {
       try {
         
-        const response = await axios.delete(`https://distachapp.onrender.com/rider/${riderId}`);
+        const response = await axios.delete(`${apiHostname}/rider/${riderId}`);
         if (response.status === 204) {
           // Handle successful deletion
           console.log('Rider deleted successfully');

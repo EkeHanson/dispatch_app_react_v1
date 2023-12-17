@@ -4,13 +4,16 @@ import { BsThreeDotsVertical } from 'react-icons/bs';
 import axios from 'axios';
 import './Modal.css';
 
-function Example({ establishmentId }) {
+function Example({ establishmentId, managerName , managerPhone }) {
+
+  const apiHostname = process.env.REACT_APP_API_HOSTNAME;
   const [showModal, setShowModal] = useState(false);
 
   const handleCopyLink = () => {
-    const riderData = { id: establishmentId, someOtherData: 'example' }; // Example data to include in the link
+    const riderData = { establishmentId: establishmentId, name : managerName, phone : managerPhone }; // Example data to include in the link
     const queryParams = new URLSearchParams(riderData).toString();
-    const riderPageLink = `https://distachapp.onrender.com/rider-page-2?${queryParams}`;
+    // const riderPageLink = `${apiHostname}/manager-page?${queryParams}`;
+    const riderPageLink = `localhost:3000/log-manager?${queryParams}`;
     navigator.clipboard.writeText(riderPageLink)
       .then(() => {
         console.log('Link copied to clipboard:', riderPageLink);
@@ -30,7 +33,7 @@ function Example({ establishmentId }) {
     console.log('About to delete establishment');
     if (establishmentId) {
       try {
-        const response = await axios.delete(`https://distachapp.onrender.com/establishment/${establishmentId}`);
+        const response = await axios.delete(`${apiHostname}/establishment/${establishmentId}`);
         if (response.status === 204) {
           console.log('Establishment deleted successfully');
           // Handle deletion success

@@ -2,10 +2,15 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import "./Lotery.css";
 import ResponsiveExample from "../Tables/Responsivetable";
-import Successmodal2 from "../Successmodal2/Successmodal2";
+// import Successmodal2 from "../Successmodal2/Successmodal2";
 
 const Lotery = () => {
+  const apiHostname = process.env.REACT_APP_API_HOSTNAME;
   const [responseData, setResponseData] = useState([]);
+  const [selectedId, setSelectedId] = useState("");
+  const [ordersData, setOrdersData] = useState([]); // Add state for ordersData
+  const [defaultSelectedOrder, setDefaultSelectedOrder] = useState(""); // State to hold the default selected order number
+  const [selectedOrderId, setSelectedOrderId] = useState("");
 
   const [formData, setFormData] = useState({
     name: "",
@@ -32,7 +37,7 @@ const Lotery = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get("https://distachapp.onrender.com/establishment/");
+        const response = await axios.get(`${apiHostname}/establishment/`);
         console.log(response)
         if (response.status === 200) {
           setResponseData(response.data);
@@ -49,27 +54,99 @@ const Lotery = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  useEffect(() => {
+    // Fetch orders data and set default selected order number
+    const fetchOrdersByEstablishment = async () => {
+      try {
+        if (selectedId) {
+          const ordersResponse = await axios.get(`${apiHostname}/order/by_establishment/${selectedId}`);
+          if (ordersResponse.status === 200) {
+            const orderDetailsArray = ordersResponse.data;
+
+            if (orderDetailsArray.length > 0) {
+              setOrdersData(orderDetailsArray); // Set the order details array in state
+              // Set the default selected order number (here, choosing the first order number as default)
+              setDefaultSelectedOrder(orderDetailsArray[0].order_number);
+            } else {
+              console.error('No orders found');
+            }
+          } else {
+            console.error('Failed to fetch orders data');
+          }
+        }
+      } catch (error) {
+        console.error('Error fetching orders data:', error);
+      }
+    };
+
+    fetchOrdersByEstablishment();
+  }, [selectedId, apiHostname]);
+
+  useEffect(() => {
+    if (defaultSelectedOrder) {
+      const selectedOrder = ordersData.find((item) => item.order_number === defaultSelectedOrder);
+
+      if (selectedOrder) {
+        setFormData({
+          ...selectedOrder,
+          confirm: false, // Ensure any additional fields are set correctly
+        });
+      } else {
+        console.error('Default selected order not found');
+      }
+    }
+  }, [defaultSelectedOrder, ordersData]);
+  
+  // Update handleChange function to handle selecting orders
+  const handleOrderSelect = (e) => {
+    const selectedOrderNumber = e.target.value;
+    const selectedOrder = ordersData.find(item => item.order_number === selectedOrderNumber);
+
+    if (selectedOrder) {
+      setSelectedOrderId(selectedOrder.id); // Set the ID of the selected order
+      setFormData({
+        ...selectedOrder,
+        confirm: false, // Ensure any additional fields are set correctly
+      });
+    } else {
+      console.error('Selected order number not found');
+    }
+  };
+  
+  
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prevData) => ({ ...prevData, [name]: value }));
   };
 
   const handleSelectChange = (e) => {
-    const selectedIndex = e.target.options.selectedIndex;
-    const selectedData = responseData[selectedIndex - 1];
+
+    try {
+      const selectedIndex = e.target.options.selectedIndex;
+      const selectedData = responseData[selectedIndex - 1];
+
+
+      if (selectedData) {
+        setSelectedId(selectedData.id);
+
+
+  
     setFormData((prevData) => ({
       ...prevData,
       name: selectedData ? selectedData.name : "",
       contact_person: selectedData ? selectedData.contact_person : "",
       phone_number: selectedData ? selectedData.phone_number : "",
-      order_number: selectedData ? selectedData.order_number : "",
-      reserved_quantity: selectedData ? selectedData.reserved_quantity : "",
-      quantity_sold: selectedData ? selectedData.quantity_sold : "",
-      amount_charged: selectedData ? selectedData.amount_charged : "",
-      gift_or_discount: selectedData ? selectedData.gift_or_discount : "",
-      amount_returned_by_customer: selectedData ? selectedData.amount_returned_by_customer : "",
+ 
     }));
-  };
+  }
+} catch (error) {
+  console.error("Error handling select change:", error);
+}
+};
+
+
+  console.log(`The selected orderID: ${selectedOrderId}`)
 
   return (
     <div>
@@ -139,7 +216,7 @@ const Lotery = () => {
                       onChange={handleChange}
                       readOnly={true}
                     />
-                  </div>
+                  </div>  
                 </div>
               </div>
              
@@ -150,19 +227,16 @@ const Lotery = () => {
                   <p className="fs-3 fw-bold est">Order details</p>
                 </div>
                 <div className="row justify-content-center">
-                  <div className="col-lg-6 col-md-6 col-sm-12 mb-5">
-                    <label htmlFor="name" className="fs-5 mb-2">
-                      Number
-                    </label>
-                    <input
-                     type="text"
-                     className="rounded-pill w-100 border-1 py-3 px-3 form-control"
-                     name="order_number"
-                     value={formData.order_number}
-                     onChange={handleChange}
-                     readOnly={true}
-                    />
-                  </div>
+                <div className="col-lg-6 col-md-6 col-sm-12 mb-5">
+                <select onChange={handleOrderSelect} className="form-select rounded-pill w-100 border-1 py-3 px-3">
+                  <option value="" disabled>Select Order</option>
+                  {ordersData.map((order, index) => (
+                    <option key={index} value={order.order_number}>
+                      {order.order_number}
+                    </option>
+                  ))}
+                </select>
+              </div>
                   <div className="col-lg-6 col-md-6 col-sm-12 mb-5">
                     <label htmlFor="name" className="fs-5 mb-2">
                       Reserve Quantity
@@ -212,7 +286,7 @@ const Lotery = () => {
                       name="amount_charged"
                       value={formData.amount_charged}
                       onChange={handleChange}
-                      readOnly={false}
+                      readOnly={true}
                       className="rounded-pill w-100 border-1 py-3 px-3 form-control"
                     />
                   </div>
@@ -225,7 +299,7 @@ const Lotery = () => {
                       name="gift_or_discount"
                       value={formData.gift_or_discount}
                       onChange={handleChange}
-                      readOnly={false}
+                      readOnly={true}
                       placeholder="&#8364; "
                       className="rounded-pill w-100 border-1 py-3 px-3 form-control"
                     />
@@ -238,7 +312,7 @@ const Lotery = () => {
               </div>
               <div className=" w-100">
                 
-                <ResponsiveExample/>
+              <ResponsiveExample selectedOrderId={selectedOrderId} /> {/* Pass selected order ID as a prop */}
                 <div className="mt-3 fw-bold">
                   <i class="bi bi-plus-lg est"></i>
                   <a href="/" className="est">
@@ -247,7 +321,7 @@ const Lotery = () => {
                 </div>
                 <div className="text-center mt-3">
                   
-                  <Successmodal2/>
+                  {/* <Successmodal2/> */}
                 </div>
               </div>
             </div>

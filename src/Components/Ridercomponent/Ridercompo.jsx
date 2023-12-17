@@ -10,12 +10,13 @@ import Examplem from "../Modal2/Modal2";
 
 
 const Ridercompo = ({onpageSwitch}) => {
+  const apiHostname = process.env.REACT_APP_API_HOSTNAME;
   const [responseData, setResponseData] = useState([]);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get("https://distachapp.onrender.com/rider");
+        const response = await axios.get(`${apiHostname}/rider`);
   
         if (response.status === 200) {
           setResponseData(response.data);

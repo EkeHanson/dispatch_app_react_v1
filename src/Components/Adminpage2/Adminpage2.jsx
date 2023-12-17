@@ -8,6 +8,8 @@ import "react-toastify/dist/ReactToastify.css";
 import Managerlinkmodal from "../Copymanagermodal/Managerlinkmodal";
 
 const Adminpage2 = () => {
+
+  const apiHostname = process.env.REACT_APP_API_HOSTNAME;
   const [loading, setLoading] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [riderData, setRiderData] = useState([]);
@@ -41,7 +43,7 @@ const Adminpage2 = () => {
     const fetchData = async () => {
       try {
         console.log('trying to get riders')
-        const riderResponse = await axios.get("http://localhost:9090/rider/");
+        const riderResponse = await axios.get(`${apiHostname}/rider/`);
 
         if (riderResponse.status === 200) {
           setRiderData(riderResponse.data);
@@ -54,7 +56,7 @@ const Adminpage2 = () => {
     };
 
     fetchData();
-  }, []);
+  }, [apiHostname]);
 
   const handleChange = (e) => {
     console.log('Getting and Setting riders')
@@ -85,9 +87,9 @@ const Adminpage2 = () => {
         formDataE.rider = selectedRider.id;
       }
   
-      const responseE = await axios.post("https://distachapp.onrender.com/establishment/create/", formDataE);
+      const responseE = await axios.post(`${apiHostname}/establishment/create/`, formDataE);
       console.log(responseE.data);
-  
+
       if (responseE.status === 201) {
         console.log("Establishment data sent successfully!!");
         toast.success("Establishment data sent successfully!!");
@@ -98,7 +100,7 @@ const Adminpage2 = () => {
         };
         // Use the establishment ID from the response or any other relevant data for the order creation
          // Assuming responseE.data has the establishment ID
-        const responseO = await axios.post(`https://distachapp.onrender.com/order/create/`, updatedFormDataO);
+        const responseO = await axios.post(`${apiHostname}/order/create/`, updatedFormDataO);
   
         if (responseO.status === 201) {
           console.log("Order data sent successfully!!");
@@ -265,7 +267,7 @@ const Adminpage2 = () => {
                   className="form-control rounded-pill w-100 border-1 py-3 px-3"
                 />
               </div>
-              <div className="col-lg-6 col-md-12 col-sm-12 mb-5">
+              {/* <div className="col-lg-6 col-md-12 col-sm-12 mb-5">
                 <label htmlFor="name" className="fs-5 mb-2">
                   Date Created
                 </label>
@@ -276,8 +278,8 @@ const Adminpage2 = () => {
                   onChange={handleChange}
                   className="rounded-pill w-100 border-1 py-3 px-3 form-control"
                 />
-              </div>
-              <div className="col-lg-6 col-md-12 col-sm-12 mb-5">
+              </div> */}
+              {/* <div className="col-lg-6 col-md-12 col-sm-12 mb-5">
                 <label htmlFor="name" className="fs-5 mb-2">
                   Series
                 </label>
@@ -288,7 +290,7 @@ const Adminpage2 = () => {
                   onChange={handleChange}
                   className="rounded-pill w-100 border-1 py-3 px-3 form-control"
                 />
-              </div>
+              </div> */}
               <div className="col-lg-6 col-md-12 col-sm-12 mb-5">
                 <label htmlFor="name" className="fs-5 mb-2">
                 Quantity Reserved
@@ -327,7 +329,7 @@ const Adminpage2 = () => {
               </div>
               <div className="col-lg-6 col-md-12 col-sm-12 mb-5">
                 <label htmlFor="name" className="fs-5 mb-2">
-                 AMount Charged
+                 Amount Charged
                 </label>
                 <input
                   type="text"
@@ -349,7 +351,7 @@ const Adminpage2 = () => {
                   className="rounded-pill w-100 border-1 py-3 px-3 form-control"
                 />
               </div>
-              <div className="col-lg-6 col-md-12 col-sm-12 mb-5">
+              {/* <div className="col-lg-6 col-md-12 col-sm-12 mb-5">
                 <label htmlFor="name" className="fs-5 mb-2">
                 Quantity Delivered
                 </label>
@@ -360,8 +362,8 @@ const Adminpage2 = () => {
                   onChange={handleChange}
                   className="rounded-pill w-100 border-1 py-3 px-3 form-control"
                 />
-              </div>
-              <div className="col-lg-6 col-md-12 col-sm-12 mb-5">
+              </div> */}
+              {/* <div className="col-lg-6 col-md-12 col-sm-12 mb-5">
                 <label htmlFor="name" className="fs-5 mb-2">
                 Amount Paid
                 </label>
@@ -372,8 +374,8 @@ const Adminpage2 = () => {
                   onChange={handleChange}
                   className="rounded-pill w-100 border-1 py-3 px-3 form-control"
                 />
-              </div>
-              <div className="col-lg-6 col-md-12 col-sm-12 mb-5">
+              </div> */}
+              {/* <div className="col-lg-6 col-md-12 col-sm-12 mb-5">
                 <label htmlFor="name" className="fs-5 mb-2">
                 Balance
                 </label>
@@ -384,8 +386,8 @@ const Adminpage2 = () => {
                   onChange={handleChange}
                   className="rounded-pill w-100 border-1 py-3 px-3 form-control"
                 />
-              </div>
-              <div className="col-lg-6 col-md-12 col-sm-12 mb-5">
+              </div> */}
+              {/* <div className="col-lg-6 col-md-12 col-sm-12 mb-5">
                 <label htmlFor="name" className="fs-5 mb-2">
                 Confirm
                 </label>
@@ -396,7 +398,7 @@ const Adminpage2 = () => {
                   onChange={handleChange}
                   className="rounded-pill w-100 border-1 py-3 px-3 form-control"
                 />
-              </div>
+              </div> */}
              
             </div>
             <div className="text-center mt-3">

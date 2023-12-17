@@ -6,13 +6,13 @@ import ResponsiveExample from "../Tables/Responsivetable";
 
 const Managerpage = () => {
 
-
+  const apiHostname = process.env.REACT_APP_API_HOSTNAME;
   const [responseData, setResponseData] = useState([]);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(`https://distachapp.onrender.com/establishment/${establishmentId}`);
+        const response = await axios.get(`${apiHostname}/establishment/${establishmentId}`);
 
         if (response.status === 200) {
           setResponseData(response.data);
@@ -27,7 +27,8 @@ const Managerpage = () => {
 
     fetchData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [apiHostname]);
+  
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
   const establishmentId = queryParams.get('establishmentId');

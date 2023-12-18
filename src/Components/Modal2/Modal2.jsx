@@ -15,7 +15,7 @@ function Examplem({riderId, first_name, last_name, phone}) {
     
     const riderData = { id: riderId, first_name: first_name, last_name: last_name, phone: phone }; // Example data to include in the link
     const queryParams = new URLSearchParams(riderData).toString();
-    const riderPageLink = `http://localhost:3000/Login?${queryParams}`;
+    const riderPageLink = `https://dispatch-app-react-v1-ekehanson.vercel.app/Login?${queryParams}`;
     navigator.clipboard.writeText(riderPageLink)
       .then(() => {
         console.log('Link copied to clipboard:', riderPageLink);

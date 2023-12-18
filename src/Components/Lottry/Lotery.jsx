@@ -229,7 +229,7 @@ const Lotery = () => {
                 <div className="row justify-content-center">
                 <div className="col-lg-6 col-md-6 col-sm-12 mb-5">
                 <select onChange={handleOrderSelect} className="form-select rounded-pill w-100 border-1 py-3 px-3">
-                  <option value="" disabled>Select Order</option>
+                  <option value="">Select Order</option>
                   {ordersData.map((order, index) => (
                     <option key={index} value={order.order_number}>
                       {order.order_number}

@@ -12,9 +12,8 @@ const ManagerLog = () => {
   const { establishmentId } = useParams();
   
   const [responseData, setResponseData] = useState([]);
+  const [responseData0, setResponseData0] = useState([]);
   const [EstablishmentResponseData, setEstablishmentResponseData] = useState([]);
-  const [InvoiceResponseData, setInvoiceResponseData] = useState([]);
-
 
   useEffect(() => {
     const fetchData = async () => {
@@ -31,17 +30,27 @@ const ManagerLog = () => {
     
         const response1 = await axios.get(`${apiHostname}/establishment/${establishmentId}`);
         const response = await axios.get(`${apiHostname}/order/by_establishment/${establishmentId}`);
+        const InvoiceResponse = await axios.get(`${apiHostname}/invoice/`);
         
-        console.log(response.data);
   
         if (response.status === 200 && response1.status === 200) {
           setResponseData(response.data);
           setEstablishmentResponseData(response1.data);
-          
-          const InvoiceResponse = await axios.get(`${apiHostname}/invoice/`);
-          if (InvoiceResponse.status === 200) {
-            setInvoiceResponseData(InvoiceResponse.data);
-            console.log(InvoiceResponseData);
+
+          const newArray = response.data.map(item => item.id);
+
+          if (InvoiceResponse.status === 200) {           
+
+            const filteredArray = InvoiceResponse.data.filter(item => newArray.includes(item.order));
+            
+            console.log("newArray");
+            console.log(newArray);
+
+            console.log("InvoiceResponseData: ");
+            console.log(InvoiceResponse.data);
+
+            console.log("filteredArray");
+            setResponseData0(filteredArray);
           } else {
             console.error("Failed to fetch invoice data");
           }
@@ -92,9 +101,9 @@ const ManagerLog = () => {
                   <th scope="col" className="p-4">
                     Date
                   </th>
-                  <th scope="col" className="p-4">
+                  {/* <th scope="col" className="p-4">
                     Number
-                  </th>
+                  </th> */}
                   <th scope="col" className="p-4">
                     Series
                   </th>
@@ -119,17 +128,17 @@ const ManagerLog = () => {
                 </tr>
               </thead>
               <tbody className="text-center position-relative">
-              {Array.isArray(responseData) ? (responseData.map((item, index) => (
+              {Array.isArray(responseData0) ? (responseData0.map((item, index) => (
               
                 <tr key={index}>
                   <td  className="p-4 text-left">{(new Date(item.created)).getDate()}-{(new Date(item.created)).getMonth() + 1}-{(new Date(item.created)).getFullYear()}</td>
-                  <td className="p-4 text-center">{item.order_number}</td>
+                  {/* <td className="p-4 text-center">{item.order_number}</td> */}
                   <td className="p-4 text-center">{item.series}</td>
                   <td className="p-4 text-center">{item.quantity_delivered}</td>
                   <td className="p-4 text-center">${item.amount_paid}</td>
                   <td className="p-4 text-center">${item.balance}</td>
                   <td className="p-4 text-center">${item.discount}</td>
-                  <td className="p-5 text-center ">$GIFT NOT IN The Order API</td>
+                  <td className="p-5 text-center ">$GIFT NOT IN The Invoice API</td>
                    
                    <div className="position-relative re">
 

@@ -4,8 +4,6 @@ import axios from "axios";
 import "./ManagerLog.css"
 
 
-
-
 const ManagerLog = () => {
   const apiHostname = process.env.REACT_APP_API_HOSTNAME;
 
@@ -84,7 +82,7 @@ const ManagerLog = () => {
           <div className="col-lg-8 col-md-6 col-sm-12 p-5">
             <p>Buenas noches,</p>
             <h1 className="text-light text-center fw-bold">
-              {EstablishmentResponseData.name}from  Manager Log component
+              {EstablishmentResponseData.name}
             </h1>
           </div>
         </div>

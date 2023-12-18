@@ -13,7 +13,7 @@ function Example({ establishmentId, managerName , managerPhone }) {
     const riderData = { establishmentId: establishmentId, name : managerName, phone : managerPhone }; // Example data to include in the link
     const queryParams = new URLSearchParams(riderData).toString();
     // const riderPageLink = `${apiHostname}/manager-page?${queryParams}`;
-    const riderPageLink = `localhost:3000/log-manager?${queryParams}`;
+    const riderPageLink = `https://dispatch-app-react-v1-ekehanson.vercel.app/log-manager?${queryParams}`;
     navigator.clipboard.writeText(riderPageLink)
       .then(() => {
         console.log('Link copied to clipboard:', riderPageLink);

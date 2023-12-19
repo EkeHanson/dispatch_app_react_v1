@@ -118,11 +118,11 @@ const ManagerLog = () => {
                     Discount
                   </th>
 
-                  <th scope="col" className="p-4">
+                  {/* <th scope="col" className="p-4"> */}
                     {/* <Link to="/pending">Pending <i class="bi bi-chevron-down"></i></Link> */}
-                    Gift
+                    {/* Gift */}
                    
-                  </th>
+                  {/* </th> */}
                 </tr>
               </thead>
               <tbody className="text-center position-relative">
@@ -136,7 +136,7 @@ const ManagerLog = () => {
                   <td className="p-4 text-center">${item.amount_paid}</td>
                   <td className="p-4 text-center">${item.balance}</td>
                   <td className="p-4 text-center">${item.discount}</td>
-                  <td className="p-5 text-center ">$GIFT NOT IN The Invoice API</td>
+                  {/* <td className="p-5 text-center ">$GIFT NOT IN The Invoice API</td> */}
                    
                    <div className="position-relative re">
 

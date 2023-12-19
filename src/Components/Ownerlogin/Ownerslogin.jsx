@@ -4,13 +4,6 @@ import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 
 const Ownerslogin = () => {
-  // const [email, setEmail] = useState("");
-  // const [pass, setPass] = useState("");
-
-  // const handleSubmit = (e) => {
-  //   e.preventDefault();
-  //   console.log();
-  // };
   const apiHostname = process.env.REACT_APP_API_HOSTNAME;
   const [loading, setLoading] = useState(false); // State for loading
   const [formData, setFormData] = useState({
@@ -77,7 +70,7 @@ const Ownerslogin = () => {
                   <div className="inputs">
                     <div className="form-group mb-3">
                       <label htmlFor="email" className="text-start">
-                        Email address
+                        Email Address
                       </label>
                       <input
                         type="email"
@@ -97,23 +90,6 @@ const Ownerslogin = () => {
                         type="password"
                       />
                     </div>
-                    {/* <div className="form-group d-flex justify-content-between">
-                    <div>
-                      <input
-                        className="rounded-pill  border-1 mr-2"
-                        type="checkbox"
-                      />
-                      <label htmlFor="checkbox">Remember me</label>
-                    </div>
-                    <div>
-                      <a href="/">Forgot password?</a>
-                    </div>
-                  </div> */}
-                    {/* {error && (
-                      <div className="mt-3 text-center text-danger">
-                        {error}
-                      </div>
-                    )} */}
 
                     <div className="mt-5 text-center">
                       {/* Log-owner */}

@@ -247,7 +247,7 @@ function ResponsiveExample({ selectedOrderId }) {
           className="btn-link text-decoration-none border-0 text-light fw-bold rounded-pill w-50 py-3 mt-5 mb-5"
           onClick={handleSave}
         >
-          Save From ResponsiveTable
+          Save
         </button>
       </div>
       <Modal show={showModal} onHide={handleCloseModal}>

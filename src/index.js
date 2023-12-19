@@ -55,7 +55,7 @@ import Managerlinkmodal from './Components/Copymanagermodal/Managerlinkmodal.jsx
       element: <Adminslogin />,
     },
     {
-      path: "/Owner-login",
+      path: "/owner-login",
       element: <Ownerslogin />,
      
     },

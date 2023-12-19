@@ -6,8 +6,12 @@ import { Link, useNavigate } from "react-router-dom";
 
 const Ownerregister = ({ onFormSwitch }) => {
 
+   
   const apiHostname = process.env.REACT_APP_API_HOSTNAME;
-  const [activeState] = useState("adminRegister");
+    
+
+  const [activeState, setActiveState] = useState("adminRegister");
+  const [loading, setLoading] = useState(false); // State for loading
   const [formData, setFormData] = useState({
     first_name: "",
     last_name: "",
@@ -25,7 +29,6 @@ const Ownerregister = ({ onFormSwitch }) => {
 
   const navigate = useNavigate();
   const [registrationError, setRegistrationError] = useState(null); // State to hold th
-  const [loading, setLoading] = useState(false); // State for loading
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prevData) => ({
@@ -72,16 +75,23 @@ const Ownerregister = ({ onFormSwitch }) => {
   };
 
   const handleRegistration = async () => {
+
+
+    const updatedFormdata = {
+      ...formData, 
+    user_type: owner};
+    
     try {
       setLoading(true);
       // setLoading(true); // Set loading to true when the registration process starts
-      const response = await axios.post(`${apiHostname}/register/user/create`,
-        formData
+      const response = await axios.post(
+        `${apiHostname}/register/user/create`,
+        updatedFormdata
       );
 
       // Handle successful registration
       console.log("Registration successful:", response.data);
-      navigate("/admin-login");
+      navigate("/owner-login");
       console.log("Server Response:", response);
     } catch (error) {
       if (error.response) {
@@ -109,6 +119,7 @@ const Ownerregister = ({ onFormSwitch }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
 
     if (validateForm()) {
       await handleRegistration();
@@ -180,6 +191,7 @@ const Ownerregister = ({ onFormSwitch }) => {
                 <br></br>
                 <input
                   className="rounded-pill w-100 py-2 px-2"
+                  placeholder="Email should be unique !"
                   type="email"
                   name="email"
                   value={formData.email}
@@ -193,6 +205,7 @@ const Ownerregister = ({ onFormSwitch }) => {
                 <br />
                 <input
                   className="rounded-pill w-100 py-2 px-2"
+                  placeholder="Password should be at 8 characters or more !"
                   type="password"
                   name="password"
                   value={formData.password}
@@ -217,10 +230,9 @@ const Ownerregister = ({ onFormSwitch }) => {
                     Not admin?{" "}
                     <Link
                       className="text-decoration-none"
-                      onClick={() => navigate("/owner-register")}
+                      onClick={() => setActiveState("/ownerRegister")}
                     >
-                    
-                      register as owner
+                    register as owner
                     </Link>
                   </p>
                 </div>
@@ -228,12 +240,12 @@ const Ownerregister = ({ onFormSwitch }) => {
               {activeState === "ownerRegister" && (
                 <div className="text-center">
                   <p>
-                    Not ?{" "}
+                    Not admin?{" "}
                     <Link
                       className="text-decoration-none"
-                      onClick={() => navigate("/Adminregister")}
+                      onClick={() => setActiveState("/adminRegister")}
                     >
-                   
+                      
                       register as admin
                     </Link>
                   </p>
@@ -253,7 +265,6 @@ const Ownerregister = ({ onFormSwitch }) => {
       </div>
     </div>
   );
-  
-}
+};
 
 export default Ownerregister;

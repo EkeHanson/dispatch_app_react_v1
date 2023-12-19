@@ -4,24 +4,26 @@ import { BsThreeDotsVertical } from 'react-icons/bs';
 import axios from 'axios';
 import './Modal.css';
 
-function Example({ establishmentId, managerName , managerPhone }) {
-
+function Example({ establishmentId, managerName, managerPhone }) {
   const apiHostname = process.env.REACT_APP_API_HOSTNAME;
   const [showModal, setShowModal] = useState(false);
+  const [copyFlashMessage, setCopyFlashMessage] = useState({ text: '', color: '' });
+  const [deleteFlashMessage, setDeleteFlashMessage] = useState({ text: '', color: '' });
 
   const handleCopyLink = () => {
-    const riderData = { establishmentId: establishmentId, name : managerName, phone : managerPhone }; // Example data to include in the link
+    const riderData = { establishmentId: establishmentId, name: managerName, phone: managerPhone };
     const queryParams = new URLSearchParams(riderData).toString();
-    // const riderPageLink = `${apiHostname}/manager-page?${queryParams}`;
     const riderPageLink = `https://dispatch-app-react-v1-ekehanson.vercel.app/log-manager?${queryParams}`;
     navigator.clipboard.writeText(riderPageLink)
       .then(() => {
+        setCopyFlashMessage({ text: 'Link Successfully Copied', color: 'blue' });
+        setTimeout(() => {
+          setCopyFlashMessage({ text: '', color: '' });
+        }, 3000);
         console.log('Link copied to clipboard:', riderPageLink);
-        // You might want to show a success message or perform additional actions upon successful copy
       })
       .catch((error) => {
         console.error('Failed to copy link:', error);
-        // Handle the error case if copying fails
       });
   };
 
@@ -30,21 +32,21 @@ function Example({ establishmentId, managerName , managerPhone }) {
   };
 
   const handleDeleteEstablishment = async () => {
-    console.log('About to delete establishment');
     if (establishmentId) {
       try {
         const response = await axios.delete(`${apiHostname}/establishment/${establishmentId}`);
         if (response.status === 204) {
+          setDeleteFlashMessage({ text: 'Establishment Deleted Successfully', color: 'red' });
+          setTimeout(() => {
+            setDeleteFlashMessage({ text: '', color: '' });
+          }, 5000); // Modify the duration (e.g., 5000 milliseconds = 5 seconds)
           console.log('Establishment deleted successfully');
-          // Handle deletion success
         } else {
           console.error('Failed to delete establishment');
-          // Handle deletion failure
         }
-        handleModalToggle(); // Close the modal regardless of the deletion result
+        handleModalToggle();
       } catch (error) {
         console.error('Error deleting establishment:', error);
-        // Handle deletion failure due to an error
       }
     }
   };
@@ -52,20 +54,32 @@ function Example({ establishmentId, managerName , managerPhone }) {
   return (
     <>
       <BsThreeDotsVertical
-        onClick={handleModalToggle} // No need to pass establishmentId here
+        onClick={handleModalToggle}
         className="position-absolute top-0 end-0 me-4 mt-3 bi bi-three-dots-vertical text-light btn-modal"
       />
 
       <Modal show={showModal} onHide={handleModalToggle} size="md" centered>
-        <Modal.Body id="heloworld" className="text-center shadow-lg rounded-5">
+        <Modal.Body className="text-center shadow-lg rounded-5">
           <Card>
             <div className="copy my-4">
-              <button onClick={handleCopyLink} className="rounded-pill px-5 py-2 copy-btn fw-bold">Copy manager link</button>
+              <button onClick={handleCopyLink} className="rounded-pill px-5 py-2 copy-btn fw-bold">
+                Copy manager link
+              </button>
+              {copyFlashMessage.text && (
+                <div className="flash-message" style={{ color: copyFlashMessage.color }}>
+                  {copyFlashMessage.text}
+                </div>
+              )}
             </div>
             <div className="my-4">
               <button onClick={handleDeleteEstablishment} className="delete-btn rounded-pill px-5 py-2 fw-bold">
                 Delete Establishment
               </button>
+              {deleteFlashMessage.text && (
+                <div className="flash-message" style={{ color: deleteFlashMessage.color }}>
+                  {deleteFlashMessage.text}
+                </div>
+              )}
             </div>
           </Card>
         </Modal.Body>

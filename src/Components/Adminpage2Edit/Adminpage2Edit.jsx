@@ -60,6 +60,7 @@ const Adminpage2Edit = () => {
         if (riderResponse.status === 200 && establishmentResponse.status === 200) {
           setRiderData(riderResponse.data);
           setEstablishmentRiderResponseData(establishmentRiderResponseData);
+          console.log("orderResponse")
           console.log(orderResponse.data)
           const establishmentData = establishmentResponse.data;
           const selectedRider = riderResponse.data.find((rider) => rider.id === establishmentData.rider);

@@ -79,7 +79,7 @@ const Ownerregister = ({ onFormSwitch }) => {
 
     const updatedFormdata = {
       ...formData, 
-    user_type: owner};
+    user_type: 'owner'};
     
     try {
       setLoading(true);

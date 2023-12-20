@@ -13,6 +13,7 @@ import Lotery from './Components/Lottry/Lotery';
 import Ownerslogin from './Components/Ownerlogin/Ownerslogin';
 import Ownerslog from './Components/Overview/Ownerslog';
 import Adminslogin from './Components/Adminlogin/Adminslogin';
+import Ownerregister from './Components/Ownerregister/Ownerregister.jsx';
 import Rider from './Components/Riderpage/Rider';
 import Lottery from './Components/Lotery/Lottery';
 import Addorder from './Components/Addneworder/Addorder';
@@ -72,7 +73,7 @@ import Managerlinkmodal from './Components/Copymanagermodal/Managerlinkmodal.jsx
       element: <Addorder/>,
     },
     {
-      path: "/edit-company",
+      path: "/create-company",
       element: <Adminpage2/>,
     },
     {
@@ -119,6 +120,10 @@ import Managerlinkmodal from './Components/Copymanagermodal/Managerlinkmodal.jsx
     {
       path: "/register-login",
       element: <Adminregister/>,
+    },
+    {
+      path: "/owner-register",
+      element: <Ownerregister/>,
     },
     {
       path: "/managercopy-modal",

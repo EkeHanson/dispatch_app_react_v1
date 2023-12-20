@@ -13,6 +13,7 @@ const Adminpage2 = () => {
   const [loading, setLoading] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [riderData, setRiderData] = useState([]);
+  const [responseEData, setResponseEdata] = useState([]);
   const [formDataE, setFormDataE] = useState({
     name: "",
     contact_person: "",
@@ -83,21 +84,25 @@ const Adminpage2 = () => {
   
       // Ensure riderId is added to formDataE
       const selectedRider = riderData.find((rider) => rider.id === parseInt(formDataE.rider, 10));
-      if (selectedRider) {
-        formDataE.rider = selectedRider.id;
-      }
-  
-      const responseE = await axios.post(`${apiHostname}/establishment/create/`, formDataE);
-      console.log(responseE.data);
+    if (selectedRider) {
+      formDataE.rider = selectedRider.id;
+    }
 
-      if (responseE.status === 201) {
-        console.log("Establishment data sent successfully!!");
-        toast.success("Establishment data sent successfully!!");
-        const establishmentId = responseE.data.id;
-        const updatedFormDataO = {
-          ...formDataO,
-          establishment: establishmentId,
-        };
+    const responseE = await axios.post(`${apiHostname}/establishment/create/`, formDataE);
+    console.log(responseE.data);
+
+    if (responseE.status === 201) {
+      console.log("Establishment data sent successfully!!");
+      toast.success("Establishment data sent successfully!!");
+      setResponseEdata(responseE)
+      const establishmentId = responseEData.data.id; // Extract establishmentId from the response
+      console.log("establishmentId from responseEData")
+      console.log(establishmentId)
+      const updatedFormDataO = {
+        ...formDataO,
+        establishment: establishmentId,
+      };
+      
         // Use the establishment ID from the response or any other relevant data for the order creation
          // Assuming responseE.data has the establishment ID
         const responseO = await axios.post(`${apiHostname}/order/create/`, updatedFormDataO);
@@ -120,6 +125,7 @@ const Adminpage2 = () => {
     } finally {
       setLoading(false);
     }
+    return responseEData.data.id
   };
 
 
@@ -341,7 +347,7 @@ const Adminpage2 = () => {
               </div>
               <div className="col-lg-6 col-md-12 col-sm-12 mb-5">
                 <label htmlFor="name" className="fs-5 mb-2">
-                 Gift or Dsicount
+                 Gift and /`or Dsicount
                 </label>
                 <input
                   type="number"
@@ -413,30 +419,14 @@ const Adminpage2 = () => {
                */}
          
               { <Managerlinkmodal
-              type="submit"
-              onSaveClick={handleSubmit}
-              disabled={loading}
-              showModal={showModal}
-              onClose={handleCloseModal}
-            /> } 
-
-              {/* <Managerlinkmodal/> */}
-              {/* Modal component */}
-
-              {/* <Managerlinkmodal
-                
-                onClick={handleSave}
+                type="submit"
+                onSaveClick={handleSubmit}
                 disabled={loading}
-              /> */}
-              {/* {loading ? "Saving..." : "Save"}) */}
-              {/* <Link
-                  to="/confirm"
-                  type="submit"
-                  className="save text-decoration-none rounded-pill text-light w-50 py-3 mt-5 mb-5"
-                >
-                  Save
-                </Link> */}
-            </div>
+                showModal={showModal}
+                onClose={handleCloseModal}
+              /> } 
+
+             </div>
           </div>
         </div>
       </div>

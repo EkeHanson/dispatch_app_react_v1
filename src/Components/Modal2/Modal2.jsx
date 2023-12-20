@@ -5,6 +5,7 @@ import axios from 'axios';
 
 function Examplem({ riderId, first_name, last_name, phone }) {
   const apiHostname = process.env.REACT_APP_API_HOSTNAME;
+  const apiHostname2 = process.env.REACT_APP_API_HOSTNAME2;
   const [showModal, setShowModal] = useState(false);
   const [copyFlashMessage, setCopyFlashMessage] = useState({ text: '', color: '' });
   const [deleteFlashMessage, setDeleteFlashMessage] = useState({ text: '', color: '' });
@@ -12,7 +13,8 @@ function Examplem({ riderId, first_name, last_name, phone }) {
   const handleCopyLink = () => {
     const riderData = { id: riderId, first_name: first_name, last_name: last_name, phone: phone };
     const queryParams = new URLSearchParams(riderData).toString();
-    const riderPageLink = `https://dispatch-app-react-v1-ekehanson.vercel.app/Login?${queryParams}`;
+    // const riderPageLink = `https://dispatch-app-react-v1-ekehanson.vercel.app/Login?${queryParams}`;
+    const riderPageLink = `${apiHostname2}/Login?${queryParams}`;
     navigator.clipboard.writeText(riderPageLink)
       .then(() => {
         setCopyFlashMessage({ text: 'Link Successfully Copied', color: 'blue' });

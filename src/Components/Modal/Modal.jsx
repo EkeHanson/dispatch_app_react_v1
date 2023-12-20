@@ -6,6 +6,7 @@ import './Modal.css';
 
 function Example({ establishmentId, managerName, managerPhone }) {
   const apiHostname = process.env.REACT_APP_API_HOSTNAME;
+  const apiHostname2 = process.env.REACT_APP_API_HOSTNAME2;
   const [showModal, setShowModal] = useState(false);
   const [copyFlashMessage, setCopyFlashMessage] = useState({ text: '', color: '' });
   const [deleteFlashMessage, setDeleteFlashMessage] = useState({ text: '', color: '' });
@@ -13,7 +14,8 @@ function Example({ establishmentId, managerName, managerPhone }) {
   const handleCopyLink = () => {
     const riderData = { establishmentId: establishmentId, name: managerName, phone: managerPhone };
     const queryParams = new URLSearchParams(riderData).toString();
-    const riderPageLink = `https://dispatch-app-react-v1-ekehanson.vercel.app/log-manager?${queryParams}`;
+    // const riderPageLink = `https://dispatch-app-react-v1-ekehanson.vercel.app/log-manager?${queryParams}`;
+    const riderPageLink = `${apiHostname2}/log-manager?${queryParams}`;
     navigator.clipboard.writeText(riderPageLink)
       .then(() => {
         setCopyFlashMessage({ text: 'Link Successfully Copied', color: 'blue' });

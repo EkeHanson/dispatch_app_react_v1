@@ -54,7 +54,7 @@ const Establish = () => {
             <img className="w-100 image" src={img7} alt="" />
             <div className="middle">
               <div className="text">
-                <Link to="/edit-company">
+                <Link to="/create-company">
                   <i className="bi bi-plus-lg"></i>
                 </Link>
               </div>

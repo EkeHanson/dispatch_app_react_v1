@@ -125,7 +125,6 @@ const Adminpage2 = () => {
     } finally {
       setLoading(false);
     }
-    return responseEData.data.id
   };
 
 
@@ -417,6 +416,9 @@ const Adminpage2 = () => {
               showModal={showModal}
               onClose={handleCloseModal}>SUBMIT</button>
                */}
+               {/* <Button variant="primary" className='btn-link text-decoration-none text-light fw-bold rounded-pill w-50 py-3 mt-5 mb-5' onClick={handleSubmit}>
+                Save
+              </Button> */}
          
               { <Managerlinkmodal
                 type="submit"

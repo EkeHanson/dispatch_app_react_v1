@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { Link, useNavigate } from "react-router-dom";
+import { Link,  } from "react-router-dom";
 import "./Adminpage2.css";
 import Footer from "../Footer/Footer";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Managerlinkmodal from "../Copymanagermodal/Managerlinkmodal";
+import { Button } from "react-bootstrap";
 
 const Adminpage2 = () => {
 
@@ -13,7 +14,8 @@ const Adminpage2 = () => {
   const [loading, setLoading] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [riderData, setRiderData] = useState([]);
-  const [responseEData, setResponseEdata] = useState([]);
+  const [establishmentId, setEstablishmentId] = useState(null); // State to hold establishmentId
+
   const [formDataE, setFormDataE] = useState({
     name: "",
     contact_person: "",
@@ -37,8 +39,6 @@ const Adminpage2 = () => {
     created: new Date().toISOString(), // Set to the current date-time in ISO format
     series: "",
   });
-
-  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -78,9 +78,12 @@ const Adminpage2 = () => {
     }
   };
 
-  const handleSubmit = async () => {
+  const handleSubmit = async (e) => {
     try {
+      e.preventDefault()
       setLoading(true);
+      console.log("Starting handleSubmit");
+      setShowModal(true);
   
       // Ensure riderId is added to formDataE
       const selectedRider = riderData.find((rider) => rider.id === parseInt(formDataE.rider, 10));
@@ -94,13 +97,14 @@ const Adminpage2 = () => {
     if (responseE.status === 201) {
       console.log("Establishment data sent successfully!!");
       toast.success("Establishment data sent successfully!!");
-      setResponseEdata(responseE)
-      const establishmentId = responseEData.data.id; // Extract establishmentId from the response
-      console.log("establishmentId from responseEData")
+      setEstablishmentId(responseE.data.id); // Set establishmentId with the response data
+      console.log("establishmentId from the set")
       console.log(establishmentId)
+
+    
       const updatedFormDataO = {
         ...formDataO,
-        establishment: establishmentId,
+        establishment: responseE.data.id,
       };
       
         // Use the establishment ID from the response or any other relevant data for the order creation
@@ -110,7 +114,8 @@ const Adminpage2 = () => {
         if (responseO.status === 201) {
           console.log("Order data sent successfully!!");
           toast.success("Order data sent successfully!!");
-          navigate("/rider-page-1");
+          setShowModal(true);
+          // navigate("/rider-page-1");
         } else {
           console.error("Failed to send order data");
           toast.error("Failed to send order data");
@@ -128,9 +133,9 @@ const Adminpage2 = () => {
   };
 
 
-  const handleCloseModal = () => {
-    setShowModal(false);
-  };
+  useEffect(() => {
+    console.log("Updated establishmentId:", establishmentId);
+  }, [establishmentId]);
 
   return (
     <div>
@@ -272,30 +277,6 @@ const Adminpage2 = () => {
                   className="form-control rounded-pill w-100 border-1 py-3 px-3"
                 />
               </div>
-              {/* <div className="col-lg-6 col-md-12 col-sm-12 mb-5">
-                <label htmlFor="name" className="fs-5 mb-2">
-                  Date Created
-                </label>
-                <input
-                  type="text"
-                  name="created"
-                  value={formDataO.created}
-                  onChange={handleChange}
-                  className="rounded-pill w-100 border-1 py-3 px-3 form-control"
-                />
-              </div> */}
-              {/* <div className="col-lg-6 col-md-12 col-sm-12 mb-5">
-                <label htmlFor="name" className="fs-5 mb-2">
-                  Series
-                </label>
-                <input
-                  type="text"
-                  name="series"
-                  value={formDataO.series}
-                  onChange={handleChange}
-                  className="rounded-pill w-100 border-1 py-3 px-3 form-control"
-                />
-              </div> */}
               <div className="col-lg-6 col-md-12 col-sm-12 mb-5">
                 <label htmlFor="name" className="fs-5 mb-2">
                 Quantity Reserved
@@ -356,83 +337,24 @@ const Adminpage2 = () => {
                   className="rounded-pill w-100 border-1 py-3 px-3 form-control"
                 />
               </div>
-              {/* <div className="col-lg-6 col-md-12 col-sm-12 mb-5">
-                <label htmlFor="name" className="fs-5 mb-2">
-                Quantity Delivered
-                </label>
-                <input
-                  type="number"
-                  name="quantity_delivered"
-                  value={formDataO.quantity_delivered}
-                  onChange={handleChange}
-                  className="rounded-pill w-100 border-1 py-3 px-3 form-control"
-                />
-              </div> */}
-              {/* <div className="col-lg-6 col-md-12 col-sm-12 mb-5">
-                <label htmlFor="name" className="fs-5 mb-2">
-                Amount Paid
-                </label>
-                <input
-                  type="number"
-                  name="amount_paid"
-                  value={formDataO.amount_paid}
-                  onChange={handleChange}
-                  className="rounded-pill w-100 border-1 py-3 px-3 form-control"
-                />
-              </div> */}
-              {/* <div className="col-lg-6 col-md-12 col-sm-12 mb-5">
-                <label htmlFor="name" className="fs-5 mb-2">
-                Balance
-                </label>
-                <input
-                  type="number"
-                  name="balance"
-                  value={formDataO.balance}
-                  onChange={handleChange}
-                  className="rounded-pill w-100 border-1 py-3 px-3 form-control"
-                />
-              </div> */}
-              {/* <div className="col-lg-6 col-md-12 col-sm-12 mb-5">
-                <label htmlFor="name" className="fs-5 mb-2">
-                Confirm
-                </label>
-                <input
-                  type="text"
-                  name="confirm"
-                  value={formDataO.confirm}
-                  onChange={handleChange}
-                  className="rounded-pill w-100 border-1 py-3 px-3 form-control"
-                />
-              </div> */}
-             
             </div>
             <div className="text-center mt-3">
-              {/* <Managerlinkmodal type="submit"
-                onClick={handleSave}
-                    disabled={loading}/> */}
-              {/* <button type="submit"
-              onClick={handleSubmit}
-              disabled={loading}
-              showModal={showModal}
-              onClose={handleCloseModal}>SUBMIT</button>
-               */}
-               {/* <Button variant="primary" className='btn-link text-decoration-none text-light fw-bold rounded-pill w-50 py-3 mt-5 mb-5' onClick={handleSubmit}>
-                Save
-              </Button> */}
-         
-              { <Managerlinkmodal
-                type="submit"
-                onSaveClick={handleSubmit}
+               <Button variant="primary"
                 disabled={loading}
-                showModal={showModal}
-                onClose={handleCloseModal}
-              /> } 
-
+                onClick={handleSubmit}
+                className="btn-link text-decoration-none text-light fw-bold rounded-pill w-50 py-3 mt-5 mb-5"
+                type="submit">
+                Save
+              </Button>
              </div>
+            
           </div>
         </div>
       </div>
-      </form>
+      </form> 
+     
+        <Managerlinkmodal visible={showModal} onClose={() => setShowModal(false)} establishmentId={establishmentId} />
+ 
       <Footer />
     </div>
   );

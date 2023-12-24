@@ -21,6 +21,7 @@ import Adminpage2 from './Components/Adminpage2/Adminpage2';
 import Adminpage2Edit from './Components/Adminpage2Edit/Adminpage2Edit.jsx';
 import Confirmpage from './Components/Confirmation/Confirmpage';
 import Establish from './Components/Establishment/Establish';
+import Mainregistration from './Components/Mainregistration/Mainregistration.jsx';
 import Adminregister from './Components/Register/Adminregister.jsx'
 // import Managerpage from './Components/Managerpage/Managerpage';
 import ManagerLog from './Components/ManagerLog/ManagerLog.jsx';
@@ -37,6 +38,10 @@ import Managerlinkmodal from './Components/Copymanagermodal/Managerlinkmodal.jsx
     {
       path: "/",
       element: <App/>,
+    },
+    {
+      path: "/main-register",
+      element: <Mainregistration/>,
     },
     {
       path: "/Login",

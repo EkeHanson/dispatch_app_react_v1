@@ -13,7 +13,7 @@ const Login = () => {
            
             
             <div className="my-4">
-              <Link to="/register-login"
+              <Link to="/main-register"
                 type="submit"
                 className="reg-btn w-100 text-center text-light text-decoration-none border-0 py-3 fw-bold rounded-pill"
               >

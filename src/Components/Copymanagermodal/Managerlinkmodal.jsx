@@ -9,9 +9,8 @@ function Managerlinkmodal({visible, onClose, establishmentId}) {
 
  
  const handleCopyLink = () => {
-    const riderData = { establishmentId: establishmentId};
-    const queryParams = new URLSearchParams(riderData).toString();
-    // const riderPageLink = `https://dispatch-app-react-v1-ekehanson.vercel.app/log-manager?${queryParams}`;
+    const establishmentData = { establishmentId: establishmentId};
+    const queryParams = new URLSearchParams(establishmentData).toString();
     const riderPageLink = `${apiHostname2}/log-manager?${queryParams}`;
     navigator.clipboard.writeText(riderPageLink)
       .then(() => {

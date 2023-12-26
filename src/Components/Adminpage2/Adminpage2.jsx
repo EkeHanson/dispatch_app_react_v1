@@ -340,12 +340,12 @@ const Adminpage2 = () => {
             </div>
             <div className="text-center mt-3">
                <Button variant="primary"
-                disabled={loading}
-                onClick={handleSubmit}
-                className="btn-link text-decoration-none text-light fw-bold rounded-pill w-50 py-3 mt-5 mb-5"
-                type="submit">
-                Save
-              </Button>
+                  disabled={loading}
+                  onClick={handleSubmit}
+                  className="btn-link text-decoration-none text-light fw-bold rounded-pill w-50 py-3 mt-5 mb-5"
+                  type="submit">
+                  Save
+                </Button>
              </div>
             
           </div>
@@ -353,7 +353,8 @@ const Adminpage2 = () => {
       </div>
       </form> 
      
-        <Managerlinkmodal visible={showModal} onClose={() => setShowModal(false)} establishmentId={establishmentId} />
+        <Managerlinkmodal visible={showModal} onClose={() => setShowModal(false)} 
+        establishmentId={establishmentId} />
  
       <Footer />
     </div>

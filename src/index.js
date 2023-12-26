@@ -66,7 +66,7 @@ import Managerlinkmodal from './Components/Copymanagermodal/Managerlinkmodal.jsx
      
     },
     {
-      path: "/Rider-login",
+      path: "/rider-login",
       element: <Rider />,
     },
     {

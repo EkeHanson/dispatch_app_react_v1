@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { Link, useNavigate, useLocation } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import "./Adminpage2.css";
 import Footer from "../Footer/Footer";
 import { toast } from "react-toastify";
+import { Button } from "react-bootstrap";
 import "react-toastify/dist/ReactToastify.css";
 import Managerlinkmodal from "../Copymanagermodal/Managerlinkmodal";
 
@@ -14,6 +15,9 @@ const Adminpage2Edit = () => {
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
   const establishmentId = queryParams.get('establishmentId');
+
+  const [selectedOrder, setSelectedOrder] = useState(null); // State to store the selected order
+  const [orderOptions, setOrderOptions] = useState([]); // State to store the order options for the select input
 
 
   const [loading, setLoading] = useState(false);
@@ -32,19 +36,10 @@ const Adminpage2Edit = () => {
     order_number: "",
     reserved_quantity: 0,
     amount_returned_by_customer: 0,
-    quantity_sold: 0,
+    quantity_sold: "",
     amount_charged: 0,
-    gift_or_discount: 0,
-    quantity_delivered: 0,
-    amount_paid: 0,
-    balance: 0,
-    discount: 0,
-    confirm: false,
-    created: new Date().toISOString(), // Set to the current date-time in ISO format
-    series: "",
+    gift_or_discount: 0
   });
-
-  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -60,8 +55,8 @@ const Adminpage2Edit = () => {
         if (riderResponse.status === 200 && establishmentResponse.status === 200) {
           setRiderData(riderResponse.data);
           setEstablishmentRiderResponseData(establishmentRiderResponseData);
-          console.log("orderResponse")
-          console.log(orderResponse.data)
+          // console.log("OrderResponse")
+          // console.log(orderResponse.data)
           const establishmentData = establishmentResponse.data;
           const selectedRider = riderResponse.data.find((rider) => rider.id === establishmentData.rider);
 
@@ -74,9 +69,19 @@ const Adminpage2Edit = () => {
             riderAddress: selectedRider ? selectedRider.address : "",
           });
         } 
-        
-        else {
-          console.error("Failed to fetch rider data");
+        if (orderResponse.status === 200) {
+          const orderData = orderResponse.data;
+
+          setSelectedOrder(null);
+      
+          setFormDataO(prevFormDataO => ({
+            ...prevFormDataO,
+            order_number: '',
+          }));
+      
+          setOrderOptions(orderData);
+        } else {
+          console.error("Failed to fetch order data");
         }
       } catch (error) {
         console.error("Error fetching data:", error);
@@ -86,9 +91,31 @@ const Adminpage2Edit = () => {
     fetchData();
   }, [establishmentId, apiHostname]);
   
+  // Update the handleOrderChange function
+const handleOrderChange = (e) => {
+  const selectedOrderNumber = e.target.value;
+  const selectedOrderData = orderOptions.find((order) => order.order_number === selectedOrderNumber);
+
+  setSelectedOrder(selectedOrderData);
+
+  // Update formDataO with the ID of the selected order
+  setFormDataO((prevFormDataO) => ({
+    ...prevFormDataO,
+    order_number: selectedOrderNumber,
+    order_id: selectedOrderData?.id || '', // Assuming the ID field is 'id', adjust it if different
+    // Update other fields based on the selected order, if needed
+    reserved_quantity: selectedOrderData?.reserved_quantity || 0,
+    amount_returned_by_customer: selectedOrderData?.amount_returned_by_customer || 0,
+    quantity_sold: selectedOrderData?.quantity_sold || 0,
+    amount_charged: selectedOrderData?.amount_charged || 0,
+    gift_or_discount: selectedOrderData?.gift_or_discount || 0,
+  }));
+};
+
+
+  
 
   const handleChange = (e) => {
-    console.log('Getting and Setting riders')
     const { name, value } = e.target;
     if (name === "rider") {
       const selectedRider = riderData.find((rider) => rider.id === parseInt(value, 10));
@@ -110,32 +137,40 @@ const Adminpage2Edit = () => {
     try {
       setLoading(true);
   
-      // Ensure riderId is added to formDataE
-        const rider = establishmentRiderResponseData.id;
-        const updatedFormDataE = {
-          ...formDataE,
-          rider: rider};
-
-      const responseE = await axios.put(`${apiHostname}/establishment/${establishmentId}/`, updatedFormDataE);
-      console.log(responseE.data);
+      const riderId = formDataE.rider;
   
-      if (responseE.status === 201) {
+      // Update formDataE with the selected rider
+      const updatedFormDataE = {
+        ...formDataE,
+        rider: riderId,
+      };
+  
+      // Update formDataO with establishment ID
+      const updatedFormDataO = {
+        ...formDataO,
+        establishment: establishmentId,
+        order: formDataO.order_id,
+      };
+  
+      // Send the establishment data update request
+      console.log("Before Updating Establishment!!")
+      const establishmentResponse = await axios.put(`${apiHostname}/establishment/${establishmentId}/`, updatedFormDataE);
+      console.log("After Updating Establishment!!")
+      console.log(establishmentResponse.status)
 
+      if (establishmentResponse.status === 202) {
         console.log("Establishment data sent successfully!!");
         toast.success("Establishment data sent successfully!!");
-        const establishmentId = responseE.data.id;
-        const updatedFormDataO = {
-          ...formDataO,
-          establishment: establishmentId,
-        };
-        // Use the establishment ID from the response or any other relevant data for the order creation
-        //  Assuming responseE.data has the establishment ID
-        const responseO = await axios.put(`${apiHostname}/order/${establishmentId}/`, updatedFormDataO);
   
-        if (responseO.status === 201) {
+        // Send the order data update request
+        console.log("Before Updating Order!!")
+        const orderResponse = await axios.put(`${apiHostname}/order/${formDataO.order_id}/`, updatedFormDataO);
+        console.log("After Updating Order!!")
+  
+        if (orderResponse.status === 202) {
           console.log("Order data sent successfully!!");
           toast.success("Order data sent successfully!!");
-          navigate("/rider-page-1");
+          setShowModal(true);
         } else {
           console.error("Failed to send order data");
           toast.error("Failed to send order data");
@@ -152,22 +187,13 @@ const Adminpage2Edit = () => {
     }
   };
 
-
-  const handleCloseModal = () => {
-    setShowModal(false);
-  };
-
-   // Output the state values for debugging
-   console.log("formDataE.rider:", formDataE.rider);
-   console.log("formDataE.rider:", typeof formDataE.rider);
-   console.log("establishmentRiderResponseData:", establishmentRiderResponseData);
-
+   
   return (
     <div>
       <form onSubmit={handleSubmit}>
       <div className="container-fluid add">
         <div className="pt-3 ps-5">
-          <Link className="text-light text-decoration-none fs-5 ml-4" to="/">
+          <Link className="text-light text-decoration-none fs-5 ml-4" to="/rider-login">
             <i className="bi bi-chevron-left"></i> Go Back 
           </Link>
         </div>
@@ -187,7 +213,7 @@ const Adminpage2Edit = () => {
             <div className="row mt-5 pt-3">
               <div className="col-lg-6 col-md-12 col-sm-12">
                 <label htmlFor="contactPerson" className="mb-3">
-                  Name of Establishment to be edited
+                  Name of Establishment 
                 </label>
                 <input
                   type="text"
@@ -295,42 +321,25 @@ const Adminpage2Edit = () => {
               <p className="fs-3 fw-bold my-5">Order details</p>
             </div>
             <div className="row justify-content-center">
-              <div className="col-lg-6 col-md-6 col-sm-12 mb-5">
-                <label htmlFor="orderNumber" className="fs-5 mb-2">
-                  Numero
-                </label>
-                <input
-                  type="text"
-                  name="order_number"
-                  value={formDataO.order_number}
-                  onChange={handleChange}
-                  className="form-control rounded-pill w-100 border-1 py-3 px-3"
-                />
-              </div>
-              <div className="col-lg-6 col-md-12 col-sm-12 mb-5">
-                <label htmlFor="name" className="fs-5 mb-2">
-                  Date Created
-                </label>
-                <input
-                  type="text"
-                  name="created"
-                  value={formDataO.created}
-                  onChange={handleChange}
-                  className="rounded-pill w-100 border-1 py-3 px-3 form-control"
-                />
-              </div>
-              <div className="col-lg-6 col-md-12 col-sm-12 mb-5">
-                <label htmlFor="name" className="fs-5 mb-2">
-                  Series
-                </label>
-                <input
-                  type="text"
-                  name="series"
-                  value={formDataO.series}
-                  onChange={handleChange}
-                  className="rounded-pill w-100 border-1 py-3 px-3 form-control"
-                />
-              </div>
+            <div className="col-lg-6 col-md-6 col-sm-12 mb-5">
+              <label htmlFor="orderNumber" className="fs-5 mb-2">
+                Numero
+              </label>
+              <select
+                name="order_number"
+                value={formDataO.order_number || ''}
+                onChange={handleOrderChange}
+                className="form-select rounded-pill w-100 border-1 py-3 px-3"
+              >
+                <option value="" >Select Order Number</option>
+                {orderOptions.map((option) => (
+                  <option key={option.order_number} value={option.order_number}>
+                    {option.order_number}
+                  </option>
+                ))}
+              </select>
+            </div>
+            
               <div className="col-lg-6 col-md-12 col-sm-12 mb-5">
                 <label htmlFor="name" className="fs-5 mb-2">
                 Quantity Reserved
@@ -338,7 +347,7 @@ const Adminpage2Edit = () => {
                 <input
                   type="number"
                   name="reserved_quantity"
-                  value={formDataO.reserved_quantity}
+                  value={formDataO.reserved_quantity || 0}
                   onChange={handleChange}
                   className="rounded-pill w-100 border-1 py-3 px-3 form-control"
                 />
@@ -350,7 +359,7 @@ const Adminpage2Edit = () => {
                 <input
                   type="number"
                   name="amount_returned_by_customer"
-                  value={formDataO.amount_returned_by_customer}
+                  value={formDataO.amount_returned_by_customer || 0}
                   onChange={handleChange}
                   className="rounded-pill w-100 border-1 py-3 px-3 form-control"
                 />
@@ -360,21 +369,21 @@ const Adminpage2Edit = () => {
                   Quantity Sold
                 </label>
                 <input
-                  type="number"
+                  type="text"
                   name="quantity_sold"
-                  value={formDataO.quantity_sold}
+                  value={formDataO.quantity_sold || ""}
                   onChange={handleChange}
                   className="rounded-pill w-100 border-1 py-3 px-3 form-control"
                 />
               </div>
               <div className="col-lg-6 col-md-12 col-sm-12 mb-5">
                 <label htmlFor="name" className="fs-5 mb-2">
-                 AMount Charged
+                 Amount Charged
                 </label>
                 <input
-                  type="text"
+                  type="number"
                   name="amount_charged"
-                  value={formDataO.amount_charged}
+                  value={formDataO.amount_charged || 0}
                   onChange={handleChange}
                   className="rounded-pill w-100 border-1 py-3 px-3 form-control"
                 />
@@ -386,55 +395,7 @@ const Adminpage2Edit = () => {
                 <input
                   type="number"
                   name="gift_or_discount"
-                  value={formDataO.gift_or_discount}
-                  onChange={handleChange}
-                  className="rounded-pill w-100 border-1 py-3 px-3 form-control"
-                />
-              </div>
-              <div className="col-lg-6 col-md-12 col-sm-12 mb-5">
-                <label htmlFor="name" className="fs-5 mb-2">
-                Quantity Delivered
-                </label>
-                <input
-                  type="number"
-                  name="quantity_delivered"
-                  value={formDataO.quantity_delivered}
-                  onChange={handleChange}
-                  className="rounded-pill w-100 border-1 py-3 px-3 form-control"
-                />
-              </div>
-              <div className="col-lg-6 col-md-12 col-sm-12 mb-5">
-                <label htmlFor="name" className="fs-5 mb-2">
-                Amount Paid
-                </label>
-                <input
-                  type="number"
-                  name="amount_paid"
-                  value={formDataO.amount_paid}
-                  onChange={handleChange}
-                  className="rounded-pill w-100 border-1 py-3 px-3 form-control"
-                />
-              </div>
-              <div className="col-lg-6 col-md-12 col-sm-12 mb-5">
-                <label htmlFor="name" className="fs-5 mb-2">
-                Balance
-                </label>
-                <input
-                  type="number"
-                  name="balance"
-                  value={formDataO.balance}
-                  onChange={handleChange}
-                  className="rounded-pill w-100 border-1 py-3 px-3 form-control"
-                />
-              </div>
-              <div className="col-lg-6 col-md-12 col-sm-12 mb-5">
-                <label htmlFor="name" className="fs-5 mb-2">
-                Confirm
-                </label>
-                <input
-                  type="text"
-                  name="confirm"
-                  value={formDataO.confirm}
+                  value={formDataO.gift_or_discount || 0}
                   onChange={handleChange}
                   className="rounded-pill w-100 border-1 py-3 px-3 form-control"
                 />
@@ -442,45 +403,22 @@ const Adminpage2Edit = () => {
              
             </div>
             <div className="text-center mt-3">
-              {/* <Managerlinkmodal type="submit"
-                onClick={handleSave}
-                    disabled={loading}/> */}
-              {/* <button type="submit"
-              onClick={handleSubmit}
-              disabled={loading}
-              showModal={showModal}
-              onClose={handleCloseModal}>SUBMIT</button>
-               */}
-         
-              { <Managerlinkmodal
-              type="submit"
-              onSaveClick={handleSubmit}
-              disabled={loading}
-              showModal={showModal}
-              onClose={handleCloseModal}
-            /> } 
-
-              {/* <Managerlinkmodal/> */}
-              {/* Modal component */}
-
-              {/* <Managerlinkmodal
-                
-                onClick={handleSave}
-                disabled={loading}
-              /> */}
-              {/* {loading ? "Saving..." : "Save"}) */}
-              {/* <Link
-                  to="/confirm"
-                  type="submit"
-                  className="save text-decoration-none rounded-pill text-light w-50 py-3 mt-5 mb-5"
-                >
+               <Button variant="primary"
+                  disabled={loading}
+                  onClick={handleSubmit}
+                  className="btn-link text-decoration-none text-light fw-bold rounded-pill w-50 py-3 mt-5 mb-5"
+                  type="submit">
                   Save
-                </Link> */}
-            </div>
+                </Button>
+             </div>
+            
           </div>
         </div>
       </div>
       </form>
+
+      <Managerlinkmodal visible={showModal} onClose={() => setShowModal(false)} 
+        establishmentId={establishmentId} />
       <Footer />
     </div>
   );

@@ -46,7 +46,7 @@ function Examplem({ riderId, first_name, last_name, phone }) {
         } else {
           console.error('Failed to delete rider');
         }
-        handleModalToggle();
+        
       } catch (error) {
         console.error('Error deleting rider:', error);
       }

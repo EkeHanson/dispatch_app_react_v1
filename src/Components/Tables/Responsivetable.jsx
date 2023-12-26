@@ -4,7 +4,7 @@ import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
 import { BsCaretDownFill } from "react-icons/bs";
 
-function ResponsiveExample({ selectedOrderId }) {
+function Responsivetable({ selectedOrderId }) {
   const apiHostname = process.env.REACT_APP_API_HOSTNAME;
 
   const columnTypes = [
@@ -54,6 +54,7 @@ function ResponsiveExample({ selectedOrderId }) {
       const newStatus = [...confirmationStatus];
       newStatus[rowIndex] = status;
       setConfirmationStatus(newStatus);
+
   
       const newCellValues = [...cellValues];
   
@@ -169,6 +170,7 @@ function ResponsiveExample({ selectedOrderId }) {
           setConfirmationStatus(mappedConfirmationStatus);
         } else {
           throw new Error("Invalid data format received from the API");
+          
         }
       } catch (error) {
         console.error("Error fetching data:", error);
@@ -233,6 +235,7 @@ function ResponsiveExample({ selectedOrderId }) {
                       onChange={(e) =>
                         handleInputChange(rowIndex, colIndex, e.target.value)
                       }
+                      readOnly onFocus={(e) => e.target.blur()}
                       onClick={(e) => e.stopPropagation()}
                     />
                   )}
@@ -243,12 +246,12 @@ function ResponsiveExample({ selectedOrderId }) {
         </tbody>
       </Table>
       <div className="text-center">
-        <button
+        {/* <button
           className="btn-link text-decoration-none border-0 text-light fw-bold rounded-pill w-50 py-3 mt-5 mb-5"
           onClick={handleSave}
         >
-          Save
-        </button>
+          Save From ResponsiveTable
+        </button> */}
       </div>
       <Modal show={showModal} onHide={handleCloseModal}>
         <Modal.Header closeButton>
@@ -283,4 +286,4 @@ function ResponsiveExample({ selectedOrderId }) {
   );
 }
 
-export default ResponsiveExample;
+export default Responsivetable;

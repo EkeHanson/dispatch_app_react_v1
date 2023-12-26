@@ -46,7 +46,7 @@ function Example({ establishmentId, managerName, managerPhone }) {
         } else {
           console.error('Failed to delete establishment');
         }
-        handleModalToggle();
+        
       } catch (error) {
         console.error('Error deleting establishment:', error);
       }

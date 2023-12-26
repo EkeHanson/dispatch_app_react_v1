@@ -115,7 +115,6 @@ const Adminpage2 = () => {
           console.log("Order data sent successfully!!");
           toast.success("Order data sent successfully!!");
           setShowModal(true);
-          // navigate("/rider-page-1");
         } else {
           console.error("Failed to send order data");
           toast.error("Failed to send order data");

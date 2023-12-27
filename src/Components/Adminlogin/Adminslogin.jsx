@@ -1,7 +1,7 @@
 import "./Adminslogin.css";
 import { Link, useNavigate } from "react-router-dom";
 import React, { useState } from "react";
-import Footer from "../Footer/Footer";
+// import Footer from "../Footer/Footer";
 import axios from "axios";
 import Ownerslogin from "../Ownerlogin/Ownerslogin";
 

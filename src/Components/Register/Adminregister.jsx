@@ -10,7 +10,7 @@ const Adminregister = ({ onFormSwitch }) => {
   // };
 
   const apiHostname = process.env.REACT_APP_API_HOSTNAME;
-
+// eslint-disable-next-line
   const [activeState, setActiveState] = useState("adminRegister");
   const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({

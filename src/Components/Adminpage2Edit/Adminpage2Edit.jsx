@@ -187,7 +187,8 @@ const handleOrderChange = (e) => {
     }
   };
 
-   
+  console.log(selectedOrder)
+  
   return (
     <div>
       <form onSubmit={handleSubmit}>

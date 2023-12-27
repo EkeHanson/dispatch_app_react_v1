@@ -249,7 +249,7 @@ const Ownerregister = ({ onFormSwitch }) => {
     last_name: "",
     email: "",
     password: "",
-    userType: "owner", // Add userType field to the formData and set it to 'owner'
+    user_type: "owner", // Add userType field to the formData and set it to 'owner'
   });
 
   const [errors, setErrors] = useState({
@@ -312,7 +312,7 @@ const Ownerregister = ({ onFormSwitch }) => {
     try {
       setLoading(true);
       const response = await axios.post(
-        `${apiHostname}/register/user/create/`,
+        `${apiHostname}/register/user/create`,
         formData
       );
 

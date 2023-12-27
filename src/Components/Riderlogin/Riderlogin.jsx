@@ -117,7 +117,7 @@ const Riderlogin = () => {
                 >
                   Save
                 </button>
-                <Copyriderlink handleCloseModal={handleCloseModal} showModal={showModal} />
+                <Copyriderlink first_name= {formData.first_name} last_name= {formData.last_name} phone= {formData.phone} handleCloseModal={handleCloseModal} showModal={showModal} />
               </div>
             </div>
           </form>

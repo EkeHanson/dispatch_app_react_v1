@@ -37,7 +37,7 @@ const Adminslogin = () => {
         localStorage.setItem("authToken", authToken);
 
         if (formData.userType === "admin") {
-          navigate("/Rider-login");
+          navigate("/rider-login");
         } else if (formData.userType === "owner") {
           navigate("/log-owner");
         } else {

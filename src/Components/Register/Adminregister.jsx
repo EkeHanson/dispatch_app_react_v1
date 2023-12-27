@@ -5,9 +5,9 @@ import { Link, useNavigate } from "react-router-dom";
 // import Ownerregister from "../Ownerregister/Ownerregister";
 
 const Adminregister = ({ onFormSwitch }) => {
-  const handleChangeState = (newState) => {
-    setActiveState(newState);
-  };
+  // const handleChangeState = (newState) => {
+  //   setActiveState(newState);
+  // };
 
   const apiHostname = process.env.REACT_APP_API_HOSTNAME;
 
@@ -85,10 +85,10 @@ const Adminregister = ({ onFormSwitch }) => {
       );
 
       console.log("Registration successful:", response.data);
-      if (formData.userType === "admin") {
+      if (response.data.user_type === "admin") {
         navigate("/admin-login");
-      } else if (formData.userType === "owner") {
-        navigate("/log-owner");
+      } else if (response.data.user_type === "owner") {
+        navigate("/Owner-login");
       } else {
         console.error("Invalid user type");
       }

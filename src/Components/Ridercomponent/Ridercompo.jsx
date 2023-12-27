@@ -47,13 +47,13 @@ const Ridercompo = ({onpageSwitch}) => {
               {/* <i class="position-absolute top-0 end-0 me-4 mt-3 bi bi-three-dots-vertical text-light btn-modal"></i> */}
             </div>
             <div className="position-absolute top-50 end-0 translate-middle mt-5 text-light">
-            {item.last_name} {item.first_name}
+            {item.first_name} {item.last_name} 
             </div>
-            <div className="middle">
+            {/* <div className="middle">
               <div className="text">
                 <Link to="/"></Link>
               </div>
-            </div>
+            </div> */}
           </div>
           ))}
           <div class="container">

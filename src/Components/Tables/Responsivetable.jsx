@@ -85,49 +85,49 @@ function Responsivetable({ selectedOrderId }) {
     }
   };
 
-  const handleSave = async () => {
-    try {
-      // Retrieve the confirmed value from the confirmationStatus state based on the modalRowIndex
-      const confirmedValue = confirmationStatus[modalRowIndex];
+  // const handleSave = async () => {
+  //   try {
+  //     // Retrieve the confirmed value from the confirmationStatus state based on the modalRowIndex
+  //     const confirmedValue = confirmationStatus[modalRowIndex];
   
-      // Check if the confirmed value is neither 'Approved' nor 'Pending'
-      if (confirmedValue !== 'Approved' && confirmedValue !== 'Pending') {
-        throw new Error('Invalid confirmed value');
-      }
+  //     // Check if the confirmed value is neither 'Approved' nor 'Pending'
+  //     if (confirmedValue !== 'Approved' && confirmedValue !== 'Pending') {
+  //       throw new Error('Invalid confirmed value');
+  //     }
   
-      // Format the row according to the server's expected data format
-      const formattedRow = {
-        order: selectedOrderId,
-        series: cellValues[modalRowIndex].value[1],
-        quantity_delivered: parseInt(cellValues[modalRowIndex].value[2]),
-        amount_paid: parseInt(cellValues[modalRowIndex].value[3]),
-        balance: parseInt(cellValues[modalRowIndex].value[4]),
-        discount: parseInt(cellValues[modalRowIndex].value[5]),
-        confirmed: confirmedValue,
-      };
+  //     // Format the row according to the server's expected data format
+  //     const formattedRow = {
+  //       order: selectedOrderId,
+  //       series: cellValues[modalRowIndex].value[1],
+  //       quantity_delivered: parseInt(cellValues[modalRowIndex].value[2]),
+  //       amount_paid: parseInt(cellValues[modalRowIndex].value[3]),
+  //       balance: parseInt(cellValues[modalRowIndex].value[4]),
+  //       discount: parseInt(cellValues[modalRowIndex].value[5]),
+  //       confirmed: confirmedValue,
+  //     };
   
-      // Construct data to be sent in the POST request
-      const data = formattedRow;
+  //     // Construct data to be sent in the POST request
+  //     const data = formattedRow;
   
-      const response = await fetch(`${apiHostname}/invoice/create/`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(data),
-      });
+  //     const response = await fetch(`${apiHostname}/invoice/create/`, {
+  //       method: "POST",
+  //       headers: {
+  //         "Content-Type": "application/json",
+  //       },
+  //       body: JSON.stringify(data),
+  //     });
   
-      if (!response.ok) {
-        throw new Error("Failed to save data to the backend");
-      } else {
-        console.log("Data saved successfully:", data);
-        window.location.reload();
-        // Additional logic or UI updates upon successful save
-      }
-    } catch (error) {
-      console.error("Error saving data:", error);
-    }
-  };
+  //     if (!response.ok) {
+  //       throw new Error("Failed to save data to the backend");
+  //     } else {
+  //       console.log("Data saved successfully:", data);
+  //       window.location.reload();
+  //       // Additional logic or UI updates upon successful save
+  //     }
+  //   } catch (error) {
+  //     console.error("Error saving data:", error);
+  //   }
+  // };
   
   
 

@@ -60,8 +60,8 @@ const Establish = () => {
         <p>You do not have permission to view this page.</p>
         <div>
           {/* Example: Redirect to a different route */}
-          <Link to="/alternate-route">
-            Go to Alternate Page
+          <Link to="/">
+            Go to Login Page
           </Link>
         </div>
       </div>

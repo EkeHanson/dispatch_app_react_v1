@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Link , useLocation} from 'react-router-dom';
 import "./Managerpage.css";
-import ResponsiveExample from "../Tables/Responsivetable";
+import Responsivetable from "../Tables/Responsivetable";
 
 const Managerpage = () => {
 
@@ -80,7 +80,7 @@ const Managerpage = () => {
               
  
             </table>  */}
-            <ResponsiveExample establishmentId = {Number(establishmentId)}/>
+            <Responsivetable establishmentId = {Number(establishmentId)}/>
           </div>
         </div>
         <div className="container-fluid footer py-4 bg-light text-center mt-5 mb-0">

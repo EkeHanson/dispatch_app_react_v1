@@ -1,16 +1,30 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./Rider.css";
 import Establish from "../Establishment/Establish";
 import Ridercompo from "../Ridercomponent/Ridercompo";
+import axios from "axios";
 
 const Rider = ({ onpageSwitch }) => {
   const [activeState, setActiveState] = useState("establishment");
-  //   const [modal, setModal] = useState(false);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [establishments, setEstablishments] = useState([]);
 
-  //   const toggleModal = () => {
-  //     setModal(!modal);
-  //   };
-  // const authToken = localStorage.getItem("authToken");
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(`${process.env.REACT_APP_API_HOSTNAME}/establishment`);
+        setEstablishments(response.data);
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  const filteredEstablishments = establishments.filter((establishment) =>
+    establishment.name.toLowerCase().includes(searchTerm.toLowerCase())
+  );
 
   return (
     <div className="container-fluid w-100">
@@ -26,7 +40,6 @@ const Rider = ({ onpageSwitch }) => {
         <div className="row justify-content-center">
           <div className="card rounded-0 border-0">
             <div className="card-body w-100">
-              {/* large screen */}
               <div className="d-none d-lg-block">
                 <div className=" bg-secondary rounded-pill row col-lg-6 p-2 m-auto justify-content-between align-items-center">
                   <div
@@ -47,12 +60,14 @@ const Rider = ({ onpageSwitch }) => {
                     Riders
                   </div>
                 </div>
-                <input
+                {/* <input
                   type="search"
                   className="form-control rounded-pill mt-5 py-3"
                   placeholder="Buscar establecimiento...."
-                />
-                {activeState === "establishment" && <Establish />}
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                /> */}
+                {activeState === "establishment" && <Establish filteredEstablishments={filteredEstablishments} />}
                 {activeState === "rider" && (
                   <div>
                     {" "}
@@ -61,12 +76,10 @@ const Rider = ({ onpageSwitch }) => {
                 )}
               </div>
               <div className="d-md-block d-lg-none">
-                {/* mobile screen */}
                 <div
-                  className=" bg-transparent
-                  rounded-pill row col-lg-6 col-md-12 col-sm-12 p-2 mx-auto justify-content-center align-items-center"
+                  className=" bg-transparent rounded-pill row col-lg-6 col-md-12 col-sm-12 p-2 mx-auto justify-content-center align-items-center"
                 >
-                  <div
+                   <div
                     className={`${
                       activeState === "establishment" ? "bg-secondary " : ""
                     } px-5 py-2 cursor-pointer rounded-pill text-center col-lg-6 col-md-6 col-sm-6`}
@@ -84,12 +97,14 @@ const Rider = ({ onpageSwitch }) => {
                     Rider
                   </div>
                 </div>
-                <input
+                {/* <input
                   type="search"
                   className="form-control rounded-pill mt-5 py-3"
                   placeholder="Buscar establecimiento...."
-                />
-                {activeState === "establishment" && <Establish />}
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                /> */}
+                {activeState === "establishment" && <Establish filteredEstablishments={filteredEstablishments} />}
                 {activeState === "rider" && (
                   <div>
                     {" "}

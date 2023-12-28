@@ -1,6 +1,6 @@
 import React from "react";
 import "./Lottery.css";
-import ResponsiveExample from "../Tables/Responsivetable";
+import ResponsiveExample from "../Tables/ResponsiveExample";
 import Addanothermodal from "../Addanothermodal/Addanothermodal";
 
 

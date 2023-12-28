@@ -136,6 +136,8 @@ const Adminpage2 = () => {
     console.log("Updated establishmentId:", establishmentId);
   }, [establishmentId]);
 
+  console.log("User_type: " )
+
   return (
     <div>
       <form onSubmit={handleSubmit}>

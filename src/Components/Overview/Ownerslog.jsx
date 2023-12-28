@@ -4,8 +4,12 @@ import img4 from "../Assets/Circle chart.png";
 import Currentdate from "../Currentdate/Currentdate";
 import Managmentlog from "../Managementlog/Managmentlog";
 import axios from "axios";
+import { jwtDecode } from 'jwt-decode';
+import { Link } from 'react-router-dom';
 
 const Ownerslog = () => {
+  const [userType, setUserType] = useState(""); // State to store user type
+  const [user_id, setUser_id] = useState();
 
   const apiHostname = process.env.REACT_APP_API_HOSTNAME;
   const [orderData, setorderData] = useState([]);
@@ -14,15 +18,21 @@ const Ownerslog = () => {
   const [numberOfItemsToday, setNumberOfItemsToday] = useState(""); // State to store the selected option
   const [numberOfItemsYesterday, setNumberOfItemsYesterday] = useState(""); // State to store the selected option
 
+  
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        
+        const authToken = localStorage.getItem("authToken");
+        console.log(`accessToken from establishment component: ${authToken}`)
+        const decodedToken = jwtDecode(authToken);
+        setUser_id(decodedToken.user_id);
+
         const orderResponse = await axios.get(`${apiHostname}/order/`);
         const estblishmentResponse = await axios.get(`${apiHostname}/establishment/`);
+        const response2 = await axios.get(`${apiHostname}/register/owners/${decodedToken.user_id}`);
         if (orderResponse.status === 200) {
-
+          setUserType(response2.data.user_type);
 
           const today = new Date();
           const todayDate = today.toISOString().split('T')[0]; // Format: YYYY-MM-DD
@@ -57,7 +67,7 @@ const Ownerslog = () => {
     };
 
     fetchData();
-  }, [apiHostname]);
+  }, [apiHostname, user_id,  userType]);
 
    
     
@@ -229,6 +239,21 @@ const Ownerslog = () => {
       }
     }
   };
+   
+   // Check user_type to grant or restrict access
+   if (userType !== "owner") {
+    // If user_type is not 'owner', deny access
+    return (
+      <div>
+        <p>user_type is : {userType}</p>
+        <p>Access Denied. You do not have permission to view this page.</p>
+        {/* You can add a redirect or login button here */}
+        <div>
+            <Link to="/" className='rounded-pill go-back py-2 px-5 text-decoration-none d-block  w-100 btn-link mt-3 text-light'>Go back</Link>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="container-fluid">

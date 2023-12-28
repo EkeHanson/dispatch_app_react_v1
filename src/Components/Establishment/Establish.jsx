@@ -6,20 +6,30 @@ import img7 from '../Assets/Rectangle 21 (3).png';
 import { Link } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Example from '../Modal/Modal';
+import { jwtDecode } from 'jwt-decode';
 
 const Establish = () => {
   const apiHostname = process.env.REACT_APP_API_HOSTNAME;
- 
+
   const [responseData, setResponseData] = useState([]);
+  const [userType, setUserType] = useState('');
+  const [searchTerm, setSearchTerm] = useState('');
+  const [filteredData, setFilteredData] = useState([]);
 
   useEffect(() => {
     const fetchData = async () => {
+      const authToken = localStorage.getItem('authToken');
+      const decodedToken = jwtDecode(authToken);
+
       try {
         const response = await axios.get(`${apiHostname}/establishment/`);
+        const response2 = await axios.get(
+          `${apiHostname}/register/admins/${decodedToken.user_id}`
+        );
 
         if (response.status === 200) {
+          setUserType(response2.data.user_type);
           setResponseData(response.data);
-          console.log(response.data);
         } else {
           console.error('Failed to fetch data');
         }
@@ -32,20 +42,55 @@ const Establish = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  useEffect(() => {
+    const results = responseData.filter((item) =>
+      item.name.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+    setFilteredData(results);
+  }, [searchTerm, responseData]);
+
+  if (userType !== 'admin') {
+    return (
+      <div>
+        <p>User_type: {userType}</p>
+        <p>Access Denied. You do not have permission to view this page.</p>
+        <div>
+          <Link
+            to="/"
+            className="rounded-pill go-back py-2 px-5 text-decoration-none d-block w-100 btn-link mt-3 text-light"
+          >
+            Go back
+          </Link>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div>
+      <input
+        type="search"
+        className="form-control rounded-pill mt-5 py-3"
+        placeholder="Buscar establecimiento...."
+        value={searchTerm}
+        onChange={(e) => setSearchTerm(e.target.value)}
+      />
       <div className="row mt-5 gy-4">
         <div className="rounded-5 overlay">
-          {responseData.map((item, index) => (
+          {filteredData.map((item, index) => (
             <div key={index} className="container position-relative">
               <Link to={`/admin-page?establishmentId=${item.id}`}>
-                <img className="w-100 " src={img4} alt="" />
+                <img className="w-100" src={img4} alt="" />
               </Link>
               <div className="text-light fs-4 my-3">
-                <Example establishmentId={item.id} managerName = {item.name} managerPhone = {item.phone_number}/>
+                <Example
+                  establishmentId={item.id}
+                  managerName={item.name}
+                  managerPhone={item.phone_number}
+                />
               </div>
               <div className="position-absolute top-50 end-0 translate-middle mt-5 text-light">
-                {item.name} 
+                {item.name}
               </div>
               <div className="middle"></div>
             </div>

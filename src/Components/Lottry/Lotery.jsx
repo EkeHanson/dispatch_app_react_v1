@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import "./Lotery.css";
-import ResponsiveExample from "../Tables/Responsivetable";
+import ResponsiveExample from "../Tables/ResponsiveExample";
 // import Successmodal2 from "../Successmodal2/Successmodal2";
 
 const Lotery = () => {

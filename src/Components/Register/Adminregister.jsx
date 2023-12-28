@@ -18,7 +18,7 @@ const Adminregister = ({ onFormSwitch }) => {
     last_name: "",
     email: "",
     password: "",
-    userType: "admin",
+    user_type: "admin",
   });
 
   const [errors, setErrors] = useState({
@@ -27,6 +27,7 @@ const Adminregister = ({ onFormSwitch }) => {
     email: "",
     username: "",
     password: "",
+    user_type: "admin"
   });
 
   const navigate = useNavigate();

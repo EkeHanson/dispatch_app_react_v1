@@ -6,6 +6,7 @@ import axios from "axios";
 
 const Rider = ({ onpageSwitch }) => {
   const [activeState, setActiveState] = useState("establishment");
+  // eslint-disable-next-line
   const [searchTerm, setSearchTerm] = useState("");
   const [establishments, setEstablishments] = useState([]);
 

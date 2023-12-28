@@ -59,32 +59,31 @@ table {
     background-color: rgb(86, 255, 86);
 }
 
-@media screen and (max-width:1118px) {
+@media screen and (max-width:768px) {
     .vertical-letters {
         display: flex;
-        flex-direction: column;
-        font-size: 9.6px;
+        flex-direction: column !important;
+        font-size: 10.6px;
         font-weight: bold;
         width: 15px;
         padding: 3px;
         color: black;
-        left: 4.7rem;
-        bottom: -3.0rem;
+        left: -1.1rem !important;
+        bottom: -9.0rem !important;
         background-color: rgb(86, 255, 86);
     }
 }
-
-@media screen and (min-width:1118px) {
+@media screen and (min-width:768px) {
     .vertical-letters {
         display: flex;
-        flex-direction: column;
-        font-size: 9.6px;
+        flex-direction: column !important;
+        font-size: 10.6px;
         font-weight: bold;
         width: 15px;
         padding: 3px;
         color: black;
-        left: 6.5rem;
-        bottom: -3.0rem;
+        left: -1.1rem !important;
+        bottom: -8.0rem !important;
         background-color: rgb(86, 255, 86);
     }
 }

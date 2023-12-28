@@ -22,6 +22,7 @@ const Ownerregister = ({ onFormSwitch }) => {
     email: "",
     username: "",
     password: "",
+    user_type: "owner"
   });
 
   const navigate = useNavigate();

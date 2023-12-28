@@ -174,6 +174,7 @@ const Ownerregister = ({ onFormSwitch }) => {
                   className="rounded-pill w-100 py-2 px-2 border-0"
                   type="email"
                   name="email"
+                  placeholder="Email must be Unique!"
                   value={formData.email}
                   onChange={handleChange}
                 />
@@ -187,6 +188,7 @@ const Ownerregister = ({ onFormSwitch }) => {
                   className="rounded-pill w-100 py-2 px-2 border-0"
                   type="password"
                   name="password"
+                  placeholder="Password should be atleast 8 characters"
                   value={formData.password}
                   onChange={handleChange}
                 />

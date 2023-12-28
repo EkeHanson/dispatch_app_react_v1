@@ -28,8 +28,13 @@ const Establish = () => {
         );
 
         if (response.status === 200) {
-          setUserType(response2.data.user_type);
           setResponseData(response.data);
+
+          if (response2.status === 200) {
+            setUserType(response2.data.user_type);
+          } else {
+            setUserType(''); // Or any default value if needed
+          }
         } else {
           console.error('Failed to fetch data');
         }
@@ -52,14 +57,11 @@ const Establish = () => {
   if (userType !== 'admin') {
     return (
       <div>
-        <p>User_type: {userType}</p>
-        <p>Access Denied. You do not have permission to view this page.</p>
+        <p>You do not have permission to view this page.</p>
         <div>
-          <Link
-            to="/"
-            className="rounded-pill go-back py-2 px-5 text-decoration-none d-block w-100 btn-link mt-3 text-light"
-          >
-            Go back
+          {/* Example: Redirect to a different route */}
+          <Link to="/alternate-route">
+            Go to Alternate Page
           </Link>
         </div>
       </div>

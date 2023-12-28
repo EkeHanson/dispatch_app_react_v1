@@ -8,41 +8,38 @@ import { jwtDecode } from 'jwt-decode';
 import { Link } from 'react-router-dom';
 
 const Ownerslog = () => {
-  const [userType, setUserType] = useState(""); // State to store user type
+  const [userType, setUserType] = useState("");
   const [user_id, setUser_id] = useState();
+  const [orderData, setOrderData] = useState([]);
+  const [establishmentData, setEstablishmentData] = useState([]);
+  const [selectedOption, setSelectedOption] = useState("");
+  const [numberOfItemsToday, setNumberOfItemsToday] = useState("");
+  const [numberOfItemsYesterday, setNumberOfItemsYesterday] = useState("");
+  const [isLoading, setIsLoading] = useState(true);
 
   const apiHostname = process.env.REACT_APP_API_HOSTNAME;
-  const [orderData, setorderData] = useState([]);
-  const [establishmentData, setEstablishmentData] = useState([]);
-  const [selectedOption, setSelectedOption] = useState(""); // State to store the selected option
-  const [numberOfItemsToday, setNumberOfItemsToday] = useState(""); // State to store the selected option
-  const [numberOfItemsYesterday, setNumberOfItemsYesterday] = useState(""); // State to store the selected option
-
-  
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const authToken = localStorage.getItem("authToken");
-        console.log(`accessToken from establishment component: ${authToken}`)
         const decodedToken = jwtDecode(authToken);
         setUser_id(decodedToken.user_id);
 
         const orderResponse = await axios.get(`${apiHostname}/order/`);
-        const estblishmentResponse = await axios.get(`${apiHostname}/establishment/`);
+        const establishmentResponse = await axios.get(`${apiHostname}/establishment/`);
         const response2 = await axios.get(`${apiHostname}/register/owners/${decodedToken.user_id}`);
+        
         if (orderResponse.status === 200) {
           setUserType(response2.data.user_type);
 
           const today = new Date();
-          const todayDate = today.toISOString().split('T')[0]; // Format: YYYY-MM-DD
+          const todayDate = today.toISOString().split('T')[0];
 
-          // Get yesterday's date
           const yesterday = new Date();
           yesterday.setDate(yesterday.getDate() - 1);
-          const yesterdayDate = yesterday.toISOString().split('T')[0]; // Format: YYYY-MM-DD
+          const yesterdayDate = yesterday.toISOString().split('T')[0];
 
-          // Filter the items that were created on the desired date
           const ordersCreatedToday = orderResponse.data.filter(
             (item) => item.created.substring(0, 10) === todayDate
           );
@@ -51,26 +48,23 @@ const Ownerslog = () => {
             (item) => item.created.substring(0, 10) === yesterdayDate
           );
 
-
-          setorderData(orderResponse.data);
-          setEstablishmentData(estblishmentResponse.data);
-          setNumberOfItemsYesterday(ordersCreatedYesterday.length)
-          setNumberOfItemsToday(ordersCreatedToday.length)
-         
+          setOrderData(orderResponse.data);
+          setEstablishmentData(establishmentResponse.data);
+          setNumberOfItemsYesterday(ordersCreatedYesterday.length);
+          setNumberOfItemsToday(ordersCreatedToday.length);
         } else {
           console.error("Failed to fetch establishment data");
         }
-        
       } catch (error) {
         console.error("Error fetching data:", error);
+      } finally {
+        setIsLoading(false);
       }
     };
 
     fetchData();
-  }, [apiHostname, user_id,  userType]);
+  }, [apiHostname, user_id, userType]);
 
-   
-    
   const calculateTotalAmountPaid = () => {
     if (orderData.length === 0) {
       return 0;
@@ -112,19 +106,14 @@ const Ownerslog = () => {
     return totalEarnings;
   };
 
-
-  
-  const totalDebt = calculateTotalReservedQuantity() - calculateTotalAmountPaid() 
-  
+  const totalDebt = calculateTotalReservedQuantity() - calculateTotalAmountPaid();
 
   const getSelectedEstablishment = () => {
     if (selectedOption === "All establishment") {
       return (
         <div className="row gy-4 justify-content-center">
-          
-              {/* Display details for all establishments */}
-
-              <div className="row mt-5">
+          {/* Display details for all establishments */}
+          <div className="row mt-5">
               <div className="col-lg-6 col-md-6 col-sm-12">
                 <p className="fs-2 mt-5">Overview</p>
               </div>
@@ -222,8 +211,7 @@ const Ownerslog = () => {
           </div>
         </div>
       </div>
-            </div>
-         
+        </div>
       );
     } else {
       const selectedEstablishment = establishmentData.find(
@@ -231,25 +219,28 @@ const Ownerslog = () => {
       );
       if (selectedEstablishment) {
         return (
-          <Managmentlog selectedEstablishmentName = {selectedEstablishment.name} selectedEstablishmentId = {selectedEstablishment.id}/>
-          
+          <Managmentlog 
+            selectedEstablishmentName={selectedEstablishment.name} 
+            selectedEstablishmentId={selectedEstablishment.id}
+          />
         );
       } else {
         return null;
       }
     }
   };
-   
-   // Check user_type to grant or restrict access
-   if (userType !== "owner") {
-    // If user_type is not 'owner', deny access
+
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
+
+  if (userType !== "owner") {
     return (
       <div>
-        <p>user_type is : {userType}</p>
+        <p>User type is: {userType}</p>
         <p>Access Denied. You do not have permission to view this page.</p>
-        {/* You can add a redirect or login button here */}
         <div>
-            <Link to="/" className='rounded-pill go-back py-2 px-5 text-decoration-none d-block  w-100 btn-link mt-3 text-light'>Go back</Link>
+          <Link to="/" className='rounded-pill go-back py-2 px-5 text-decoration-none d-block w-100 btn-link mt-3 text-light'>Go back</Link>
         </div>
       </div>
     );
@@ -257,6 +248,7 @@ const Ownerslog = () => {
 
   return (
     <div className="container-fluid">
+      {/* Rest of the JSX structure */}
       <div className="owner-bg p-5">
         <div className="row justify-content-center text-light">
           <div className="col-lg-7">
@@ -291,7 +283,6 @@ const Ownerslog = () => {
 
         </div>
       </div>
-     
     </div>
   );
 };

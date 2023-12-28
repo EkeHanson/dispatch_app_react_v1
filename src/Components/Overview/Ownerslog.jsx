@@ -237,10 +237,10 @@ const Ownerslog = () => {
   if (userType !== "owner") {
     return (
       <div>
-        <p>User type is: {userType}</p>
+        <p></p>
         <p>Access Denied. You do not have permission to view this page.</p>
         <div>
-          <Link to="/" className='rounded-pill go-back py-2 px-5 text-decoration-none d-block w-100 btn-link mt-3 text-light'>Go back</Link>
+          <Link to="/" className='rounded-pill go-back py-2 px-5 text-decoration-none d-block w-100 btn-link mt-3 text-light'>Go back to Login page</Link>
         </div>
       </div>
     );

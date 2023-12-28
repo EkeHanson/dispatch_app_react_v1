@@ -57,11 +57,12 @@ const Establish = () => {
   if (userType !== 'admin') {
     return (
       <div>
+        <p>Access Denied.</p>
         <p>You do not have permission to view this page.</p>
         <div>
           {/* Example: Redirect to a different route */}
           <Link to="/">
-            Go to Login Page
+          Go to Login Page
           </Link>
         </div>
       </div>

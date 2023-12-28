@@ -168,7 +168,7 @@ const handleOrderChange = (e) => {
         console.log("After Updating Order!!")
   
         if (orderResponse.status === 202) {
-          alert("Order data sent successfully!!");
+          alert("Establishment Updated successfully!!");
           toast.success("Order data sent successfully!!");
           setShowModal(true);
         } else {

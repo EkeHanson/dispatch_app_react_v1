@@ -81,7 +81,7 @@ const Adminregister = ({ onFormSwitch }) => {
     try {
       setLoading(true);
       const response = await axios.post(
-        `${apiHostname}/register/user/create`,
+        `${apiHostname}/register/user/create/`,
         formData
       );
 

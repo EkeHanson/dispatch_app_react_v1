@@ -82,7 +82,7 @@ const Ownerregister = ({ onFormSwitch }) => {
         user_type : "owner"
       }
       const response = await axios.post(
-        `${apiHostname}/register/user/create`,
+        `${apiHostname}/register/user/create/`,
         updatedFormdata
       );
 

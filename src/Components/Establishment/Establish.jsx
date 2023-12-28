@@ -15,6 +15,7 @@ const Establish = () => {
   const [userType, setUserType] = useState('');
   const [searchTerm, setSearchTerm] = useState('');
   const [filteredData, setFilteredData] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -40,6 +41,8 @@ const Establish = () => {
         }
       } catch (error) {
         console.error('Error fetching data:', error);
+      }finally{
+        setIsLoading(false);
       }
     };
 
@@ -53,6 +56,10 @@ const Establish = () => {
     );
     setFilteredData(results);
   }, [searchTerm, responseData]);
+
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
 
   if (userType !== 'admin') {
     return (

@@ -2,37 +2,46 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import "./Managmentlog.css";
 
-
-
-
-const Managmentlog = ({selectedEstablishmentId, selectedEstablishmentName }) => {
+const Managmentlog = ({ selectedEstablishmentId, selectedEstablishmentName }) => {
   const apiHostname = process.env.REACT_APP_API_HOSTNAME;
-  
-  const [responseData, setResponseData] = useState([]);
 
+  const [orderData, setOrderData] = useState([]);
+  const [establishmentData, setEstablishmentData] = useState([]);
+  const [invoiceData, setInvoiceData] = useState([]);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        console.log("trying to fetch establishment by id")
-        
-        const response = await axios.get(`${apiHostname}/order/by_establishment/${selectedEstablishmentId}`);
-        console.log(response.data)
-        if (response.status === 200) {
-          setResponseData(response.data);
-        } else {
-          console.error("Failed to fetch data");
-        }
+        // Fetch establishment data by ID
+        const establishmentResponse = await axios.get(`${apiHostname}/establishment/${selectedEstablishmentId}`);
+        setEstablishmentData(establishmentResponse.data);
+
+        // Fetch order data by establishment
+        const orderResponse = await axios.get(`${apiHostname}/order/by_establishment/${selectedEstablishmentId}`);
+        // Filter orders related to the selected establishment
+        const filteredOrderData = orderResponse.data.filter(order => order.establishment === selectedEstablishmentId);
+        setOrderData(filteredOrderData);
+
+        // Fetch all invoices
+        const invoiceResponse = await axios.get(`${apiHostname}/invoice`);
+        // Filter invoices related to the selected establishment
+        const filteredInvoiceData = invoiceResponse.data.filter(invoice => {
+          const order = filteredOrderData.find(order => order.id === invoice.order);
+          return order && order.establishment === selectedEstablishmentId;
+        });
+        setInvoiceData(filteredInvoiceData);
       } catch (error) {
         console.error("Error fetching data:", error);
       }
     };
-  
+
     fetchData();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [selectedEstablishmentId]);
+  }, [apiHostname, selectedEstablishmentId]);
 
-
+  console.log("establishmentData")
+  console.log(establishmentData)
+  console.log("Order Data")
+  console.log(orderData)
 
   return (
     <div className="container-fluid">
@@ -93,17 +102,16 @@ const Managmentlog = ({selectedEstablishmentId, selectedEstablishmentName }) => 
                 </tr>
               </thead>
               <tbody className="text-center position-relative">
-              {Array.isArray(responseData) ? (responseData.map((item, index) => (
+              {Array.isArray(invoiceData) ? (invoiceData.map((item, index) => (
               
                 <tr key={index}>
                   <td  className="p-4 text-left">{(new Date(item.created)).getDate()}-{(new Date(item.created)).getMonth() + 1}-{(new Date(item.created)).getFullYear()}</td>
-                  <td className="p-4 text-center">{item.order_number}</td>
+                  <td className="p-4 text-center">{orderData[0].order_number}</td>
                   <td className="p-4 text-center">{item.series}</td>
                   <td className="p-4 text-center">{item.quantity_delivered}</td>
                   <td className="p-4 text-center">${item.amount_paid}</td>
                   <td className="p-4 text-center">${item.balance}</td>
                   <td className="p-4 text-center">${item.discount}</td>
-                  {/* <td className="p-5 text-center ">$GIFT NOT IN The Order API</td> */}
                    
                    <div className="position-relative re">
 
@@ -124,28 +132,15 @@ const Managmentlog = ({selectedEstablishmentId, selectedEstablishmentName }) => 
                 
                   <tr>
                     
-                    <td className="p-4 text-center">{responseData['created']}</td>
-                    <td className="p-4 text-center">{responseData['order_number']}</td>
-                    <td className="p-4 text-center">{responseData['series']}</td>
-                    <td className="p-4 text-center">{responseData['quantity_delivered']}</td>
-                    <td className="p-4 text-center">{responseData['amount_paid']}</td>
-                    <td className="p-4 text-center">{responseData['balance']}</td>
-                    <td className="p-4 text-center">{responseData['discount']}</td>
-                    <td className="p-5 text-center ">$GIFT NOT IN The Order API</td>
+                    <td className="p-4 text-center">{invoiceData['created']}</td>
+                    <td className="p-4 text-center">{orderData[0].order_number}</td>
+                    <td className="p-4 text-center">{invoiceData['series']}</td>
+                    <td className="p-4 text-center">{invoiceData['quantity_delivered']}</td>
+                    <td className="p-4 text-center">{invoiceData['amount_paid']}</td>
+                    <td className="p-4 text-center">{invoiceData['balance']}</td>
+                    <td className="p-4 text-center">{invoiceData['discount']}</td>
                     
-                    <div className="position-relative re">
-
-                      <div className="vertical-letters position-absolute">
-                        <span>A</span>
-                        <span>p</span>
-                        <span>p</span>
-                        <span>r</span>
-                        <span>o</span>
-                        <span>v</span>
-                        <span>e</span>
-                        <span>d</span>
-                      </div>
-                    </div>
+                    
                   </tr>
                 )}
               </tbody>

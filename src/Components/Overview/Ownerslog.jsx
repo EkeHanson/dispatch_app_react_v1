@@ -6,10 +6,12 @@ import Managmentlog from "../Managementlog/Managmentlog";
 import axios from "axios";
 import { jwtDecode } from 'jwt-decode';
 import { Link } from 'react-router-dom';
+import OwnerpageTable from "../Tables/OwnerpageTable";
 
 const Ownerslog = () => {
   const [userType, setUserType] = useState("");
   const [user_id, setUser_id] = useState();
+  const [invoiceData, setInvoiceData] = useState([]);
   const [orderData, setOrderData] = useState([]);
   const [establishmentData, setEstablishmentData] = useState([]);
   const [selectedOption, setSelectedOption] = useState("");
@@ -27,6 +29,7 @@ const Ownerslog = () => {
         setUser_id(decodedToken.user_id);
 
         const orderResponse = await axios.get(`${apiHostname}/order/`);
+        const invoiceResponse = await axios.get(`${apiHostname}/invoice/`);
         const establishmentResponse = await axios.get(`${apiHostname}/establishment/`);
         const response2 = await axios.get(`${apiHostname}/register/owners/${decodedToken.user_id}`);
         
@@ -48,6 +51,7 @@ const Ownerslog = () => {
             (item) => item.created.substring(0, 10) === yesterdayDate
           );
 
+          setInvoiceData(invoiceResponse.data);
           setOrderData(orderResponse.data);
           setEstablishmentData(establishmentResponse.data);
           setNumberOfItemsYesterday(ordersCreatedYesterday.length);
@@ -69,8 +73,8 @@ const Ownerslog = () => {
     if (orderData.length === 0) {
       return 0;
     }
-    const totalAmountPaid = orderData.reduce((accumulator, currentValue) => {
-      return accumulator + parseFloat(currentValue.balance);
+    const totalAmountPaid = invoiceData.reduce((accumulator, currentValue) => {
+      return accumulator + parseFloat(currentValue.amount_paid);
     }, 0);
     return totalAmountPaid;
   };
@@ -90,7 +94,7 @@ const Ownerslog = () => {
       return 0;
     }
     const totalQuantityDelivered = orderData.reduce((accumulator, currentValue) => {
-      return accumulator + parseFloat(currentValue.quantity_delivered);
+      return accumulator + parseFloat(currentValue.quantity_sold);
     }, 0);
     return totalQuantityDelivered;
   };
@@ -106,7 +110,18 @@ const Ownerslog = () => {
     return totalEarnings;
   };
 
-  const totalDebt = calculateTotalReservedQuantity() - calculateTotalAmountPaid();
+  const calculateTotalDebts = () => {
+    if (invoiceData.length === 0) {
+      return 0;
+    }
+
+    const totalDebts = invoiceData.reduce((accumulator, currentValue) => {
+      return accumulator + parseFloat(currentValue.balance);
+    }, 0);
+    return totalDebts;
+  };
+
+  // const totalDebt = calculateTotalReservedQuantity() - calculateTotalAmountPaid();
 
   const getSelectedEstablishment = () => {
     if (selectedOption === "All establishment") {
@@ -178,7 +193,7 @@ const Ownerslog = () => {
               <div className="col-lg-3 col-md-6 col-sm-6">
                 <div className="card plates rounded-4 w-100 py-3">
                   <h6 className="text-light">Total debts</h6>
-                  <h1 className="text-light own">&euro;{totalDebt}</h1>
+                  <h1 className="text-light own">&euro;{calculateTotalDebts()}</h1>
                 </div>
               </div>
               <div className="col-lg-3 col-md-6 col-sm-6">
@@ -194,7 +209,9 @@ const Ownerslog = () => {
                 </div>
               </div>
             </div>
-            <div className="container-fluid footer py-4 bg-light text-center mt-5 mb-0">
+
+            <OwnerpageTable />
+      <div className="container-fluid footer py-4 bg-light text-center mt-5 mb-0">
         <div className="row justify-content-center ">
           <div className="col-lg-4 col-md-12 col-sm-6">
             <p className="mb-0">
@@ -211,7 +228,8 @@ const Ownerslog = () => {
           </div>
         </div>
       </div>
-        </div>
+      
+    </div>
       );
     } else {
       const selectedEstablishment = establishmentData.find(

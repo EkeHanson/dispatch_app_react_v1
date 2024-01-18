@@ -121,7 +121,7 @@ function ResponsiveExample({ selectedOrderId }) {
       if (!response.ok) {
         throw new Error("Failed to save data to the backend");
       } else {
-        console.log("Data saved successfully:", data);
+        alert("Data saved successfully:", data);
         window.location.reload();
       }
     } catch (error) {

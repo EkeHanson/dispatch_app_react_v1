@@ -126,6 +126,7 @@ const Ownerslog = () => {
   const getSelectedEstablishment = () => {
     if (selectedOption === "All establishment") {
       return (
+        <div>
         <div className="row gy-4 justify-content-center">
           {/* Display details for all establishments */}
           <div className="row mt-5">
@@ -209,7 +210,7 @@ const Ownerslog = () => {
                 </div>
               </div>
             </div>
-
+            </div>
             <OwnerpageTable />
       <div className="container-fluid footer py-4 bg-light text-center mt-5 mb-0">
         <div className="row justify-content-center ">

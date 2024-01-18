@@ -1,10 +1,7 @@
 // MyModalComponent.js
-
 import React, { useState } from 'react';
-import { Modal, Button} from 'react-bootstrap';
-import './Successmodal.css'
-import { Link } from 'react-router-dom';
-
+import { Modal, Button } from 'react-bootstrap';
+import './Successmodal.css';
 
 function Successmodal({ handleSubmit }) {
   const [showModal, setShowModal] = useState(false);
@@ -12,11 +9,15 @@ function Successmodal({ handleSubmit }) {
   const handleSaveClick = () => {
     handleSubmit();
     setShowModal(true);
-    
   };
 
   const handleCloseModal = () => {
     setShowModal(false);
+  };
+
+  const handleGoBackClick = () => {
+    // Go back to the previous page in the browser history
+    window.history.back();
   };
 
   return (
@@ -26,30 +27,23 @@ function Successmodal({ handleSubmit }) {
       </Button>
 
       <Modal show={showModal} onHide={handleCloseModal} dialogClassName="modal-transparent rounded-3">
-      {/* <Modal.Header closeButton>
-        
-        </Modal.Header> */}
         <Modal.Body dialogClassName="modal-body">
-        <div className="header text-center">
-                    <i class="bi bi-check-circle-fill icon"></i>
-                </div>
-                <div className='text-center pb-5 fw-bold text-dark'>
-                    <h1 className='fw-bold'>Weldone!!!</h1>
-                    <p className='fs-4'>
-                        Saved successfully
-                    </p>
-                    <div className='mt-5 mb-3'>
-                        <div>
-                        <Link to="/admin-page" className='rounded-pill py-3 px-5 text-decoration-none d-block w-100 btn-link mt-3 text-light'>Go Back</Link>
-                        </div>
-                    </div>
-                </div>
+          <div className="header text-center">
+            <i className="bi bi-check-circle-fill icon"></i>
+          </div>
+          <div className='text-center pb-5 fw-bold text-dark'>
+            <h1 className='fw-bold'>Well done!!!</h1>
+            <p className='fs-4'>
+              Saved successfully
+            </p>
+            <div className='mt-5 mb-3'>
+              <div>
+                {/* Use handleGoBackClick instead of Link */}
+                <button onClick={handleGoBackClick} className='rounded-pill py-3 px-5 text-decoration-none d-block w-100 btn-link mt-3 text-light'>Go Back</button>
+              </div>
+            </div>
+          </div>
         </Modal.Body>
-        {/* <Modal.Footer>
-          <Button variant="secondary" onClick={handleCloseModal}>
-            Close
-          </Button>
-        </Modal.Footer> */}
       </Modal>
     </>
   );

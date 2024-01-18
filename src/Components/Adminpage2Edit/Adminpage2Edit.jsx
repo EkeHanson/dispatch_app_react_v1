@@ -153,22 +153,17 @@ const handleOrderChange = (e) => {
       };
   
       // Send the establishment data update request
-      console.log("Before Updating Establishment!!")
       const establishmentResponse = await axios.put(`${apiHostname}/establishment/${establishmentId}/`, updatedFormDataE);
-      console.log("After Updating Establishment!!")
-      console.log(establishmentResponse.status)
+    
 
       if (establishmentResponse.status === 202) {
-        console.log("Establishment data sent successfully!!");
         toast.success("Establishment data sent successfully!!");
   
         // Send the order data update request
-        console.log("Before Updating Order!!")
         const orderResponse = await axios.put(`${apiHostname}/order/${formDataO.order_id}/`, updatedFormDataO);
-        console.log("After Updating Order!!")
+       
   
         if (orderResponse.status === 202) {
-          alert("Establishment Updated successfully!!");
           toast.success("Order data sent successfully!!");
           setShowModal(true);
         } else {

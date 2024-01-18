@@ -70,8 +70,7 @@ const Addorder = () => {
   
         console.log("About to create an Order");
         const responseO = await axios.post(`${apiHostname}/order/create/`, updatedFormDataO);
-        console.log("Response Object:", responseO);
-        console.log("Just passed creating an Order");
+        
   
         if (responseO.status === 201) {
           console.log("Order data sent successfully!!");
@@ -132,7 +131,7 @@ const Addorder = () => {
           </div>
           <div className="col-lg-6 col-md-6 col-sm-12 mb-5">
             <label htmlFor="name" className="fs-5 mb-2">
-              Reserve Quantity
+              Reserved Quantity
             </label>
             <input
               type="Number"

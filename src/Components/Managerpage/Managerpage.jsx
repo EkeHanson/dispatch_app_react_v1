@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Link , useLocation} from 'react-router-dom';
 import "./Managerpage.css";
-import Responsivetable from "../Tables/Responsivetable";
+import ManagerpageTable from '../Tables/ManagerpageTable';
 
 const Managerpage = () => {
 
@@ -16,7 +16,6 @@ const Managerpage = () => {
 
         if (response.status === 200) {
           setResponseData(response.data);
-          console.log(response.data);
         } else {
           console.error('Failed to fetch data');
         }
@@ -65,7 +64,7 @@ const Managerpage = () => {
             <div className="fs-5 icon col-lg-6 col-md-6 col-sm-12">
               <Link to={`/add-order?establishmentId=${establishmentId}`} className="icon text-decoration-none">
                 {" "}
-                <i class="bi bi-plus-lg"></i>Add new order  
+                <i class="bi bi-plus-lg"></i>Add new order 
               </Link>
             </div>
             <div className="fs-5 col-lg-6 col-md-6 col-sm-12 text-end">
@@ -80,7 +79,7 @@ const Managerpage = () => {
               
  
             </table>  */}
-            <Responsivetable establishmentId = {Number(establishmentId)}/>
+            <ManagerpageTable establishmentId = {Number(establishmentId)}/>
           </div>
         </div>
         <div className="container-fluid footer py-4 bg-light text-center mt-5 mb-0">

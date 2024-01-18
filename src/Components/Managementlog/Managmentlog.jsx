@@ -6,6 +6,7 @@ const Managmentlog = ({ selectedEstablishmentId, selectedEstablishmentName }) =>
   const apiHostname = process.env.REACT_APP_API_HOSTNAME;
 
   const [orderData, setOrderData] = useState([]);
+  // eslint-disable-next-line
   const [establishmentData, setEstablishmentData] = useState([]);
   const [invoiceData, setInvoiceData] = useState([]);
 
@@ -38,10 +39,7 @@ const Managmentlog = ({ selectedEstablishmentId, selectedEstablishmentName }) =>
     fetchData();
   }, [apiHostname, selectedEstablishmentId]);
 
-  console.log("establishmentData")
-  console.log(establishmentData)
-  console.log("Order Data")
-  console.log(orderData)
+ 
 
   return (
     <div className="container-fluid">
@@ -102,6 +100,7 @@ const Managmentlog = ({ selectedEstablishmentId, selectedEstablishmentName }) =>
                 </tr>
               </thead>
               <tbody className="text-center position-relative">
+                
               {Array.isArray(invoiceData) ? (invoiceData.map((item, index) => (
               
                 <tr key={index}>
@@ -112,20 +111,14 @@ const Managmentlog = ({ selectedEstablishmentId, selectedEstablishmentName }) =>
                   <td className="p-4 text-center">${item.amount_paid}</td>
                   <td className="p-4 text-center">${item.balance}</td>
                   <td className="p-4 text-center">${item.discount}</td>
-                   
-                   <div className="position-relative re">
-
-                    <div className="vertical-letters position-absolute">
-                      <span>A</span>
-                      <span>p</span>
-                      <span>p</span>
-                      <span>r</span>
-                      <span>o</span>
-                      <span>v</span>
-                      <span>e</span>
-                      <span>d</span>
-                    </div>
-                  </div>
+                   <td className="vertical-letters" >
+                        <span>A</span>
+                        <span>p</span>
+                        <span>p</span>
+                        <span>r</span>
+                        <span>v</span>
+                        <span>d</span>
+                  </td>
                 </tr>
                ))
                ) : (

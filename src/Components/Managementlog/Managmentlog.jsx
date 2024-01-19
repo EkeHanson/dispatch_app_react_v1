@@ -106,7 +106,10 @@ const Managmentlog = ({ selectedEstablishmentId, selectedEstablishmentName }) =>
               
                 <tr key={index}>
                   <td  className="p-4 text-left">{(new Date(item.created)).getDate()}-{(new Date(item.created)).getMonth() + 1}-{(new Date(item.created)).getFullYear()}</td>
-                  <td className="p-4 text-center">{orderData[0].order_number}</td>
+                  <td className="p-4 text-center">{orderData.length > 0 && orderData[0].order_number !== undefined
+                      ? orderData[0].order_number
+                      : ''}
+                  </td>
                   <td className="p-4 text-center">{item.series}</td>
                   <td className="p-4 text-center">{item.quantity_delivered}</td>
                   <td className="p-4 text-center">${item.amount_paid}</td>
@@ -117,7 +120,9 @@ const Managmentlog = ({ selectedEstablishmentId, selectedEstablishmentName }) =>
                         <span>p</span>
                         <span>p</span>
                         <span>r</span>
+                        <span>0</span>
                         <span>v</span>
+                        <span>e</span>
                         <span>d</span>
                   </td>
                 </tr>

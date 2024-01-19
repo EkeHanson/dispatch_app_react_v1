@@ -69,7 +69,7 @@ const Lottery = () => {
             </div>
 
             {/* riders details */}
-            <div className="row justify-content-center">
+            <div className="row justify-content-center align-items-center">
               <div className="">
                 <div className="header mt-5">
                   <p className="fs-3 fw-bold mt-4">Riders Details</p>

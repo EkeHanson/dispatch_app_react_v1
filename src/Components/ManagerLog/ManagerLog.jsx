@@ -93,7 +93,8 @@ const ManagerLog = () => {
             <h3 className="fw-bold fs-1 my-5">Order details</h3>
           </div>
           <div className=" w-100">
-            <table className="table-1 table-bordered table-responsive align-middle w-100">
+            <div className="table-responsive">
+            <table className="table-1 table-bordered align-middle w-100">
               <thead>
                 <tr>
                   <th scope="col" className="p-4">
@@ -140,16 +141,13 @@ const ManagerLog = () => {
                    
                    <div className="position-relative re">
 
-                    <div className="vertical-letters position-absolute">
+                    <td className="vertical-letters position-absolute">
                       <span>A</span>
                       <span>p</span>
                       <span>p</span>
-                      <span>r</span>
-                      <span>o</span>
-                      <span>v</span>
-                      <span>e</span>
-                      <span>d</span>
-                    </div>
+                      
+                      
+                    </td>
                   </div>
                 </tr>
                ))
@@ -172,17 +170,14 @@ const ManagerLog = () => {
                         <span>A</span>
                         <span>p</span>
                         <span>p</span>
-                        <span>r</span>
-                        <span>o</span>
                         <span>v</span>
-                        <span>e</span>
-                        <span>d</span>
                       </div>
                     </div>
                   </tr>
                 )}
               </tbody>
             </table>
+            </div>
           </div>
         </div>
       </div>

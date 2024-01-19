@@ -67,6 +67,7 @@ const Managmentlog = ({ selectedEstablishmentId, selectedEstablishmentName }) =>
             <h3 className="fw-bold fs-1 my-5">Order details</h3>
           </div>
           <div className=" w-100">
+            <div className="table-responsive">
             <table className="table-1 table-bordered table-responsive align-middle w-100">
               <thead>
                 <tr>
@@ -138,6 +139,7 @@ const Managmentlog = ({ selectedEstablishmentId, selectedEstablishmentName }) =>
                 )}
               </tbody>
             </table>
+            </div>
           </div>
         </div>
       </div>

@@ -88,7 +88,7 @@ const Ridercompo = ({ onpageSwitch }) => {
                   phone={item.phone}
                 />
               </div>
-              <div className="position-absolute top-50 end-0 translate-middle mt-5 text-light">
+              <div className="position-absolute top-50 start-50 translate-middle ms-sm-4 ms-lg-5 mt-3 text-light">
                 {item.first_name} {item.last_name}
               </div>
             </div>

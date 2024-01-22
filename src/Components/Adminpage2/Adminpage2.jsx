@@ -160,8 +160,8 @@ const Adminpage2 = () => {
         <div className="col-lg-12 col-md-12 col-sm-12">
        
           <div>
-            <div className="row mt-5 pt-3">
-              <div className="col-lg-6 col-md-12 col-sm-12">
+            <div className="row my-5 pt-3 align-items-center">
+              <div className="col-lg-12 col-md-12 col-sm-12">
                 <label htmlFor="contactPerson" className="mb-3">
                 Establecimiento
                 </label>
@@ -170,7 +170,7 @@ const Adminpage2 = () => {
                   name="name"
                   value={formDataE.name || ''}
                   onChange={handleChange}
-                  className="form-control rounded-pill w-100 border-1 py-3 px-3"
+                  className="form-control rounded-pill w-100 border-1 py-3 px-3 mb-4"
                 />
               </div>
               <div className="col-lg-6 col-md-12 col-sm-12">
@@ -194,7 +194,7 @@ const Adminpage2 = () => {
                     name="phone_number"
                     value={formDataE.phone_number || ''}
                     onChange={handleChange}
-                    className="form-control rounded-pill w-100 border-1 py-3 px-3"
+                    className="form-control rounded-pill w-100 border-1 py-3 px-3 "
                   />
               </div>
             </div>

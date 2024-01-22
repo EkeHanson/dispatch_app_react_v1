@@ -206,8 +206,8 @@ const handleOrderChange = (e) => {
         <div className="col-lg-12 col-md-12 col-sm-12">
        
           <div>
-            <div className="row mt-5 pt-3">
-              <div className="col-lg-6 col-md-12 col-sm-12">
+            <div className="row mt-5 pt-3 justify-content-center align-items-center">
+              <div className="col-lg-12 col-md-12 col-sm-12 mb-4">
                 <label htmlFor="contactPerson" className="mb-3">
                 Establecimiento 
                 </label>
@@ -220,7 +220,7 @@ const handleOrderChange = (e) => {
                 />
               </div>
               <div className="col-lg-6 col-md-12 col-sm-12">
-                <label htmlFor="contactPerson" className="mb-3">
+                <label htmlFor="contactPerson" className="my-2">
                   Persona de contacto
                 </label>
                 <input
@@ -228,7 +228,7 @@ const handleOrderChange = (e) => {
                   name="contact_person"
                   value={formDataE.contact_person || ''}
                   onChange={handleChange}
-                  className="form-control rounded-pill w-100 border-1 py-3 px-3"
+                  className="form-control rounded-pill w-100 border-1 py-3 px-3 my-3"
                 />
               </div>
               <div className="col-lg-6 col-md-12 col-sm-12">
@@ -279,10 +279,10 @@ const handleOrderChange = (e) => {
                 
               </div>
               <div>
-                <div className="row mt-5 pt-3">
+                <div className="row  pt-3 justify-content-center align-items-center">
                   <div className="col-lg-6 col-md-12 col-sm-12">
                     <label htmlFor="riderPhone" className="mb-3">
-                    Telefono
+                      Telefono
                     </label>
                     <input
                       type="tel"
@@ -317,7 +317,7 @@ const handleOrderChange = (e) => {
               <p className="fs-3 fw-bold my-5">Order details</p>
             </div>
             <div className="row justify-content-center">
-            <div className="col-lg-6 col-md-6 col-sm-12 mb-5">
+            <div className="col-lg-6 col-md-12 col-sm-12 mb-5">
               <label htmlFor="orderNumber" className="fs-5 mb-2">
                 Numero
               </label>

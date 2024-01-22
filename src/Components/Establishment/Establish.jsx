@@ -85,21 +85,22 @@ const Establish = () => {
         value={searchTerm}
         onChange={(e) => setSearchTerm(e.target.value)}
       />
-      <div className="row mt-5 gy-4">
+      <div className="row mt-5 gy-4 justify-content-center align-items-center">
         <div className="rounded-5 overlay">
           {filteredData.map((item, index) => (
             <div key={index} className="container position-relative">
               <Link to={`/admin-page?establishmentId=${item.id}`}>
                 <img className="w-100" src={img4} alt="" />
               </Link>
-              <div className="text-light fs-4 my-3">
+              <div className="text-light fs-4 my-3 mx-auto">
                 <Example
                   establishmentId={item.id}
                   managerName={item.name}
                   managerPhone={item.phone_number}
+                 
                 />
               </div>
-              <div className="position-absolute top-50 end-0 translate-middle mt-5 text-light">
+              <div className="position-absolute top-50 start-50 translate-middle ms-sm-4 text-end mt-3 text-light">
                 {item.name}
               </div>
               <div className="middle"></div>

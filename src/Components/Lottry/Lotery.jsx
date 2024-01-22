@@ -224,9 +224,9 @@ const Lotery = () => {
                 <div className="header mt-5">
                   <p className="fs-3 fw-bold est">Order details</p>
                 </div>
-                <div className="row justify-content-center">
+                <div className="row justify-content-center align-items-center">
                 <div className="col-lg-6 col-md-6 col-sm-12 mb-5">
-                <select onChange={handleOrderSelect} className="form-select rounded-pill w-100 border-1 py-3 px-3">
+                <select onChange={handleOrderSelect} className="form-select rounded-pill mt-3 w-100 border-1 py-3 px-3">
                   <option value="">Select Order</option>
                   {ordersData.map((order, index) => (
                     <option key={index} value={order.order_number}>
@@ -245,7 +245,7 @@ const Lotery = () => {
                       value={formData.reserved_quantity}
                       onChange={handleChange}
                       readOnly={true}
-                      className="rounded-pill w-100 border-1 py-3 px-3 form-control"
+                      className="rounded-pill w-100 border-1 py-3 px-3 mb-4 form-control"
                     />
                   </div>
                   <div className="col-lg-6 col-md-6 col-sm-12 mb-5">

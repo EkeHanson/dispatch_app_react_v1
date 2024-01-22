@@ -67,7 +67,7 @@ const Managerpage = () => {
                 <i class="bi bi-plus-lg"></i>Agregar nuevo pedido 
               </Link>
             </div>
-            <div className="fs-5 col-lg-6 col-md-6 col-sm-12 text-end">
+            <div className="fs-5 col-lg-6 col-md-6 col-sm-12 text-start text-lg-end">
               <Link  to={`/edit-company-detail?establishmentId=${establishmentId}`} className="icon text-decoration-none ">
                 <i class="bi bi-plus-lg fw-bolder fs-4"></i>Editar detalles de la empresa
               </Link>

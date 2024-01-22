@@ -67,12 +67,12 @@ const Adminslogin = () => {
                 <div className="card shadow rounded-4 px-5 pt-5 pb-0">
                   <form onSubmit={handleSubmit}>
                     <div className="header text-center">
-                      <h2 className="fw-bold text-dark py-2 head">Admin Login</h2>
+                      <h2 className="fw-bold text-dark py-2 head">Inicio de sesión de administrador</h2>
                     </div>
                     <div className="inputs">
                       <div className="form-group mb-3">
                         <label htmlFor="email" className="text-start">
-                          Email address
+                        Dirección de correo electrónico
                         </label>
                         <input
                           type="email"
@@ -83,7 +83,7 @@ const Adminslogin = () => {
                         />
                       </div>
                       <div className="form-group mb-3">
-                        <label htmlFor="password">Password</label>
+                        <label htmlFor="password">Contraseña</label>
                         <input
                           name="password"
                           value={formData.password}
@@ -103,12 +103,12 @@ const Adminslogin = () => {
                       </div>
                       <div className="text-center mt-5">
                         <p>
-                          Not an admin?{" "}
+                          No administración?{" "}
                           <Link
                             to="/Admin-login"
                             onClick={() => handleFormSwitch("ownerLogin")}
                           >
-                            Login as owner
+                            Login as propietario
                           </Link>
                         </p>
                       </div>

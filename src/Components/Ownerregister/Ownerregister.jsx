@@ -125,11 +125,11 @@ const Ownerregister = ({ onFormSwitch }) => {
           <div className="card rounded-5 w-100 p-5 mx-auto shadow">
             <form onSubmit={handleSubmit}>
               <div>
-                <h2 className="text-center text-color">Owner Register</h2>
+                <h2 className="text-center text-color">propietario Registro</h2>
               </div>
 
               <div className="my-4">
-                <label className="my-2">First Name:</label>
+                <label className="my-2">nombre de pila:</label>
                 <br />
                 <input
                   className="rounded-pill w-100 py-2 px-2 border-0"
@@ -142,7 +142,7 @@ const Ownerregister = ({ onFormSwitch }) => {
               </div>
 
               <div className="my-4">
-                <label className="my-2">Last Name:</label>
+                <label className="my-2">Apellido:</label>
                 <br />
                 <input
                   className="rounded-pill w-100 py-2 px-2 border-0"
@@ -155,7 +155,7 @@ const Ownerregister = ({ onFormSwitch }) => {
               </div>
 
               <div className="my-4">
-                <label className="my-2"> Username: </label>
+                <label className="my-2"> Nombre de usuario: </label>
                 <br></br>
                 <input
                   className="rounded-pill w-100 py-2 px-2 border-0"
@@ -168,13 +168,13 @@ const Ownerregister = ({ onFormSwitch }) => {
               </div>
 
               <div className="my-4">
-                <label className="my-2">Email Address: </label>
+                <label className="my-2">Dirección de correo electrónico: </label>
                 <br></br>
                 <input
                   className="rounded-pill w-100 py-2 px-2 border-0"
                   type="email"
                   name="email"
-                  placeholder="Email must be Unique!"
+                  placeholder="¡El correo electrónico debe ser único"
                   value={formData.email}
                   onChange={handleChange}
                 />
@@ -182,13 +182,13 @@ const Ownerregister = ({ onFormSwitch }) => {
               </div>
 
               <div className="my-4">
-                <label className="my-2">Password:</label>
+                <label className="my-2">Contraseña:</label>
                 <br />
                 <input
                   className="rounded-pill w-100 py-2 px-2 border-0"
                   type="password"
                   name="password"
-                  placeholder="Password should be atleast 8 characters"
+                  placeholder="La contraseña debe tener al menos 8 caracteres."
                   value={formData.password}
                   onChange={handleChange}
                 />
@@ -201,18 +201,18 @@ const Ownerregister = ({ onFormSwitch }) => {
                   className="w-75 rounded-pill py-2 text-light butn-bg text-bold border-0"
                   disabled={loading}
                 >
-                  {loading ? "Registering..." : "Register"}
+                  {loading ? "Registrarse..." : "Registro"}
                 </button>
               </div>
 
               <div className="text-center">
                 <p>
-                  Not owner?{" "}
+                  No propietario?{" "}
                   <Link
                     className="text-decoration-none"
                     onClick={onFormSwitch}
                   >
-                    register as admin
+                    registro  administración
                   </Link>
                 </p>
               </div>

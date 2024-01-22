@@ -62,13 +62,13 @@ const Ownerslogin = ({ onFormSwitch }) => {
           <div className="pt-5">
             <div className="card shadow rounded-4 px-5 pt-5 pb-0">
               <div className="header text-center">
-                <h2 className="fw-bold text-dark py-2 head">Owner Login</h2>
+                <h2 className="fw-bold text-dark py-2 head">propietario acceso</h2>
               </div>
               <form onSubmit={handleSubmit}>
                 <div className="inputs">
                   <div className="form-group mb-3">
                     <label htmlFor="email" className="text-start">
-                      Email address
+                    Dirección de correo electrónico
                     </label>
                     <input
                       type="email"
@@ -79,7 +79,7 @@ const Ownerslogin = ({ onFormSwitch }) => {
                     />
                   </div>
                   <div className="form-group mb-3">
-                    <label htmlFor="password">Password</label>
+                    <label htmlFor="password">Contraseña</label>
                     <input
                       name="password"
                       value={formData.password}
@@ -94,14 +94,14 @@ const Ownerslogin = ({ onFormSwitch }) => {
                       className="btn btn-primary w-75 rounded-pill py-2"
                       disabled={loading}
                     >
-                      {loading ? "Login in..." : "Login"}
+                      {loading ? "Inicio de sesión..." : "acceso"}
                     </button>
                   </div>
                   <div className="text-center mt-5">
                     <p>
-                      Not an owner?{" "}
+                    No propietario?{" "}
                       <Link to="/Admin-login" onClick={() => onFormSwitch("adminLogin")}>
-                        Login as admin
+                      acceso  Administrador
                       </Link>
                     </p>
                   </div>

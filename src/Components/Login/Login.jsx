@@ -17,7 +17,7 @@ const Login = () => {
                 type="submit"
                 className="reg-btn w-100 text-center text-light text-decoration-none border-0 py-3 fw-bold rounded-pill"
               >
-                Register
+                Registro
               </Link>
             </div>
             <hr className="w-75 mx-auto" />
@@ -26,7 +26,7 @@ const Login = () => {
                 type="submit"
                 className="log-btn w-100 border-0 py-3 text-center text-decoration-none fw-bold rounded-pill"
               >
-                Login
+                acceso
               </Link>
             </div>
           </div>

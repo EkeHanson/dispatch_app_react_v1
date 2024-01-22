@@ -41,11 +41,7 @@ const ManagerLog = () => {
 
             const filteredArray = InvoiceResponse.data.filter(item => newArray.includes(item.order));
             
-            console.log("newArray");
-            console.log(newArray);
-
-            console.log("InvoiceResponseData: ");
-            console.log(InvoiceResponse.data);
+            
 
             console.log("filteredArray");
             setResponseData0(filteredArray);
@@ -90,7 +86,7 @@ const ManagerLog = () => {
       <div className="row">
         <div className="">
           <div className="my-3 text-center">
-            <h3 className="fw-bold fs-1 my-5">Order details</h3>
+            <h3 className="fw-bold fs-1 my-5">Orden detalles</h3>
           </div>
           <div className=" w-100">
             <div className="table-responsive">
@@ -104,19 +100,19 @@ const ManagerLog = () => {
                     Number
                   </th> */}
                   <th scope="col" className="p-4">
-                    Series
+                    Serie
                   </th>
                   <th scope="col" className="p-4">
-                    Quantity delivered
+                  Cantidad entregad
                   </th>
                   <th scope="col" className="p-4">
-                    Amount paid
+                  Cantidad pagada
                   </th>
                   <th scope="col" className="p-4">
                     Balance
                   </th>
                   <th scope="col" className="p-4">
-                    Discount
+                  Descuento
                   </th>
 
                   {/* <th scope="col" className="p-4"> */}

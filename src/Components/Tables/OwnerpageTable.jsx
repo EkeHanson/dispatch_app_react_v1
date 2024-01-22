@@ -115,12 +115,12 @@ const OwnerpageTable = () => {
         <thead>
           <tr className="text-center">
             <th>Cliente</th>
-            <th>Last Delivery Date</th>
-            <th>Total Delivered</th>
-            <th>Amount of Last Delivery</th>
-            <th>Amount Paid</th>
-            <th>Balance</th>
-            <th>Undelivered</th>
+            <th>Última fecha de entrega</th>
+            <th>Total entregado</th>
+            <th>Cantidad de la última entrega</th>
+            <th>Cantidad pagada</th>
+            <th>diferencial</th>
+            <th>No entregado</th>
           </tr>
         </thead>
         <tbody>

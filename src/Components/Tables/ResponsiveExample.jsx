@@ -8,7 +8,7 @@ function ResponsiveExample({ selectedOrderId }) {
   const apiHostname = process.env.REACT_APP_API_HOSTNAME;
 
   const columnTypes = [
-    "Fecha",
+    "Date",
     "Serie",
     "Cantidad entregada",
     "Cantidad pagada",

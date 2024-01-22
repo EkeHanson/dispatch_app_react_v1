@@ -57,7 +57,7 @@ const Managerpage = () => {
             <input
               type="search"
               className="form-control rounded-pill py-4"
-              placeholder="Search orders...."
+              placeholder="Buscar ordenes...."
             />
           </div>
           <div className="row justify-content-between mb-3 gy-3 w-75">

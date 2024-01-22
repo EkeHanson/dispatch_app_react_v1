@@ -85,13 +85,13 @@ useEffect(() => {
       <table className="table text-center">
         <thead>
           <tr className="text-center">
-            <th>Date</th>
-            <th>Series</th>
-            <th>Quantity Delivered</th>
-            <th>Amount paid</th>
-            <th>Balance </th>
-            <th>Discount</th>
-            <th>Confirmation</th>
+            <th>Fecha</th>
+            <th>Serie</th>
+            <th>Cantidad entregada</th>
+            <th>Cantidad pagada</th>
+            <th>diferencial </th>
+            <th>Descuento</th>
+            <th>Confirmación</th>
           </tr>
         </thead>
         <tbody>

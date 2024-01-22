@@ -23,7 +23,7 @@ function Successmodal({ handleSubmit }) {
   return (
     <>
       <Button variant="primary" className='btn-link text-decoration-none text-light fw-bold rounded-pill w-50 py-3 mt-5 mb-5' onClick={handleSaveClick}>
-        Save
+      ahorrar
       </Button>
 
       <Modal show={showModal} onHide={handleCloseModal} dialogClassName="modal-transparent rounded-3">

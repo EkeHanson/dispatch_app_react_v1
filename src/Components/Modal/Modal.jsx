@@ -18,14 +18,13 @@ function Example({ establishmentId, managerName, managerPhone }) {
     const riderPageLink = `${apiHostname2}/log-manager?${queryParams}`;
     navigator.clipboard.writeText(riderPageLink)
       .then(() => {
-        setCopyFlashMessage({ text: 'Link Successfully Copied', color: 'blue' });
+        setCopyFlashMessage({ text: 'Enlace copiado exitosamente', color: 'blue' });
         setTimeout(() => {
           setCopyFlashMessage({ text: '', color: '' });
         }, 3000);
-        console.log('Link copied to clipboard:', riderPageLink);
       })
       .catch((error) => {
-        console.error('Failed to copy link:', error);
+        alert('Failed to copy link:', error);
       });
   };
 
@@ -38,17 +37,16 @@ function Example({ establishmentId, managerName, managerPhone }) {
       try {
         const response = await axios.delete(`${apiHostname}/establishment/${establishmentId}`);
         if (response.status === 204) {
-          setDeleteFlashMessage({ text: 'Establishment Deleted Successfully', color: 'red' });
+          setDeleteFlashMessage({ text: 'Establecimiento eliminado exitosamente', color: 'red' });
           setTimeout(() => {
             setDeleteFlashMessage({ text: '', color: '' });
           }, 5000); // Modify the duration (e.g., 5000 milliseconds = 5 seconds)
-          console.log('Establishment deleted successfully');
         } else {
-          console.error('Failed to delete establishment');
+          alert('Failed to delete establishment');
         }
         
       } catch (error) {
-        console.error('Error deleting establishment:', error);
+        alert('Error deleting establishment:', error);
       }
     }
   };

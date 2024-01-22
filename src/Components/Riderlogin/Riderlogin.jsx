@@ -91,7 +91,7 @@ const Riderlogin = () => {
               </div>
               <div className="row mt-5 pt-3">
                 <div className="col-lg-6 col-md-6 col-sm-12">
-                  <label htmlFor="phone">Phone Number</label>
+                  <label htmlFor="phone">Telefono</label>
                   <input
                     type="tel"
                     name="phone"
@@ -100,7 +100,7 @@ const Riderlogin = () => {
                   />
                 </div>
                 <div className="col-lg-6 col-md-6 col-sm-12">
-                  <label htmlFor="address">Address</label>
+                  <label htmlFor="address">Adresso</label>
                   <input
                     type="text"
                     name="address"
@@ -115,7 +115,8 @@ const Riderlogin = () => {
                   className="btn-link text-decoration-none text-light fw-bold py-3 rounded-pill w-50  mb-5"
                   
                 >
-                  Save
+                   
+                  Ahorrar
                 </button>
                 <Copyriderlink first_name= {formData.first_name} last_name= {formData.last_name} phone= {formData.phone} handleCloseModal={handleCloseModal} showModal={showModal} />
               </div>

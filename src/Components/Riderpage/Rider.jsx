@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from "react";
+// eslint-disable-next-line
+import { Link } from "react-router-dom";
 import "./Rider.css";
 import Establish from "../Establishment/Establish";
 import Ridercompo from "../Ridercomponent/Ridercompo";
@@ -36,7 +38,13 @@ const Rider = ({ onpageSwitch }) => {
             <h1 className="text-light text-center fw-bold">ADMIN DE LOTERIA</h1>
           </div>
         </div>
+        <div className="pt-3 ps-5">
+          <Link to="/" className="text-light text-decoration-none fs-5 ml-4">
+            <i className="bi bi-chevron-left"></i> Go Back
+          </Link>
+        </div>
       </div>
+    
       <div className="row justify-content-center align-item-center">
         <div className="row justify-content-center">
           <div className="card rounded-0 border-0">

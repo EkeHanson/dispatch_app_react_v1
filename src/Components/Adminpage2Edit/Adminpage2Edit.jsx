@@ -209,7 +209,7 @@ const handleOrderChange = (e) => {
             <div className="row mt-5 pt-3">
               <div className="col-lg-6 col-md-12 col-sm-12">
                 <label htmlFor="contactPerson" className="mb-3">
-                  Name of Establishment 
+                Establecimiento 
                 </label>
                 <input
                   type="text"
@@ -254,7 +254,7 @@ const handleOrderChange = (e) => {
               </div>
               <div className="mb-4 mt-5">
                 <label htmlFor="name" className="mb-3">
-                  Select Rider
+                Seleccionar pasajero
                 </label>
                   <select
                     className="form-select rounded-pill w-100 border-1 py-3 px-3 numero"
@@ -264,7 +264,7 @@ const handleOrderChange = (e) => {
                     onChange={handleChange}
                   >
                     <option value="" disabled>
-                      Select Rider
+                    Seleccionar pasajero
                     </option>
                     {riderData.map((rider, index) => (
                       <option
@@ -282,7 +282,7 @@ const handleOrderChange = (e) => {
                 <div className="row mt-5 pt-3">
                   <div className="col-lg-6 col-md-12 col-sm-12">
                     <label htmlFor="riderPhone" className="mb-3">
-                      Telephone
+                    Telefono
                     </label>
                     <input
                       type="tel"
@@ -295,7 +295,7 @@ const handleOrderChange = (e) => {
                   </div>
                   <div className="col-lg-6 col-md-6 col-sm-12">
                     <label htmlFor="riderAddress" className="mb-3">
-                      Address
+                    Direccion
                     </label>
                     <input
                       type="text"
@@ -327,7 +327,7 @@ const handleOrderChange = (e) => {
                 onChange={handleOrderChange}
                 className="form-select rounded-pill w-100 border-1 py-3 px-3"
               >
-                <option value="" >Select Order Number</option>
+                <option value="" >Seleccione el número de pedido</option>
                 {orderOptions.map((option) => (
                   <option key={option.order_number} value={option.order_number}>
                     {option.order_number}
@@ -338,7 +338,7 @@ const handleOrderChange = (e) => {
             
               <div className="col-lg-6 col-md-12 col-sm-12 mb-5">
                 <label htmlFor="name" className="fs-5 mb-2">
-                Quantity Reserved
+                Cantidad reservada
                 </label>
                 <input
                   type="number"
@@ -350,7 +350,7 @@ const handleOrderChange = (e) => {
               </div>
               <div className="col-lg-6 col-md-12 col-sm-12 mb-5">
                 <label htmlFor="name" className="fs-5 mb-2">
-                Amount Returned By Customer 
+                Cantidad devuelta por la cliente 
                 </label>
                 <input
                   type="number"
@@ -362,7 +362,7 @@ const handleOrderChange = (e) => {
               </div>
               <div className="col-lg-6 col-md-12 col-sm-12 mb-5">
                 <label htmlFor="name" className="fs-5 mb-2">
-                  Quantity Sold
+                Cantidad vendida
                 </label>
                 <input
                   type="text"
@@ -374,7 +374,7 @@ const handleOrderChange = (e) => {
               </div>
               <div className="col-lg-6 col-md-12 col-sm-12 mb-5">
                 <label htmlFor="name" className="fs-5 mb-2">
-                 Amount Charged
+                Cantidad cargada
                 </label>
                 <input
                   type="number"
@@ -386,7 +386,7 @@ const handleOrderChange = (e) => {
               </div>
               <div className="col-lg-6 col-md-12 col-sm-12 mb-5">
                 <label htmlFor="name" className="fs-5 mb-2">
-                 Gift or Dsicount
+                 Regalo
                 </label>
                 <input
                   type="number"
@@ -404,7 +404,7 @@ const handleOrderChange = (e) => {
                   onClick={handleSubmit}
                   className="btn-link text-decoration-none text-light fw-bold rounded-pill w-50 py-3 mt-5 mb-5"
                   type="submit">
-                  Save
+                  Ahorrar
                 </Button>
              </div>
             

@@ -17,14 +17,13 @@ function Examplem({ riderId, first_name, last_name, phone }) {
     const riderPageLink = `${apiHostname2}/Login?${queryParams}`;
     navigator.clipboard.writeText(riderPageLink)
       .then(() => {
-        setCopyFlashMessage({ text: 'Link Successfully Copied', color: 'blue' });
+        setCopyFlashMessage({ text: 'Enlace copiado correctamente', color: 'blue' });
         setTimeout(() => {
           setCopyFlashMessage({ text: '', color: '' });
         }, 3000);
-        console.log('Link copied to clipboard:', riderPageLink);
       })
       .catch((error) => {
-        console.error('Failed to copy link:', error);
+        alert('Failed to copy link:', error);
       });
   };
 
@@ -33,22 +32,20 @@ function Examplem({ riderId, first_name, last_name, phone }) {
   };
 
   const handleDeleteRider = async () => {
-    console.log("About to delete rider");
     if (riderId) {
       try {
         const response = await axios.delete(`${apiHostname}/rider/${riderId}`);
         if (response.status === 204) {
-          setDeleteFlashMessage({ text: 'Rider Deleted Successfully', color: 'red' });
+          setDeleteFlashMessage({ text: 'Repartidor eliminado correctamente.', color: 'red' });
           setTimeout(() => {
             setDeleteFlashMessage({ text: '', color: '' });
           }, 5000); // Modify the duration (e.g., 5000 milliseconds = 5 seconds)
-          console.log('Rider deleted successfully');
         } else {
-          console.error('Failed to delete rider');
+          alert('Failed to delete rider');
         }
         
       } catch (error) {
-        console.error('Error deleting rider:', error);
+        alert('Error deleting rider:', error);
       }
     }
   };

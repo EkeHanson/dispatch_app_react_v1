@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, Link } from "react-router-dom";
 import axios from "axios";
 import "./Addorder.css";
 import Successmodal from "../Successmodal/Successmodal";
@@ -90,11 +90,11 @@ const Addorder = () => {
     <div>
       <div className="container-fluid bg bg-light">
         <div className="">
-          <div className="pt-3 ps-5">
-            <a className="text-light text-decoration-none fs-5 ml-4" href="/">
-              <i className="bi bi-chevron-left"></i> Go Back
-            </a>
-          </div>
+        <div className="pt-3 ps-5">
+          <Link to="/rider-page" className="text-light text-decoration-none fs-5 ml-4">
+            <i className="bi bi-chevron-left"></i> Go Back
+          </Link>
+        </div>
           <div className="row justify-content-center align-items-center">
             <div className="col-lg-8 col-md-6 col-sm-12 p-5">
               <h1 className="text-light text-center fw-bold">
@@ -110,16 +110,16 @@ const Addorder = () => {
         </div>
       </div>
       <div className="text-center mt-5">
-        <h2 className="fw-bold fs-2 heading-1">Add new order</h2>
+        <h2 className="fw-bold fs-2 heading-1">Agregar nuevo pedido</h2>
       </div>
       <div className="container-fluid px-3">
         <div className="header mt-5">
-          <p className="fs-3 fw-bold">Order details</p>
+          <p className="fs-3 fw-bold">Detalles del pedido</p>
         </div>
         <div className="row justify-content-center">
           <div className="col-lg-6 col-md-6 col-sm-12 mb-5">
             <label htmlFor="name" className="fs-5 mb-2">
-              Number
+            Número
             </label>
             <input
               type="text"
@@ -131,7 +131,7 @@ const Addorder = () => {
           </div>
           <div className="col-lg-6 col-md-6 col-sm-12 mb-5">
             <label htmlFor="name" className="fs-5 mb-2">
-              Reserved Quantity
+            Cantidad reservada
             </label>
             <input
               type="Number"
@@ -143,7 +143,7 @@ const Addorder = () => {
           </div>
           <div className="col-lg-6 col-md-6 col-sm-12 mb-5">
             <label htmlFor="name" className="fs-5 mb-2">
-              Amount returned by customer
+              Importe devuelto por la cliente 
             </label>
             <input
               type="Number"
@@ -155,7 +155,7 @@ const Addorder = () => {
           </div>
           <div className="col-lg-6 col-md-6 col-sm-12 mb-5">
             <label htmlFor="name" className="fs-5 mb-2">
-              Quantity sold
+            Cantidad vendida
             </label>
             <input
               type="text"
@@ -167,7 +167,7 @@ const Addorder = () => {
           </div>
           <div className="col-lg-6 col-md-6 col-sm-12 mb-5">
             <label htmlFor="name" className="fs-5 mb-2">
-              Amount charger
+            Cantidad cargada
             </label>
             <input
               type="Number"
@@ -179,7 +179,7 @@ const Addorder = () => {
           </div>
           <div className="col-lg-6 col-md-6 col-sm-12 mb-5">
             <label htmlFor="name" className="fs-5 mb-2">
-              Gift/Discount
+            Regalo
             </label>
             <input
               type="Number"

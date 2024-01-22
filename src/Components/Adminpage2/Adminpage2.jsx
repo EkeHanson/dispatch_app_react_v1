@@ -143,7 +143,7 @@ const Adminpage2 = () => {
       <form onSubmit={handleSubmit}>
       <div className="container-fluid add">
         <div className="pt-3 ps-5">
-          <Link className="text-light text-decoration-none fs-5 ml-4" to="/">
+          <Link className="text-light text-decoration-none fs-5 ml-4" to="/rider-page">
             <i className="bi bi-chevron-left"></i> Go Back 
           </Link>
         </div>
@@ -163,7 +163,7 @@ const Adminpage2 = () => {
             <div className="row mt-5 pt-3">
               <div className="col-lg-6 col-md-12 col-sm-12">
                 <label htmlFor="contactPerson" className="mb-3">
-                  Name of Establishment
+                Establecimiento
                 </label>
                 <input
                   type="text"
@@ -204,11 +204,11 @@ const Adminpage2 = () => {
           <div className="row justify-content-center">
             <div className="">
               <div className="header mt-5">
-                <p className="fs-3 fw-bold mt-4">Riders Details</p>
+                <p className="fs-3 fw-bold mt-4">Información del conductor</p>
               </div>
               <div className="mb-4 mt-5">
                 <label htmlFor="name" className="mb-3">
-                  Select Rider
+                Seleccionar pasajero
                 </label>
                 <select
                   className="form-select rounded-pill w-100 border-1 py-3 px-3 numero"
@@ -218,7 +218,7 @@ const Adminpage2 = () => {
                   onChange={handleChange}
                 >
                   <option value="" disabled>
-                    Select Rider
+                  Seleccionar pasajero
                   </option>
                   {riderData.map((rider, index) => (
                   <option key={index} value={rider.id}>
@@ -231,7 +231,7 @@ const Adminpage2 = () => {
                 <div className="row mt-5 pt-3">
                   <div className="col-lg-6 col-md-12 col-sm-12">
                     <label htmlFor="riderPhone" className="mb-3">
-                      Telephone
+                    Telefono
                     </label>
                     <input
                       type="tel"
@@ -244,7 +244,7 @@ const Adminpage2 = () => {
                   </div>
                   <div className="col-lg-6 col-md-6 col-sm-12">
                     <label htmlFor="riderAddress" className="mb-3">
-                      Address
+                    Direccion
                     </label>
                     <input
                       type="text"
@@ -263,7 +263,7 @@ const Adminpage2 = () => {
           {/* Order */}
           <div className="container-fluid">
             <div className="header mt-5 pt-5">
-              <p className="fs-3 fw-bold my-5">Order details</p>
+              <p className="fs-3 fw-bold my-5">Detalles del pedido</p>
             </div>
             <div className="row justify-content-center">
               <div className="col-lg-6 col-md-6 col-sm-12 mb-5">
@@ -280,7 +280,7 @@ const Adminpage2 = () => {
               </div>
               <div className="col-lg-6 col-md-12 col-sm-12 mb-5">
                 <label htmlFor="name" className="fs-5 mb-2">
-                Quantity Reserved
+                Cantidad reservada
                 </label>
                 <input
                   type="number"
@@ -292,7 +292,7 @@ const Adminpage2 = () => {
               </div>
               <div className="col-lg-6 col-md-12 col-sm-12 mb-5">
                 <label htmlFor="name" className="fs-5 mb-2">
-                Amount Returned By Customer 
+                Cantidad devuelta por la cliente 
                 </label>
                 <input
                   type="number"
@@ -304,7 +304,7 @@ const Adminpage2 = () => {
               </div>
               <div className="col-lg-6 col-md-12 col-sm-12 mb-5">
                 <label htmlFor="name" className="fs-5 mb-2">
-                  Quantity Sold
+                Cantidad vendida
                 </label>
                 <input
                   type="number"
@@ -316,7 +316,7 @@ const Adminpage2 = () => {
               </div>
               <div className="col-lg-6 col-md-12 col-sm-12 mb-5">
                 <label htmlFor="name" className="fs-5 mb-2">
-                 Amount Charged
+                Cantidad cargada
                 </label>
                 <input
                   type="text"
@@ -328,7 +328,7 @@ const Adminpage2 = () => {
               </div>
               <div className="col-lg-6 col-md-12 col-sm-12 mb-5">
                 <label htmlFor="name" className="fs-5 mb-2">
-                 Gift and /`or Dsicount
+                 Regalo
                 </label>
                 <input
                   type="number"
@@ -345,7 +345,7 @@ const Adminpage2 = () => {
                   onClick={handleSubmit}
                   className="btn-link text-decoration-none text-light fw-bold rounded-pill w-50 py-3 mt-5 mb-5"
                   type="submit">
-                  Save
+                  Ahorrar
                 </Button>
              </div>
             

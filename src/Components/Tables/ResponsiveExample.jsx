@@ -8,13 +8,13 @@ function ResponsiveExample({ selectedOrderId }) {
   const apiHostname = process.env.REACT_APP_API_HOSTNAME;
 
   const columnTypes = [
-    "Date",
-    "Series",
-    "Quantity delivered",
-    "Amount paid",
-    "Balance",
-    "Discount",
-    "Confirmation",
+    "Fecha",
+    "Serie",
+    "Cantidad entregada",
+    "Cantidad pagada",
+    "diferencial",
+    "Descuento",
+    "Confirmación",
   ];
 
   const [cellValues, setCellValues] = useState([]);
@@ -251,7 +251,7 @@ function ResponsiveExample({ selectedOrderId }) {
           className="btn-link text-decoration-none border-0 text-light fw-bold rounded-pill w-50 py-3 mt-5 mb-5"
           onClick={handleSave}
         >
-          Save
+          Ahorrar
         </button>
       </div>
       <Modal show={showModal} onHide={handleCloseModal}>

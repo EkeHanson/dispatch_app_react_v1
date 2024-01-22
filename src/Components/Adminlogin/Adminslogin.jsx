@@ -30,8 +30,8 @@ const Adminslogin = () => {
       const response = await axios.post(`${apiHostname}/jwt_token/`, formData);
 
       if (response.status === 200) {
+        // eslint-disable-next-line
         const responseData = response.data;
-        console.log("Login successful:", responseData);
 
         const authToken = response.data.access;
         localStorage.setItem("authToken", authToken);

@@ -124,7 +124,7 @@ const Ownerslog = () => {
   // const totalDebt = calculateTotalReservedQuantity() - calculateTotalAmountPaid();
 
   const getSelectedEstablishment = () => {
-    if (selectedOption === "All establishment") {
+    if (selectedOption === "Todo el establecimiento") {
       return (
         <div>
         <div className="row gy-4 justify-content-center">
@@ -268,6 +268,8 @@ const Ownerslog = () => {
   return (
     <div className="container-fluid">
       {/* Rest of the JSX structure */}
+
+
       <div className="owner-bg p-5">
         <div className="row justify-content-center text-light">
           <div className="col-lg-7">
@@ -277,20 +279,30 @@ const Ownerslog = () => {
                 Dunena De Loteria
               </h1>
             </div>
+                        
           </div>
         </div>
+        <div className="pt-3 ps-5">
+          <Link to="/" className="text-light text-decoration-none fs-5 ml-4">
+            <i className="bi bi-chevron-left"></i> Go Back
+          </Link>
+        </div>
       </div>
+
+
+
+
       <div className="row justify-content-center mt-5 pt-5">
         <div className="col-lg-10 col-md-6 col-sm-12">
           <label htmlFor="establishment" className="fs-4 fw-normal mb-3">
-            Choose an establishment
+          seleccione un establecimiento
           </label>
           <select
             className="form-select rounded-pill py-3"
             aria-label="Default select example"
             onChange={(e) => setSelectedOption(e.target.value)}
           >
-            <option >All establishment</option>
+            <option >Todo el establecimiento</option>
             {establishmentData.map((item, index) => (
               <option key={index} value={`${item.name} - ${item.contact_person} - ${item.phone_number}`}>
                 {item.name} - {item.contact_person} - {item.phone_number}

@@ -43,15 +43,17 @@ const Managmentlog = ({ selectedEstablishmentId, selectedEstablishmentName }) =>
 
   return (
     <div className="container-fluid">
+
+      
       <div className="manager-log">
-        <div className="pt-3 ps-5">
+        {/* <div className="pt-3 ps-5">
           <a
             className="text-light text-decoration-none fs-5 ml-4 text-end"
             href="/"
           >
             <i className="bi bi-chevron-left text-danger"></i> Logout
           </a>
-        </div>
+        </div> */}
         <div className="row justify-content-center align-items-center">
           <div className="col-lg-8 col-md-6 col-sm-12 p-5">
             <p>Buenas noches,</p>
@@ -61,35 +63,38 @@ const Managmentlog = ({ selectedEstablishmentId, selectedEstablishmentName }) =>
           </div>
         </div>
       </div>
+
+      
       <div className="row">
         <div className="">
           <div className="my-3 text-center">
             <h3 className="fw-bold fs-1 my-5">Order details</h3>
           </div>
           <div className=" w-100">
+            <div className="table-responsive">
             <table className="table-1 table-bordered table-responsive align-middle w-100">
               <thead>
                 <tr>
                   <th scope="col" className="p-4">
-                    Date
+                  Fecha
                   </th>
                   <th scope="col" className="p-4">
-                    Number
+                  Número
                   </th>
                   <th scope="col" className="p-4">
-                    Series
+                    Serie
                   </th>
                   <th scope="col" className="p-4">
-                    Quantity delivered
+                  Cantidad entregada
                   </th>
                   <th scope="col" className="p-4">
-                    Amount paid
+                  Cantidad pagada
                   </th>
                   <th scope="col" className="p-4">
-                    Balance
+                  differential
                   </th>
                   <th scope="col" className="p-4">
-                    Discount
+                  Descuento
                   </th>
 
                   {/* <th scope="col" className="p-4"> */}
@@ -143,6 +148,7 @@ const Managmentlog = ({ selectedEstablishmentId, selectedEstablishmentName }) =>
                 )}
               </tbody>
             </table>
+            </div>
           </div>
         </div>
       </div>

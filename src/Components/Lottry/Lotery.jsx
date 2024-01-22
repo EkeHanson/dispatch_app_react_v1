@@ -109,7 +109,7 @@ const Lotery = () => {
         confirm: false, // Ensure any additional fields are set correctly
       });
     } else {
-      console.error('Selected order number not found');
+      alert('Selected order number not found');
     }
   };
   
@@ -141,12 +141,10 @@ const Lotery = () => {
     }));
   }
 } catch (error) {
-  console.error("Error handling select change:", error);
+  alert("Error handling select change:", error);
 }
 };
 
-
-  console.log(`The selected orderID: ${selectedOrderId}`)
 
   return (
     <div>
@@ -193,7 +191,7 @@ const Lotery = () => {
                 <div className="row mt-5 pt-3">
                   <div className="col-lg-6 col-md-12 col-sm-12">
                     <label htmlFor="name" className="mb-3">
-                      Contact Person
+                    Persona de contacto
                     </label>
                     <input
                       type="text"
@@ -239,7 +237,7 @@ const Lotery = () => {
               </div>
                   <div className="col-lg-6 col-md-6 col-sm-12 mb-5">
                     <label htmlFor="name" className="fs-5 mb-2">
-                      Reserve Quantity
+                    Cantidad de reserva
                     </label>
                     <input
                       type="text"
@@ -252,7 +250,7 @@ const Lotery = () => {
                   </div>
                   <div className="col-lg-6 col-md-6 col-sm-12 mb-5">
                     <label htmlFor="name" className="fs-5 mb-2">
-                      Amount returned by customer
+                    Importe devuelto por la cliente
                     </label>
                     <input placeholder="&#8364; "
                       type="text"
@@ -266,7 +264,7 @@ const Lotery = () => {
                   </div>
                   <div className="col-lg-6 col-md-12 col-sm-12 mb-5">
                     <label htmlFor="name" className="fs-5 mb-2">
-                      Quantity sold
+                    Cantidad vendida
                     </label>
                     <input
                       type="text"
@@ -279,7 +277,7 @@ const Lotery = () => {
                   </div>
                   <div className="col-lg-6 col-md-12 col-sm-12 mb-5">
                     <label htmlFor="name" className="fs-5 mb-2">
-                      Amount charged
+                    Cantidad cargada
                     </label>
                     <input placeholder="&#8364; "
                       type="text"
@@ -292,7 +290,7 @@ const Lotery = () => {
                   </div>
                   <div className="col-lg-6 col-md-12 col-sm-12 mb-5">
                     <label htmlFor="name" className="fs-5 mb-2">
-                      Gift/Discount
+                      Regalo
                     </label>
                     <input
                       type="text"
@@ -308,17 +306,17 @@ const Lotery = () => {
               </div>
               {/* Table */}
               <div className="my-3">
-                <h3 className="fw-bold">Invoice</h3>
+                <h3 className="fw-bold">Factura</h3>
               </div>
               <div className=" w-100">
                 
               <ResponsiveExample selectedOrderId={selectedOrderId} /> {/* Pass selected order ID as a prop */}
-                <div className="mt-3 fw-bold">
+                {/* <div className="mt-3 fw-bold">
                   <i class="bi bi-plus-lg est"></i>
                   <a href="/" className="est">
                     Add more
                   </a>
-                </div>
+                </div> */}
                 <div className="text-center mt-3">
                   
                   {/* <Successmodal2/> */}

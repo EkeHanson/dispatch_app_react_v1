@@ -40,7 +40,7 @@ const Managerpage = () => {
         <div className="manager-page">
           <div className="pt-3 ps-5">
             <Link className="text-light text-decoration-none fs-5 ml-4" to="/Rider-login">
-              <i className="bi bi-chevron-left"></i> Go Back
+              <i className="bi bi-chevron-left"></i> Go Back 
             </Link>
             {/* {console.log(establishmentId)} */}
           </div>
@@ -64,12 +64,12 @@ const Managerpage = () => {
             <div className="fs-5 icon col-lg-6 col-md-6 col-sm-12">
               <Link to={`/add-order?establishmentId=${establishmentId}`} className="icon text-decoration-none">
                 {" "}
-                <i class="bi bi-plus-lg"></i>Add new order 
+                <i class="bi bi-plus-lg"></i>Agregar nuevo pedido 
               </Link>
             </div>
             <div className="fs-5 col-lg-6 col-md-6 col-sm-12 text-end">
               <Link  to={`/edit-company-detail?establishmentId=${establishmentId}`} className="icon text-decoration-none ">
-                <i class="bi bi-plus-lg fw-bolder fs-4"></i>Edit Company details
+                <i class="bi bi-plus-lg fw-bolder fs-4"></i>Editar detalles de la empresa
               </Link>
             </div>
           </div>

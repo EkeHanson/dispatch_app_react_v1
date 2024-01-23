@@ -23,16 +23,16 @@ const Establish = () => {
       const decodedToken = jwtDecode(authToken);
 
       try {
-        const response = await axios.get(`${apiHostname}/establishment/`);
-        const response2 = await axios.get(
-          `${apiHostname}/register/admins/${decodedToken.user_id}`
-        );
+        const [response, response2] = await Promise.allSettled([
+          axios.get(`${apiHostname}/establishment/`),
+          axios.get(`${apiHostname}/register/admins/${decodedToken.user_id}`),
+        ]);
 
-        if (response.status === 200) {
-          setResponseData(response.data);
+        if (response.status === 'fulfilled' && response.value.status === 200) {
+          setResponseData(response.value.data);
 
-          if (response2.status === 200) {
-            setUserType(response2.data.user_type);
+          if (response2.status === 'fulfilled' && response2.value.status === 200) {
+            setUserType(response2.value.data.user_type);
           } else {
             setUserType(''); // Or any default value if needed
           }
@@ -41,7 +41,7 @@ const Establish = () => {
         }
       } catch (error) {
         console.error('Error fetching data:', error);
-      }finally{
+      } finally {
         setIsLoading(false);
       }
     };
@@ -67,10 +67,7 @@ const Establish = () => {
         <p>Access Denied.</p>
         <p>You do not have permission to view this page.</p>
         <div>
-          {/* Example: Redirect to a different route */}
-          <Link to="/">
-          Go to Login Page
-          </Link>
+          <Link to="/">Go to Login Page</Link>
         </div>
       </div>
     );
@@ -97,7 +94,6 @@ const Establish = () => {
                   establishmentId={item.id}
                   managerName={item.name}
                   managerPhone={item.phone_number}
-                 
                 />
               </div>
               <div className="position-absolute top-50 start-50 translate-middle ms-sm-4 text-end mt-3 text-light">

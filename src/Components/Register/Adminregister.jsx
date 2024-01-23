@@ -152,7 +152,7 @@ const Adminregister = ({ onFormSwitch }) => {
                   </div>
 
                   <div className="my-4">
-                    <label className="my-2">apellido:</label>
+                    <label className="my-2">Apellido:</label>
                     <br />
                     <input
                       className="rounded-pill w-100 py-2 px-2 border-0"
@@ -185,7 +185,7 @@ const Adminregister = ({ onFormSwitch }) => {
                       className="rounded-pill w-100 py-2 px-2 border-0"
                       type="email"
                       name="email"
-                      placeholder="Email should be Unique!"
+                      placeholder="El correo electrónico debe ser único."
                       value={formData.email}
                       onChange={handleChange}
                     />
@@ -199,7 +199,7 @@ const Adminregister = ({ onFormSwitch }) => {
                       className="rounded-pill w-100 py-2 px-2 border-0"
                       type="password"
                       name="password"
-                      placeholder="Password should be atleast 8 characters"
+                      placeholder="La contraseña debe tener al menos 8 caracteres"
                       value={formData.password}
                       onChange={handleChange}
                     />

@@ -98,7 +98,7 @@ const Adminslogin = () => {
                           className="btn btn-primary w-75 rounded-pill py-2"
                           disabled={loading}
                         >
-                          {loading ? "Login in..." : "Login"}
+                          {loading ? "Inicio de sesión..." : "acceso"}
                         </button>
                       </div>
                       <div className="text-center mt-5">
@@ -108,7 +108,7 @@ const Adminslogin = () => {
                             to="/Admin-login"
                             onClick={() => handleFormSwitch("ownerLogin")}
                           >
-                            Login as propietario
+                            Iniciar sesión as propietario
                           </Link>
                         </p>
                       </div>

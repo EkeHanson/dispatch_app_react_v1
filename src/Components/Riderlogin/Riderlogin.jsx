@@ -67,12 +67,12 @@ const Riderlogin = () => {
       <div className="container mx-auto">
         <div className="card rider-login rounded-5 w-100 p-5 mt-3">
           <div className="header mt-5">
-            <p className="fs-3 fw-bold">Riders Details</p>
+            <p className="fs-3 fw-bold">Detalles de los jinetes</p>
           </div>
           <form onSubmit={handleSubmit}>
             <div className="col-lg-12 col-md-6 col-sm-12">
               <div className="mb-4">
-                <label htmlFor="first_name">First Name</label>
+                <label htmlFor="first_name">Primer Nombre</label>
                 <input
                   type="text"
                   name="first_name"
@@ -81,7 +81,7 @@ const Riderlogin = () => {
                 />
               </div>
               <div className="mb-4">
-                <label htmlFor="last_name">Last Name</label>
+                <label htmlFor="last_name">Apellido</label>
                 <input
                   type="text"
                   name="last_name"

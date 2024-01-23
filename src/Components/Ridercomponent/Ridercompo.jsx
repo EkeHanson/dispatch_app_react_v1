@@ -13,26 +13,47 @@ const Ridercompo = ({ onpageSwitch }) => {
   const [userType, setUserType] = useState('');
   const [filteredData, setFilteredData] = useState([]);
 
-  useEffect(() => {
-      const fetchData = async () => {
-      const authToken = localStorage.getItem('authToken');
-      const decodedToken = jwtDecode(authToken);
-      try {
-        const response = await axios.get(`${apiHostname}/rider`);
-        const response2 = await axios.get(
-          `${apiHostname}/register/admins/${decodedToken.user_id}`);
+  const fetchData = async () => {
+    const authToken = localStorage.getItem('authToken');
+    const decodedToken = jwtDecode(authToken);
 
-        if (response.status === 200) {
-          setResponseData(response.data);
-          setUserType(response2.data.user_type);
+    try {
+      // Check if cached data is available
+      const cachedRiderData = localStorage.getItem('cachedRiderData');
+      const cachedAdminData = localStorage.getItem('cachedAdminData');
+
+      if (cachedRiderData && cachedAdminData) {
+        setResponseData(JSON.parse(cachedRiderData));
+        setUserType(JSON.parse(cachedAdminData).user_type);
+      } else {
+        const [riderResponse, adminResponse] = await Promise.all([
+          axios.get(`${apiHostname}/rider`),
+          axios.get(`${apiHostname}/register/admins/${decodedToken.user_id}`)
+        ]);
+
+        if (riderResponse.status === 200) {
+          setResponseData(riderResponse.data);
+          // Cache the rider data for future use
+          localStorage.setItem('cachedRiderData', JSON.stringify(riderResponse.data));
         } else {
-          console.error("Failed to fetch data");
+          console.error("Failed to fetch rider data");
         }
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      }
-    };
 
+        if (adminResponse.status === 200) {
+          setUserType(adminResponse.data.user_type);
+          // Cache the admin data for future use
+          localStorage.setItem('cachedAdminData', JSON.stringify(adminResponse.data));
+        } else {
+          console.error("Failed to fetch admin data");
+        }
+      }
+    } catch (error) {
+      console.error("Error fetching data:", error);
+      // Handle errors here, e.g., show a message to the user or retry
+    }
+  };
+
+  useEffect(() => {
     fetchData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -45,8 +66,6 @@ const Ridercompo = ({ onpageSwitch }) => {
     );
     setFilteredData(results);
   }, [searchTerm, responseData]);
-
-
 
   if (userType !== 'admin') {
     return (
@@ -65,7 +84,6 @@ const Ridercompo = ({ onpageSwitch }) => {
     );
   }
 
-
   return (
     <div>
       <input
@@ -78,7 +96,7 @@ const Ridercompo = ({ onpageSwitch }) => {
       <div className="row mt-5 gy-4">
         <div className="rounded-5 overlay">
           {filteredData.map((item, index) => (
-            <div key={index} class="container position-relative">
+            <div key={index} className="container position-relative">
               <img className="w-100 " src={img3} alt="" />
               <div className=" text-light fs-4 my-3">
                 <Examplem
@@ -93,7 +111,7 @@ const Ridercompo = ({ onpageSwitch }) => {
               </div>
             </div>
           ))}
-          <div class="container">
+          <div className="container">
             <img className="w-100 image" src={img7} alt="" />
             <div className="middle">
               <div className="text">

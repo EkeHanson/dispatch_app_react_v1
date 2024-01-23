@@ -68,7 +68,7 @@ const Managmentlog = ({ selectedEstablishmentId, selectedEstablishmentName }) =>
       <div className="row">
         <div className="">
           <div className="my-3 text-center">
-            <h3 className="fw-bold fs-1 my-5">Order details</h3>
+            <h3 className="fw-bold fs-1 my-5">Detalles del pedido</h3>
           </div>
           <div className=" w-100">
             <div className="table-responsive">

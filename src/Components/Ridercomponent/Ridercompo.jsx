@@ -89,7 +89,7 @@ const Ridercompo = ({ onpageSwitch }) => {
       <input
         type="search"
         className="form-control rounded-pill mt-5 py-3"
-        placeholder="Search riders..."
+        placeholder="Buscar corredores..."
         value={searchTerm}
         onChange={(e) => setSearchTerm(e.target.value)}
       />

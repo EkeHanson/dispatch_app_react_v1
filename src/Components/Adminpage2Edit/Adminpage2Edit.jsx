@@ -190,7 +190,7 @@ const handleOrderChange = (e) => {
       <div className="container-fluid add">
         <div className="pt-3 ps-5">
           <Link className="text-light text-decoration-none fs-5 ml-4" to="/rider-login">
-            <i className="bi bi-chevron-left"></i> Go Back 
+            <i className="bi bi-chevron-left"></i> Regresa
           </Link>
         </div>
         <div className="row justify-content-center align-items-center">
@@ -250,7 +250,7 @@ const handleOrderChange = (e) => {
           <div className="row justify-content-center">
             <div className="">
               <div className="header mt-5">
-                <p className="fs-3 fw-bold mt-4">Riders Details</p>
+                <p className="fs-3 fw-bold mt-4">Detalles de los Conductores</p>
               </div>
               <div className="mb-4 mt-5">
                 <label htmlFor="name" className="mb-3">
@@ -314,7 +314,7 @@ const handleOrderChange = (e) => {
           {/* Order */}
           <div className="container-fluid">
             <div className="header mt-5 pt-5">
-              <p className="fs-3 fw-bold my-5">Order details</p>
+              <p className="fs-3 fw-bold my-5">Detalle del Pedido</p>
             </div>
             <div className="row justify-content-center">
             <div className="col-lg-6 col-md-12 col-sm-12 mb-5">

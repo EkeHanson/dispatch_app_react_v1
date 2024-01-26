@@ -92,19 +92,19 @@ const Addorder = () => {
         <div className="">
         <div className="pt-3 ps-5">
           <Link to="/rider-page" className="text-light text-decoration-none fs-5 ml-4">
-            <i className="bi bi-chevron-left"></i> Go Back
+            <i className="bi bi-chevron-left"></i> Regresa
           </Link>
         </div>
           <div className="row justify-content-center align-items-center">
             <div className="col-lg-8 col-md-6 col-sm-12 p-5">
               <h1 className="text-light text-center fw-bold">
-                Lottery Company
+              Compañía de lotería
               </h1>
             </div>
           </div>
           <div className="text-end">
             <p className="mb-0 fs-5 text-light p-3">
-              Dispatch Rider: <span className="fw-bold">Gloria Analaba</span>
+            Jinete de despacho: <span className="fw-bold">Gloria Analaba</span>
             </p>
           </div>
         </div>

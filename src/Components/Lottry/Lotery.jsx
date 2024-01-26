@@ -153,16 +153,16 @@ const Lotery = () => {
           <div className="lot">
             <div className="pt-3 ps-5">
               <a className="text-light text-decoration-none fs-5 ml-4" href="/">
-                <i className="bi bi-chevron-left"></i> Go Back
+                <i className="bi bi-chevron-left"></i>Regresa
               </a>
             </div>
             <div className="row justify-content-center align-items-center">
               <div className="col-lg-8 col-md-6 col-sm-12 p-5">
                 <h1 className="text-light text-center fw-bold">
-                  LOTTERY DELIVERY RECEIPT
+                RECIBO DE ENTREGA DE LOTERÍA
                 </h1>
                 <p className="text-center text-light mt-3">
-                  Please fill in the details below
+                Por favor, complete los detalles a continuación
                 </p>
               </div>
             </div>

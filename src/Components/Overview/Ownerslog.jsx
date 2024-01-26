@@ -131,7 +131,7 @@ const Ownerslog = () => {
           {/* Display details for all establishments */}
           <div className="row mt-5">
               <div className="col-lg-6 col-md-6 col-sm-12">
-                <p className="fs-2 mt-5">Overview</p>
+                <p className="fs-2 mt-5">Descripción general</p>
               </div>
               <div className="col-lg-6 col-md-6 col-sm-12">
                 <p className="text-dark mt-5 pt-3 text-normal text-end">
@@ -152,13 +152,13 @@ const Ownerslog = () => {
                   </div>
 
                   <div className="col-lg-6 col-md-6 col-sm-12 text-light pt-4 px-auto">
-                    <p className="text-light">Total earnings</p>
+                    <p className="text-light">Ganancias Totales</p>
                     <h2>
                       <span className="success-class fw-bold">
                       &euro;{calculateTotalEarnings()}
                       </span>
                     </h2>
-                    <p className="text-light">compared to 52,000 yesterday</p>
+                    <p className="text-light">comparado con  52,000  ayer </p>
                   </div>
                 </div>
               </div>
@@ -173,12 +173,12 @@ const Ownerslog = () => {
                   </div>
 
                   <div className="col-lg-6 col-md-6 col-sm-10 text-light pt-4 px-auto">
-                    <p className="text-light">Order trent</p>
+                    <p className="text-light">Pedidos trento</p>
                     <h2>
 
-                      <span className="success-class fw-bold">{numberOfItemsToday} orders</span>
+                      <span className="success-class fw-bold">{numberOfItemsToday} pedidos</span>
                     </h2>
-                    <p className="text-light">compared to  {numberOfItemsYesterday}  yesterday</p>
+                    <p className="text-light">comparado con  {numberOfItemsYesterday}  ayer</p>
                   </div>
                 </div>
               </div>
@@ -187,25 +187,25 @@ const Ownerslog = () => {
             <div className="row text-center mt-5 gy-4 mb-5 pb-5">
               <div className="col-lg-3 col-md-6 col-sm-6">
                 <div className="card plates rounded-4 w-100 py-3">
-                  <h6 className="text-light">Total Amount Paid</h6>
+                  <h6 className="text-light">Cantidad Total Pagada</h6>
                   <h1 className="text-light">&euro;{calculateTotalAmountPaid()}</h1>
                 </div>
               </div>
               <div className="col-lg-3 col-md-6 col-sm-6">
                 <div className="card plates rounded-4 w-100 py-3">
-                  <h6 className="text-light">Total debts</h6>
+                  <h6 className="text-light">Deudas Totales</h6>
                   <h1 className="text-light own">&euro;{calculateTotalDebts()}</h1>
                 </div>
               </div>
               <div className="col-lg-3 col-md-6 col-sm-6">
                 <div className="card plates rounded-4 w-100 py-3">
-                  <h6 className="text-light">Total Amount Reserved</h6>
+                  <h6 className="text-light">Monto Total Reservado</h6>
                   <h1 className="text-light">&euro;{calculateTotalReservedQuantity()}</h1>
                 </div>
               </div>
               <div className="col-lg-3 col-md-6 col-sm-6">
                 <div className="card plates rounded-4 w-100 py-3">
-                  <h6 className="text-light own">Total amount supplied</h6>
+                  <h6 className="text-light own">Cantidad Total Suministrada</h6>
                   <h1 className="text-light">&euro;{calculateTotalQuantityDelivered()}</h1>
                 </div>
               </div>
@@ -250,7 +250,7 @@ const Ownerslog = () => {
   };
 
   if (isLoading) {
-    return <div>Loading...</div>;
+    return <div>Cargando...</div>;
   }
 
   if (userType !== "owner") {

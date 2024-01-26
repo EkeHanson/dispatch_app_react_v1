@@ -58,16 +58,16 @@ const Establish = () => {
   }, [searchTerm, responseData]);
 
   if (isLoading) {
-    return <div>Loading...</div>;
+    return <div>Cargando...</div>;
   }
 
   if (userType !== 'admin') {
     return (
       <div>
-        <p>Access Denied.</p>
-        <p>You do not have permission to view this page.</p>
+        <p>Acceso denegado</p>
+        <p>No tienes permiso para ver esta página..</p>
         <div>
-          <Link to="/">Go to Login Page</Link>
+          <Link to="/">Ir a Iniciar sesión</Link>
         </div>
       </div>
     );

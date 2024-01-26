@@ -61,7 +61,7 @@ function Examplem({ riderId, first_name, last_name, phone }) {
         <Modal.Body className="text-center shadow-lg rounded-5">
           <Card>
             <div className="copy my-4">
-              <button onClick={handleCopyLink} className="rounded-pill px-5 py-2 copy-btn fw-bold">Copy rider link</button>
+              <button onClick={handleCopyLink} className="rounded-pill px-5 py-2 copy-btn fw-bold">Copiar enlace del pasajero</button>
               {copyFlashMessage.text && (
                 <div className="flash-message" style={{ color: copyFlashMessage.color }}>
                   {copyFlashMessage.text}
@@ -70,7 +70,7 @@ function Examplem({ riderId, first_name, last_name, phone }) {
             </div>
             <div className="my-4">
               <button onClick={handleDeleteRider} className="delete-btn rounded-pill px-5 py-2 fw-bold">
-                Delete rider
+              Eliminar ciclista
               </button>
               {deleteFlashMessage.text && (
                 <div className="flash-message" style={{ color: deleteFlashMessage.color }}>

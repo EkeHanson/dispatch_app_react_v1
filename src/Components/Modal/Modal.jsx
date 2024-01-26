@@ -63,7 +63,7 @@ function Example({ establishmentId, managerName, managerPhone }) {
           <Card>
             <div className="copy my-4">
               <button onClick={handleCopyLink} className="rounded-pill px-5 py-2 copy-btn fw-bold">
-                Copy manager link
+              Copiar enlace del administrador
               </button>
               {copyFlashMessage.text && (
                 <div className="flash-message" style={{ color: copyFlashMessage.color }}>
@@ -73,7 +73,7 @@ function Example({ establishmentId, managerName, managerPhone }) {
             </div>
             <div className="my-4">
               <button onClick={handleDeleteEstablishment} className="delete-btn rounded-pill px-5 py-2 fw-bold">
-                Delete Establishment
+              Eliminar establecimiento
               </button>
               {deleteFlashMessage.text && (
                 <div className="flash-message" style={{ color: deleteFlashMessage.color }}>

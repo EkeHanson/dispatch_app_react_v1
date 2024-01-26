@@ -222,12 +222,12 @@ const Lotery = () => {
               {/* Order */}
               <div className="container-fluid">
                 <div className="header mt-5">
-                  <p className="fs-3 fw-bold est">Order details</p>
+                  <p className="fs-3 fw-bold est">Detalles del pedido</p>
                 </div>
                 <div className="row justify-content-center align-items-center">
                 <div className="col-lg-6 col-md-6 col-sm-12 mb-5">
                 <select onChange={handleOrderSelect} className="form-select rounded-pill mt-3 w-100 border-1 py-3 px-3">
-                  <option value="">Select Order</option>
+                  <option value="">Seleccionar Orden</option>
                   {ordersData.map((order, index) => (
                     <option key={index} value={order.order_number}>
                       {order.order_number}

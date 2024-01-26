@@ -257,7 +257,7 @@ const Ownerslog = () => {
     return (
       <div>
         <p></p>
-        <p>Access Denied. You do not have permission to view this page.</p>
+        <p>Acceso denegado. No tiene permiso para ver esta página.</p>
         <div>
           <Link to="/" className='rounded-pill go-back py-2 px-5 text-decoration-none d-block w-100 btn-link mt-3 text-light'>Go back to Login page</Link>
         </div>
@@ -284,7 +284,7 @@ const Ownerslog = () => {
         </div>
         <div className="pt-3 ps-5">
           <Link to="/" className="text-light text-decoration-none fs-5 ml-4">
-            <i className="bi bi-chevron-left"></i> Go Back
+            <i className="bi bi-chevron-left"></i>Regresa
           </Link>
         </div>
       </div>

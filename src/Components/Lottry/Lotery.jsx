@@ -153,7 +153,7 @@ const Lotery = () => {
           <div className="lot">
             <div className="pt-3 ps-5">
               <a className="text-light text-decoration-none fs-5 ml-4" href="/">
-                <i className="bi bi-chevron-left"></i>Regresa
+                <i className="bi bi-chevron-left"></i>cerrar sesión
               </a>
             </div>
             <div className="row justify-content-center align-items-center">

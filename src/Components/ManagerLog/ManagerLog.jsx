@@ -71,7 +71,7 @@ const ManagerLog = () => {
             className="text-light text-decoration-none fs-5 ml-4 text-end"
             href="/"
           >
-            <i className="bi bi-chevron-left text-danger"></i> Logout
+            <i className="bi bi-chevron-left text-danger"></i> cerrar sesión
           </a>
         </div>
         <div className="row justify-content-center align-items-center">
@@ -86,7 +86,7 @@ const ManagerLog = () => {
       <div className="row">
         <div className="">
           <div className="my-3 text-center">
-            <h3 className="fw-bold fs-1 my-5">Orden detalles</h3>
+            <h3 className="fw-bold fs-1 my-5">Pedido detalles</h3>
           </div>
           <div className=" w-100">
             <div className="table-responsive">

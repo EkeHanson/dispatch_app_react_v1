@@ -2,9 +2,11 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import img3 from "../Assets/Rectangle 21.png";
 import img7 from "../Assets/Rectangle 21 (3).png";
+import avatar from "../Assets/avatar.png";
 import { Link } from "react-router-dom";
 import Examplem from "../Modal2/Modal2";
 import { jwtDecode } from 'jwt-decode';
+import Avatar from '../Avatar'; // Adjust the path accordingly
 
 const Ridercompo = ({ onpageSwitch }) => {
   const apiHostname = process.env.REACT_APP_API_HOSTNAME;
@@ -97,7 +99,8 @@ const Ridercompo = ({ onpageSwitch }) => {
         <div className="rounded-5 overlay">
           {filteredData.map((item, index) => (
             <div key={index} className="container position-relative">
-              <img className="w-100 " src={img3} alt="" />
+              <img className="w-100 " src={avatar} alt="" />
+              {/* <Avatar firstName={item.first_name} lastName={item.last_name} size={100} alt={`${item.first_name} ${item.last_name}`} /> */}
               <div className=" text-light fs-4 my-3">
                 <Examplem
                   riderId={item.id}

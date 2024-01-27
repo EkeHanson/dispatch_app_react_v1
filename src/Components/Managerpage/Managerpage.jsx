@@ -40,7 +40,7 @@ const Managerpage = () => {
         <div className="manager-page">
           <div className="pt-3 ps-5">
             <Link className="text-light text-decoration-none fs-5 ml-4" to="/Rider-login">
-              <i className="bi bi-chevron-left"></i> Go Back 
+              <i className="bi bi-chevron-left"></i> Regresa
             </Link>
             {/* {console.log(establishmentId)} */}
           </div>

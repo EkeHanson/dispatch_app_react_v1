@@ -30,16 +30,16 @@ const Ridercompo = ({ onpageSwitch }) => {
       if (riderResponse.status === 'fulfilled' && riderResponse.value.status === 200) {
         setResponseData(riderResponse.value.data);
       } else {
-        console.error('Failed to fetch rider data');
+        alert('Failed to fetch rider data');
       }
   
       if (adminResponse.status === 'fulfilled' && adminResponse.value.status === 200) {
         setUserType(adminResponse.value.data.user_type);
       } else {
-        console.error('Failed to fetch admin data');
+        alert('Failed to fetch admin data');
       }
     } catch (error) {
-      console.error('Error fetching data:', error);
+      alert('Error fetching data:', error);
     }
   };
   

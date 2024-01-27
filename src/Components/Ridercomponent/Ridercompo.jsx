@@ -88,7 +88,7 @@ const Ridercompo = ({ onpageSwitch }) => {
           {filteredData.map((item, index) => (
             <div key={index} className="container position-relative">
               {/* <img className="w-100 " src={img3} alt="" /> */}
-              <img className="w-100" src={avatar} alt="" style={{ width: '200px', height: '200px', borderRadius: '40px' }} />
+              <img className="w-100" src={avatar} alt="" style={{ width: '150px', borderRadius: '40px' }} />
              
               <div className=" text-light fs-4 my-3">
                 <Examplem
@@ -99,7 +99,7 @@ const Ridercompo = ({ onpageSwitch }) => {
                 />
               </div>
               <div className="position-absolute top-50 start-50 translate-middl
-              e-x  ms-sm-4 ms-lg-5 mt-3 text-light" style={{ transform: 'translate(-35%, 80%)' }}>
+              e-x  ms-sm-4 ms-lg-5 mt-3 text-light" style={{ transform: 'translate(-35%, 130%)' }}>
                 {item.first_name} {item.last_name}
               </div>
             </div>

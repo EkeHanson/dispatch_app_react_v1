@@ -16,53 +16,33 @@ const Ridercompo = ({ onpageSwitch }) => {
   const [userType, setUserType] = useState('');
   const [filteredData, setFilteredData] = useState([]);
 
+
   const fetchData = async () => {
     const authToken = localStorage.getItem('authToken');
     const decodedToken = jwtDecode(authToken);
   
     try {
-      // Check if cached data is available and not expired
-      const cachedRiderData = localStorage.getItem('cachedRiderData');
-      const cachedAdminData = localStorage.getItem('cachedAdminData');
-      const cachedTimestamp = localStorage.getItem('cachedTimestamp');
+      const [riderResponse, adminResponse] = await Promise.allSettled([
+        axios.get(`${apiHostname}/rider`),
+        axios.get(`${apiHostname}/register/admins/${decodedToken.user_id}`),
+      ]);
   
-      const currentTime = new Date().getTime();
-      const cacheExpirationTime = 60 * 60 * 1000; // 1 hour in milliseconds
-  
-      if (cachedRiderData && cachedAdminData && cachedTimestamp && (currentTime - parseInt(cachedTimestamp, 10)) < cacheExpirationTime) {
-        setResponseData(JSON.parse(cachedRiderData));
-        setUserType(JSON.parse(cachedAdminData).user_type);
+      if (riderResponse.status === 'fulfilled' && riderResponse.value.status === 200) {
+        setResponseData(riderResponse.value.data);
       } else {
-        // Fetch new data
-        const [riderResponse, adminResponse] = await Promise.all([
-          axios.get(`${apiHostname}/rider`),
-          axios.get(`${apiHostname}/register/admins/${decodedToken.user_id}`)
-        ]);
+        console.error('Failed to fetch rider data');
+      }
   
-        if (riderResponse.status === 200) {
-          setResponseData(riderResponse.data);
-          // Cache the rider data for future use
-          localStorage.setItem('cachedRiderData', JSON.stringify(riderResponse.data));
-          localStorage.setItem('cachedTimestamp', currentTime.toString());
-        } else {
-          console.error("Failed to fetch rider data");
-        }
-  
-        if (adminResponse.status === 200) {
-          setUserType(adminResponse.data.user_type);
-          // Cache the admin data for future use
-          localStorage.setItem('cachedAdminData', JSON.stringify(adminResponse.data));
-        } else {
-          console.error("Failed to fetch admin data");
-        }
+      if (adminResponse.status === 'fulfilled' && adminResponse.value.status === 200) {
+        setUserType(adminResponse.value.data.user_type);
+      } else {
+        console.error('Failed to fetch admin data');
       }
     } catch (error) {
-      console.error("Error fetching data:", error);
-      // Handle errors here, e.g., show a message to the user or retry
+      console.error('Error fetching data:', error);
     }
   };
   
-
   useEffect(() => {
     fetchData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -119,7 +99,7 @@ const Ridercompo = ({ onpageSwitch }) => {
                 />
               </div>
               <div className="position-absolute top-50 start-50 translate-middl
-              e-x  ms-sm-4 ms-lg-5 mt-3 text-light" style={{ transform: 'translate(-35%, 65%)' }}>
+              e-x  ms-sm-4 ms-lg-5 mt-3 text-light" style={{ transform: 'translate(-35%, 80%)' }}>
                 {item.first_name} {item.last_name}
               </div>
             </div>

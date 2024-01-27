@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
+import axios from "axios";  
+// eslint-disable-next-line
 import img3 from "../Assets/Rectangle 21.png";
 import img7 from "../Assets/Rectangle 21 (3).png";
 import avatar from "../Assets/avatar.png";
 import { Link } from "react-router-dom";
 import Examplem from "../Modal2/Modal2";
 import { jwtDecode } from 'jwt-decode';
-import Avatar from '../Avatar'; // Adjust the path accordingly
+
 
 const Ridercompo = ({ onpageSwitch }) => {
   const apiHostname = process.env.REACT_APP_API_HOSTNAME;
@@ -18,29 +19,35 @@ const Ridercompo = ({ onpageSwitch }) => {
   const fetchData = async () => {
     const authToken = localStorage.getItem('authToken');
     const decodedToken = jwtDecode(authToken);
-
+  
     try {
-      // Check if cached data is available
+      // Check if cached data is available and not expired
       const cachedRiderData = localStorage.getItem('cachedRiderData');
       const cachedAdminData = localStorage.getItem('cachedAdminData');
-
-      if (cachedRiderData && cachedAdminData) {
+      const cachedTimestamp = localStorage.getItem('cachedTimestamp');
+  
+      const currentTime = new Date().getTime();
+      const cacheExpirationTime = 60 * 60 * 1000; // 1 hour in milliseconds
+  
+      if (cachedRiderData && cachedAdminData && cachedTimestamp && (currentTime - parseInt(cachedTimestamp, 10)) < cacheExpirationTime) {
         setResponseData(JSON.parse(cachedRiderData));
         setUserType(JSON.parse(cachedAdminData).user_type);
       } else {
+        // Fetch new data
         const [riderResponse, adminResponse] = await Promise.all([
           axios.get(`${apiHostname}/rider`),
           axios.get(`${apiHostname}/register/admins/${decodedToken.user_id}`)
         ]);
-
+  
         if (riderResponse.status === 200) {
           setResponseData(riderResponse.data);
           // Cache the rider data for future use
           localStorage.setItem('cachedRiderData', JSON.stringify(riderResponse.data));
+          localStorage.setItem('cachedTimestamp', currentTime.toString());
         } else {
           console.error("Failed to fetch rider data");
         }
-
+  
         if (adminResponse.status === 200) {
           setUserType(adminResponse.data.user_type);
           // Cache the admin data for future use
@@ -54,6 +61,7 @@ const Ridercompo = ({ onpageSwitch }) => {
       // Handle errors here, e.g., show a message to the user or retry
     }
   };
+  
 
   useEffect(() => {
     fetchData();
@@ -99,8 +107,9 @@ const Ridercompo = ({ onpageSwitch }) => {
         <div className="rounded-5 overlay">
           {filteredData.map((item, index) => (
             <div key={index} className="container position-relative">
-              <img className="w-100 " src={avatar} alt="" />
-              {/* <Avatar firstName={item.first_name} lastName={item.last_name} size={100} alt={`${item.first_name} ${item.last_name}`} /> */}
+              {/* <img className="w-100 " src={img3} alt="" /> */}
+              <img className="w-100" src={avatar} alt="" style={{ width: '200px', height: '200px', borderRadius: '40px' }} />
+             
               <div className=" text-light fs-4 my-3">
                 <Examplem
                   riderId={item.id}
@@ -109,7 +118,8 @@ const Ridercompo = ({ onpageSwitch }) => {
                   phone={item.phone}
                 />
               </div>
-              <div className="position-absolute top-50 start-50 translate-middle ms-sm-4 ms-lg-5 mt-3 text-light">
+              <div className="position-absolute top-50 start-50 translate-middl
+              e-x  ms-sm-4 ms-lg-5 mt-3 text-light" style={{ transform: 'translate(-35%, 65%)' }}>
                 {item.first_name} {item.last_name}
               </div>
             </div>

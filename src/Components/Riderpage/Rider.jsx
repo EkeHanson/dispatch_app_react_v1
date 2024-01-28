@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import "./Rider.css";
 import Establish from "../Establishment/Establish";
 import Ridercompo from "../Ridercomponent/Ridercompo";
+import Footer from '../Footer/Footer';
 import axios from "axios";
 
 const Rider = ({ onpageSwitch }) => {
@@ -126,25 +127,7 @@ const Rider = ({ onpageSwitch }) => {
         </div>
       </div>
 
-      <div className="container-fluid footer py-4 bg-light text-center mt-5 mb-0">
-        <div className="row justify-content-center ">
-          <div className="col-lg-4 col-md-12 col-sm-6">
-            <p className="mb-0">
-              <i class="bi bi-geo-alt-fill "></i>
-              Avda de Espana 2428710-EL MOLAR (MADRID)
-            </p>
-          </div>
-
-          <div className="col-lg-4 col-md-12 col-sm-6">
-            <i class="bi bi-telephone-fill"></i>+918410517
-          </div>
-
-          <div className="col-lg-4 col-md-12 col-sm-6">
-            <i class="bi bi-envelope-at-fill"></i>
-            <a href="/">loteriaelmolar@yahoo.es</a>
-          </div>
-        </div>
-      </div>
+    <Footer/>
     </div>
   );
 };

@@ -3,6 +3,7 @@ import axios from "axios";
 // eslint-disable-next-line
 import img3 from "../Assets/Rectangle 21.png";
 import img7 from "../Assets/Rectangle 21 (3).png";
+import './Ridercompo.css';
 import avatar from "../Assets/avatar.png";
 import { Link } from "react-router-dom";
 import Examplem from "../Modal2/Modal2";
@@ -86,7 +87,7 @@ const Ridercompo = ({ onpageSwitch }) => {
       <div className="row mt-5 gy-4">
         <div className="rounded-5 overlay">
           {filteredData.map((item, index) => (
-            <div key={index} className="container position-relative">
+            <div key={index} className="container position-relative d-md-flex flex-md-wrap">
               {/* <img className="w-100 " src={img3} alt="" /> */}
               <img className="w-100" src={avatar} alt="" style={{ width: '150px', borderRadius: '40px' }} />
              
@@ -98,14 +99,13 @@ const Ridercompo = ({ onpageSwitch }) => {
                   phone={item.phone}
                 />
               </div>
-              <div className="position-absolute top-50 start-50 translate-middl
-              e-x  ms-sm-4 ms-lg-5 mt-3 text-light" style={{ transform: 'translate(-35%, 130%)' }}>
+              <div className="position-absolute top-50 start-50 font translate-middle-x ms-sm-4 ms-lg-5 mx-md-auto text-light" style={{ transform: 'translate(-35%, 130%)' }}>
                 {item.first_name} {item.last_name}
               </div>
             </div>
           ))}
           <div className="container">
-            <img className="w-100 image" src={img7} alt="" />
+            <img className="w-100 image img-fluid" src={img7} alt="" />
             <div className="middle">
               <div className="text">
                 <Link to="/riders-details">

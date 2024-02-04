@@ -3,17 +3,29 @@
         margin-top: -1.3rem !important;
         margin-left: 0rem !important;
         margin-bottom: 5rem !important;
-        font-size: 19px !important;
+        font-size: 13px !important;
+        padding-top: 40px;
+        text-align: center;
     }
+}
 
+@media screen and (min-width:1200px) {
+    .font {
+        margin-top: -1.3rem !important;
+        margin-left: 0rem !important;
+        margin-bottom: 5rem !important;
+        font-size: 18px !important;
+        padding-top: 40px;
+        text-align: center;
+    }
 }
 
 @media screen and (max-width:900px) {
-    .font {
+    .font { margin-bottom: 5rem !important;
+        font-size: 12px !important;
         margin-top: -1rem !important;
         margin-right: 10rem !important;
-        margin-bottom: 5rem !important;
-        font-size: 12px !important;
+       
     }
 
 }
@@ -29,6 +41,8 @@
 @media screen and (max-width:450px) {
     .font {
         margin-top: 1rem !important;
-        font-size: 25px !important;
+        font-size: 15px !important;
+        padding-top: 40px;
+        text-align: center;
     }
 }

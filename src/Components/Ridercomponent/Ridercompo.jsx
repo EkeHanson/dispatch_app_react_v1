@@ -17,7 +17,6 @@ const Ridercompo = ({ onpageSwitch }) => {
   const [userType, setUserType] = useState('');
   const [filteredData, setFilteredData] = useState([]);
 
-
   const fetchData = async () => {
     const authToken = localStorage.getItem('authToken');
     const decodedToken = jwtDecode(authToken);

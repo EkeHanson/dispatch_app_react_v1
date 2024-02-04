@@ -87,7 +87,7 @@ const Ridercompo = ({ onpageSwitch }) => {
       <div className="row mt-5 gy-4">
         <div className="rounded-5 overlay">
           {filteredData.map((item, index) => (
-            <div key={index} className="container position-relative d-md-flex flex-md-wrap">
+            <div key={index} className="container position-relative">
               {/* <img className="w-100 " src={img3} alt="" /> */}
               <img className="w-100" src={avatar} alt="" style={{ width: '150px', borderRadius: '40px' }} />
              

@@ -2,10 +2,12 @@ import React, { useState, useEffect } from "react";
 import { useParams } from 'react-router-dom';
 import axios from "axios";
 import "./ManagerLog.css"
+import config from '../../config';
+
+const API_BASE_URL = `${config.API_BASE_URL}`;
 
 
 const ManagerLog = () => {
-  const apiHostname = process.env.REACT_APP_API_HOSTNAME;
 
   const { establishmentId } = useParams();
   
@@ -26,9 +28,9 @@ const ManagerLog = () => {
     
             console.log("Trying to fetch establishment by id:", establishmentId);
     
-        const response1 = await axios.get(`${apiHostname}/establishment/${establishmentId}`);
-        const response = await axios.get(`${apiHostname}/order/by_establishment/${establishmentId}`);
-        const InvoiceResponse = await axios.get(`${apiHostname}/invoice/`);
+        const response1 = await axios.get(`${API_BASE_URL}/establishment/${establishmentId}`);
+        const response = await axios.get(`${API_BASE_URL}/order/by_establishment/${establishmentId}`);
+        const InvoiceResponse = await axios.get(`${API_BASE_URL}/invoice/`);
         
   
         if (response.status === 200 && response1.status === 200) {

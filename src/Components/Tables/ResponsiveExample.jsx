@@ -4,8 +4,11 @@ import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
 import { BsCaretDownFill } from "react-icons/bs";
 
+import config from '../../config';
+
+const API_BASE_URL = `${config.API_BASE_URL}`;
+
 function ResponsiveExample({ selectedOrderId }) {
-  const apiHostname = process.env.REACT_APP_API_HOSTNAME;
 
   const columnTypes = [
     "Date",
@@ -110,7 +113,7 @@ function ResponsiveExample({ selectedOrderId }) {
 
       const data = formattedRow;
 
-      const response = await fetch(`${apiHostname}/invoice/create/`, {
+      const response = await fetch(`${API_BASE_URL}/invoice/create/`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -133,7 +136,7 @@ function ResponsiveExample({ selectedOrderId }) {
     const fetchData = async () => {
       try {
         const response = await fetch(
-          `${apiHostname}/invoice/invoices-by-order/${selectedOrderId}/`
+          `${API_BASE_URL}/invoice/invoices-by-order/${selectedOrderId}/`
         );
 
         if (!response.ok) {
@@ -172,7 +175,7 @@ function ResponsiveExample({ selectedOrderId }) {
     };
 
     fetchData();
-  }, [selectedOrderId, apiHostname]);
+  }, [selectedOrderId, API_BASE_URL]);
 
   const createEmptyRow = () => {
     return {

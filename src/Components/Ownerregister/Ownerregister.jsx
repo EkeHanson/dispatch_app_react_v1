@@ -6,8 +6,11 @@ import "./Ownerregister.css";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 
+import config from '../../config';
+
+const API_BASE_URL = `${config.API_BASE_URL}`;
+
 const Ownerregister = ({ onFormSwitch }) => {
-  const apiHostname = process.env.REACT_APP_API_HOSTNAME;
   const [formData, setFormData] = useState({
     first_name: "",
     last_name: "",
@@ -82,7 +85,7 @@ const Ownerregister = ({ onFormSwitch }) => {
         user_type : "owner"
       }
       const response = await axios.post(
-        `${apiHostname}/register/user/create/`,
+        `${API_BASE_URL}/register/user/create/`,
         updatedFormdata
       );
 

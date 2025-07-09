@@ -7,9 +7,11 @@ import { Link } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Example from '../Modal/Modal';
 import { jwtDecode } from 'jwt-decode';
+import config from '../../config';
+
+const API_BASE_URL = `${config.API_BASE_URL}`;
 
 const Establish = () => {
-  const apiHostname = process.env.REACT_APP_API_HOSTNAME;
 
   const [responseData, setResponseData] = useState([]);
   const [userType, setUserType] = useState('');
@@ -24,8 +26,8 @@ const Establish = () => {
 
       try {
         const [response, response2] = await Promise.allSettled([
-          axios.get(`${apiHostname}/establishment/`),
-          axios.get(`${apiHostname}/register/admins/${decodedToken.user_id}`),
+          axios.get(`${API_BASE_URL}/establishment/`),
+          axios.get(`${API_BASE_URL}/register/admins/${decodedToken.user_id}`),
         ]);
 
         if (response.status === 'fulfilled' && response.value.status === 200) {

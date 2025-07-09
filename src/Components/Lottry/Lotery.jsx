@@ -4,8 +4,11 @@ import "./Lotery.css";
 import ResponsiveExample from "../Tables/ResponsiveExample";
 // import Successmodal2 from "../Successmodal2/Successmodal2";
 
+import config from '../../config';
+
+const API_BASE_URL = `${config.API_BASE_URL}`;
+
 const Lotery = () => {
-  const apiHostname = process.env.REACT_APP_API_HOSTNAME;
   const [responseData, setResponseData] = useState([]);
   const [selectedId, setSelectedId] = useState("");
   const [ordersData, setOrdersData] = useState([]); // Add state for ordersData
@@ -37,7 +40,7 @@ const Lotery = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(`${apiHostname}/establishment/`);
+        const response = await axios.get(`${API_BASE_URL}/establishment/`);
         console.log(response)
         if (response.status === 200) {
           setResponseData(response.data);
@@ -59,7 +62,7 @@ const Lotery = () => {
     const fetchOrdersByEstablishment = async () => {
       try {
         if (selectedId) {
-          const ordersResponse = await axios.get(`${apiHostname}/order/by_establishment/${selectedId}`);
+          const ordersResponse = await axios.get(`${API_BASE_URL}/order/by_establishment/${selectedId}`);
           if (ordersResponse.status === 200) {
             const orderDetailsArray = ordersResponse.data;
 
@@ -80,7 +83,7 @@ const Lotery = () => {
     };
 
     fetchOrdersByEstablishment();
-  }, [selectedId, apiHostname]);
+  }, [selectedId, API_BASE_URL]);
 
   useEffect(() => {
     if (defaultSelectedOrder) {

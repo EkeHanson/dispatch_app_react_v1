@@ -4,8 +4,11 @@ import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
 import { BsCaretDownFill } from "react-icons/bs";
 
+import config from '../../config';
+
+const API_BASE_URL = `${config.API_BASE_URL}`;
+
 function Responsivetable({ selectedOrderId }) {
-  const apiHostname = process.env.REACT_APP_API_HOSTNAME;
 
   const columnTypes = [
     "Date",
@@ -135,7 +138,7 @@ function Responsivetable({ selectedOrderId }) {
     const fetchData = async () => {
       try {
         const response = await fetch(
-          `${apiHostname}/invoice/invoices-by-order/${selectedOrderId}/`
+          `${API_BASE_URL}/invoice/invoices-by-order/${selectedOrderId}/`
         );
   
         if (!response.ok) {

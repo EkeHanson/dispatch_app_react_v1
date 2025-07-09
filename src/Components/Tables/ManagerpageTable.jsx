@@ -1,5 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import config from '../../config';
+
+const API_BASE_URL = `${config.API_BASE_URL}`;
 
 function ManagerpageTable({ establishmentId }) {
   const apiHostname = process.env.REACT_APP_API_HOSTNAME;
@@ -12,9 +15,9 @@ useEffect(() => {
       try {
         // Make multiple requests in parallel using axios.all
         const [invoiceResponse, orderResponse, establishmentResponse] = await axios.all([
-          axios.get(`${apiHostname}/invoice/`),
-          axios.get(`${apiHostname}/order/`),
-          axios.get(`${apiHostname}/establishment/${establishmentId}`),
+          axios.get(`${API_BASE_URL}/invoice/`),
+          axios.get(`${API_BASE_URL}/order/`),
+          axios.get(`${API_BASE_URL}/establishment/${establishmentId}`),
         ]);
   
         // Extract single establishment from the response

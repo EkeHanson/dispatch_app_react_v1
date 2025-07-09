@@ -2,18 +2,22 @@ import { Modal } from 'react-bootstrap';
 import React, { useState } from "react";
 import './Copyriderlink.css'
 import { Link } from 'react-router-dom';
+import config from '../../config';
 
 
 function Copyriderlink({showModal, handleCloseModal, riderId, first_name, last_name, phone}) {
 
-  const apiHostname2 = process.env.REACT_APP_API_HOSTNAME2;
+
+
+const API_BASE_URL = `${config.WEB_PAGE__URL}`;
+
   const [copyFlashMessage, setCopyFlashMessage] = useState({ text: '', color: '' });
 
 
   const handleCopyLink = () => {
     const riderData = {first_name: first_name, last_name: last_name, phone: phone };
     const queryParams = new URLSearchParams(riderData).toString();
-    const riderPageLink = `${apiHostname2}/Login?${queryParams}`;
+    const riderPageLink = `${API_BASE_URL}/Login?${queryParams}`;
     navigator.clipboard.writeText(riderPageLink)
       .then(() => {
         setCopyFlashMessage({ text: 'Link Successfully Copied', color: 'blue' });

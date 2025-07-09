@@ -3,8 +3,12 @@ import "./Ownerslogin.css";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 
+import config from '../../config';
+
+const API_BASE_URL = `${config.API_BASE_URL}`;
+const WEB_PAGE__URL = `${config.WEB_PAGE__URL}`;
+
 const Ownerslogin = ({ onFormSwitch }) => {
-  const apiHostname = process.env.REACT_APP_API_HOSTNAME;
   const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({
     email: "",
@@ -24,7 +28,7 @@ const Ownerslogin = ({ onFormSwitch }) => {
     setLoading(true);
 
     try {
-      const response = await axios.post(`${apiHostname}/jwt_token/`, formData, {
+      const response = await axios.post(`${API_BASE_URL}/jwt_token/`, formData, {
         headers: {
           "Content-Type": "application/json",
         },

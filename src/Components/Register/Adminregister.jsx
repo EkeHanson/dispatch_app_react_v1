@@ -4,12 +4,17 @@ import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 // import Ownerregister from "../Ownerregister/Ownerregister";
 
+import config from '../../config';
+
+const API_BASE_URL = `${config.API_BASE_URL}`;
+
 const Adminregister = ({ onFormSwitch }) => {
   // const handleChangeState = (newState) => {
   //   setActiveState(newState);
   // };
 
-  const apiHostname = process.env.REACT_APP_API_HOSTNAME;
+
+
 // eslint-disable-next-line
   const [activeState, setActiveState] = useState("adminRegister");
   const [loading, setLoading] = useState(false);
@@ -81,7 +86,7 @@ const Adminregister = ({ onFormSwitch }) => {
     try {
       setLoading(true);
       const response = await axios.post(
-        `${apiHostname}/register/user/create/`,
+        `${API_BASE_URL}/register/user/create/`,
         formData
       );
 
@@ -96,20 +101,30 @@ const Adminregister = ({ onFormSwitch }) => {
       console.log("Server Response:", response);
     } catch (error) {
       if (error.response) {
-        console.error(
-          "Registration failed with status code:",
-          error.response.status
-        );
-        console.error("Error data:", error.response.data);
-        setRegistrationError("Registration failed. Please try again.");
+        const status = error.response.status;
+        const data = error.response.data;
+
+        console.error("Registration failed with status code:", status);
+        console.error("Error data:", data);
+
+        // Extract the first error message from the response
+        let errorMsg = "Registration failed.";
+        if (typeof data === "object") {
+          const firstErrorField = Object.keys(data)[0];
+          const firstErrorMsg = data[firstErrorField][0]; // usually an array
+          errorMsg = `${firstErrorField}: ${firstErrorMsg}`;
+        }
+
+        setRegistrationError(errorMsg);
       } else if (error.request) {
-        console.error("No response received from the server");
         setRegistrationError("No response received from the server.");
       } else {
-        console.error("Error during request setup:", error.message);
         setRegistrationError("An error occurred. Please try again.");
       }
-    } finally {
+    }
+    finally {
+      
+   
       setLoading(false);
     }
   };

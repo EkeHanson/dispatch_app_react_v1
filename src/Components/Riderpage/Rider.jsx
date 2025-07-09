@@ -6,6 +6,9 @@ import Establish from "../Establishment/Establish";
 import Ridercompo from "../Ridercomponent/Ridercompo";
 import Footer from '../Footer/Footer';
 import axios from "axios";
+import config from '../../config';
+
+const API_BASE_URL = `${config.API_BASE_URL}`;
 
 const Rider = ({ onpageSwitch }) => {
   const [activeState, setActiveState] = useState("establishment");
@@ -16,7 +19,7 @@ const Rider = ({ onpageSwitch }) => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(`${process.env.REACT_APP_API_HOSTNAME}/establishment`);
+        const response = await axios.get(`${API_BASE_URL}/establishment`);
         setEstablishments(response.data);
       } catch (error) {
         console.error('Error fetching data:', error);

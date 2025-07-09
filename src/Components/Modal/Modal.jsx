@@ -4,9 +4,15 @@ import { BsThreeDotsVertical } from 'react-icons/bs';
 import axios from 'axios';
 import './Modal.css';
 
+
+import config from '../../config';
+
+
+
 function Example({ establishmentId, managerName, managerPhone }) {
-  const apiHostname = process.env.REACT_APP_API_HOSTNAME;
-  const apiHostname2 = process.env.REACT_APP_API_HOSTNAME2;
+  const API_BASE_URL = `${config.API_BASE_URL}`;
+  const WEB_PAGE__URL = `${config.WEB_PAGE__URL}`;
+
   const [showModal, setShowModal] = useState(false);
   const [copyFlashMessage, setCopyFlashMessage] = useState({ text: '', color: '' });
   const [deleteFlashMessage, setDeleteFlashMessage] = useState({ text: '', color: '' });
@@ -15,7 +21,7 @@ function Example({ establishmentId, managerName, managerPhone }) {
     const riderData = { establishmentId: establishmentId, name: managerName, phone: managerPhone };
     const queryParams = new URLSearchParams(riderData).toString();
     // const riderPageLink = `https://dispatch-app-react-v1-ekehanson.vercel.app/log-manager?${queryParams}`;
-    const riderPageLink = `${apiHostname2}/log-manager?${queryParams}`;
+    const riderPageLink = `${WEB_PAGE__URL}/log-manager?${queryParams}`;
     navigator.clipboard.writeText(riderPageLink)
       .then(() => {
         setCopyFlashMessage({ text: 'Enlace copiado exitosamente', color: 'blue' });
@@ -35,7 +41,7 @@ function Example({ establishmentId, managerName, managerPhone }) {
   const handleDeleteEstablishment = async () => {
     if (establishmentId) {
       try {
-        const response = await axios.delete(`${apiHostname}/establishment/${establishmentId}`);
+        const response = await axios.delete(`${API_BASE_URL}/establishment/${establishmentId}`);
         if (response.status === 204) {
           setDeleteFlashMessage({ text: 'Establecimiento eliminado exitosamente', color: 'red' });
           setTimeout(() => {

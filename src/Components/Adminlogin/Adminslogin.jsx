@@ -4,9 +4,11 @@ import React, { useState } from "react";
 // import Footer from "../Footer/Footer";
 import axios from "axios";
 import Ownerslogin from "../Ownerlogin/Ownerslogin";
+import config from '../../config';
+
+const API_BASE_URL = `${config.API_BASE_URL}`;
 
 const Adminslogin = () => {
-  const apiHostname = process.env.REACT_APP_API_HOSTNAME;
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -27,7 +29,7 @@ const Adminslogin = () => {
     setLoading(true);
 
     try {
-      const response = await axios.post(`${apiHostname}/jwt_token/`, formData);
+      const response = await axios.post(`${API_BASE_URL}/jwt_token/`, formData);
 
       if (response.status === 200) {
         // eslint-disable-next-line

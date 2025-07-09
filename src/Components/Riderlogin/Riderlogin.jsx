@@ -2,9 +2,11 @@
 import React, { useState } from "react";
 import "./Riderlogin.css";
 import Copyriderlink from "../Copyriderlink/Copyriderlink";
+import config from '../../config';
+
+const API_BASE_URL = `${config.API_BASE_URL}`;
 
 const Riderlogin = () => {
-  const apiHostname = process.env.REACT_APP_API_HOSTNAME
   const [showModal, setShowModal] = useState(false);
   const [formData, setFormData] = useState({
     first_name: "",
@@ -31,7 +33,7 @@ const Riderlogin = () => {
     }
 
     try {
-      const response = await fetch(`${apiHostname}/rider/create/`, {
+      const response = await fetch(`${API_BASE_URL}/rider/create/`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

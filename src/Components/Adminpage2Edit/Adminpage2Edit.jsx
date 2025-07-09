@@ -7,10 +7,12 @@ import { toast } from "react-toastify";
 import { Button } from "react-bootstrap";
 import "react-toastify/dist/ReactToastify.css";
 import Managerlinkmodal from "../Copymanagermodal/Managerlinkmodal";
+import config from '../../config';
+
+const API_BASE_URL = `${config.API_BASE_URL}`;
 
 const Adminpage2Edit = () => {
 
-  const apiHostname = process.env.REACT_APP_API_HOSTNAME;
 
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
@@ -44,12 +46,12 @@ const Adminpage2Edit = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const riderResponse = await axios.get(`${apiHostname}/rider/`);
-        const establishmentResponse = await axios.get(`${apiHostname}/establishment/${establishmentId}`);
-        const orderResponse = await axios.get(`${apiHostname}/order/by_establishment/${establishmentId}`);
+        const riderResponse = await axios.get(`${API_BASE_URL}/rider/`);
+        const establishmentResponse = await axios.get(`${API_BASE_URL}/establishment/${establishmentId}`);
+        const orderResponse = await axios.get(`${API_BASE_URL}/order/by_establishment/${establishmentId}`);
         const riderID = `${JSON.stringify(establishmentResponse.data.rider)}`
 
-        const establishmentRiderResponse = await axios.get(`${apiHostname}/rider/${riderID}`);
+        const establishmentRiderResponse = await axios.get(`${API_BASE_URL}/rider/${riderID}`);
         const establishmentRiderResponseData =  establishmentRiderResponse.data
 
         if (riderResponse.status === 200 && establishmentResponse.status === 200) {
@@ -153,14 +155,14 @@ const handleOrderChange = (e) => {
       };
   
       // Send the establishment data update request
-      const establishmentResponse = await axios.put(`${apiHostname}/establishment/${establishmentId}/`, updatedFormDataE);
+      const establishmentResponse = await axios.put(`${API_BASE_URL}/establishment/${establishmentId}/`, updatedFormDataE);
     
 
       if (establishmentResponse.status === 202) {
         toast.success("Establishment data sent successfully!!");
   
         // Send the order data update request
-        const orderResponse = await axios.put(`${apiHostname}/order/${formDataO.order_id}/`, updatedFormDataO);
+        const orderResponse = await axios.put(`${API_BASE_URL}/order/${formDataO.order_id}/`, updatedFormDataO);
        
   
         if (orderResponse.status === 202) {

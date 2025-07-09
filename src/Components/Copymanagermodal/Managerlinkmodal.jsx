@@ -2,16 +2,19 @@ import React, { useState } from "react";
 import { Modal } from 'react-bootstrap';
 import './Managerlinkmodal.css'
 import { Link} from 'react-router-dom';
+import config from '../../config';
+
+const API_BASE_URL = `${config.WEB_PAGE__URL}`
+
 
 function Managerlinkmodal({visible, onClose, establishmentId}) {
-    const apiHostname2 = process.env.REACT_APP_API_HOSTNAME2;
     const [copyFlashMessage, setCopyFlashMessage] = useState({ text: '', color: '' }); 
 
  
  const handleCopyLink = () => {
     const establishmentData = { establishmentId: establishmentId};
     const queryParams = new URLSearchParams(establishmentData).toString();
-    const riderPageLink = `${apiHostname2}/log-manager?${queryParams}`;
+    const riderPageLink = `${WEB_PAGE__URL}/log-manager?${queryParams}`;
     navigator.clipboard.writeText(riderPageLink)
       .then(() => {
         setCopyFlashMessage({ text: 'Link Successfully Copied', color: 'blue' });

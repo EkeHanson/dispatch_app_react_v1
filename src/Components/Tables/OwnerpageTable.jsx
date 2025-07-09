@@ -1,8 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
+import config from '../../config';
+
+const API_BASE_URL = `${config.API_BASE_URL}`;
+
 const OwnerpageTable = () => {
-  const apiHostname = process.env.REACT_APP_API_HOSTNAME;
   const [data, setData] = useState([]);
 
   useEffect(() => {
@@ -10,9 +13,9 @@ const OwnerpageTable = () => {
       try {
         // Make multiple requests in parallel using axios.all
         const [invoiceResponse, orderResponse, establishmentResponse] = await axios.all([
-          axios.get(`${apiHostname}/invoice/`),
-          axios.get(`${apiHostname}/order/`),
-          axios.get(`${apiHostname}/establishment/`),
+          axios.get(`${API_BASE_URL}/invoice/`),
+          axios.get(`${API_BASE_URL}/order/`),
+          axios.get(`${API_BASE_URL}/establishment/`),
         ]);
 
         // Create a map to associate orders with establishments
@@ -50,13 +53,13 @@ const OwnerpageTable = () => {
             const order = orderResponse.data.find((order) => order.id === invoice.order);
             
             if (order) {
-              console.log("Order found")
-              console.log(order)
+              // console.log("Order found")
+              // console.log(order)
               const reservedQuantity = parseInt(order.reserved_quantity, 10);
               const quantitySold = parseInt(order.quantity_sold, 10);
-              console.log("Order Details found")
-              console.log( reservedQuantity)
-              console.log( quantitySold)
+              // console.log("Order Details found")
+              // console.log( reservedQuantity)
+              // console.log( quantitySold)
               establishmentData.totals.undelivered += (reservedQuantity - (Number(quantitySold)));
             }
             
@@ -93,8 +96,8 @@ const OwnerpageTable = () => {
 
         // Use the organized data as needed
         setData(organizedData);
-        console.log("organizedData");
-        console.log(organizedData);
+        // console.log("organizedData");
+        // console.log(organizedData);
       } catch (error) {
         console.error('Error fetching data:', error);
       }

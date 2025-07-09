@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import "./Managmentlog.css";
+import config from '../../config';
+
+const API_BASE_URL = `${config.API_BASE_URL}`;
 
 const Managmentlog = ({ selectedEstablishmentId, selectedEstablishmentName }) => {
-  const apiHostname = process.env.REACT_APP_API_HOSTNAME;
 
   const [orderData, setOrderData] = useState([]);
   // eslint-disable-next-line
@@ -14,17 +16,17 @@ const Managmentlog = ({ selectedEstablishmentId, selectedEstablishmentName }) =>
     const fetchData = async () => {
       try {
         // Fetch establishment data by ID
-        const establishmentResponse = await axios.get(`${apiHostname}/establishment/${selectedEstablishmentId}`);
+        const establishmentResponse = await axios.get(`${API_BASE_URL}/establishment/${selectedEstablishmentId}`);
         setEstablishmentData(establishmentResponse.data);
 
         // Fetch order data by establishment
-        const orderResponse = await axios.get(`${apiHostname}/order/by_establishment/${selectedEstablishmentId}`);
+        const orderResponse = await axios.get(`${API_BASE_URL}/order/by_establishment/${selectedEstablishmentId}`);
         // Filter orders related to the selected establishment
         const filteredOrderData = orderResponse.data.filter(order => order.establishment === selectedEstablishmentId);
         setOrderData(filteredOrderData);
 
         // Fetch all invoices
-        const invoiceResponse = await axios.get(`${apiHostname}/invoice`);
+        const invoiceResponse = await axios.get(`${API_BASE_URL}/invoice`);
         // Filter invoices related to the selected establishment
         const filteredInvoiceData = invoiceResponse.data.filter(invoice => {
           const order = filteredOrderData.find(order => order.id === invoice.order);
@@ -37,7 +39,7 @@ const Managmentlog = ({ selectedEstablishmentId, selectedEstablishmentName }) =>
     };
 
     fetchData();
-  }, [apiHostname, selectedEstablishmentId]);
+  }, [API_BASE_URL, selectedEstablishmentId]);
 
  
 

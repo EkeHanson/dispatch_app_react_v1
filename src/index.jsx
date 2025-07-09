@@ -1,34 +1,34 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
+import App from './App.jsx';
+import reportWebVitals from './reportWebVitals.js';
 
 import {
     createBrowserRouter,
     RouterProvider,
   } from "react-router-dom";
 // import Landingpage from './Components/Landpage/Landingpage';
-import Lotery from './Components/Lottry/Lotery';
-import Ownerslogin from './Components/Ownerlogin/Ownerslogin';
-import Ownerslog from './Components/Overview/Ownerslog';
-import Adminslogin from './Components/Adminlogin/Adminslogin';
+import Lotery from './Components/Lottry/Lotery.jsx';
+import Ownerslogin from './Components/Ownerlogin/Ownerslogin.jsx';
+import Ownerslog from './Components/Overview/Ownerslog.jsx';
+import Adminslogin from './Components/Adminlogin/Adminslogin.jsx';
 import Ownerregister from './Components/Ownerregister/Ownerregister.jsx';
-import Rider from './Components/Riderpage/Rider';
-import Lottery from './Components/Lotery/Lottery';
-import Addorder from './Components/Addneworder/Addorder';
-import Adminpage2 from './Components/Adminpage2/Adminpage2';
+import Rider from './Components/Riderpage/Rider.jsx';
+import Lottery from './Components/Lotery/Lottery.jsx';
+import Addorder from './Components/Addneworder/Addorder.jsx';
+import Adminpage2 from './Components/Adminpage2/Adminpage2.jsx';
 import Adminpage2Edit from './Components/Adminpage2Edit/Adminpage2Edit.jsx';
-import Confirmpage from './Components/Confirmation/Confirmpage';
-import Establish from './Components/Establishment/Establish';
+import Confirmpage from './Components/Confirmation/Confirmpage.jsx';
+import Establish from './Components/Establishment/Establish.jsx';
 import Mainregistration from './Components/Mainregistration/Mainregistration.jsx';
 import Adminregister from './Components/Register/Adminregister.jsx'
 // import Managerpage from './Components/Managerpage/Managerpage';
 import ManagerLog from './Components/ManagerLog/ManagerLog.jsx';
-import Riderlogin from './Components/Riderlogin/Riderlogin';
-import Managmentlog from './Components/Managementlog/Managmentlog';
-import Managerpage from './Components/Managerpage/Managerpage';
-import Ridercompo from './Components/Ridercomponent/Ridercompo';
+import Riderlogin from './Components/Riderlogin/Riderlogin.jsx';
+import Managmentlog from './Components/Managementlog/Managmentlog.jsx';
+import Managerpage from './Components/Managerpage/Managerpage.jsx';
+import Ridercompo from './Components/Ridercomponent/Ridercompo.jsx';
 import Managerlinkmodal from './Components/Copymanagermodal/Managerlinkmodal.jsx';
 // import Confirmlink from './Components/Confirmastionlink/Confirmlink';
 // import Approved from './Components/Pending/Approved';

@@ -8,10 +8,12 @@ import avatar from "../Assets/avatar.png";
 import { Link } from "react-router-dom";
 import Examplem from "../Modal2/Modal2";
 import { jwtDecode } from 'jwt-decode';
+import config from '../../config';
+
+const API_BASE_URL = `${config.API_BASE_URL}`;
 
 
 const Ridercompo = ({ onpageSwitch }) => {
-  const apiHostname = process.env.REACT_APP_API_HOSTNAME;
   const [responseData, setResponseData] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [userType, setUserType] = useState('');
@@ -23,8 +25,8 @@ const Ridercompo = ({ onpageSwitch }) => {
   
     try {
       const [riderResponse, adminResponse] = await Promise.allSettled([
-        axios.get(`${apiHostname}/rider`),
-        axios.get(`${apiHostname}/register/admins/${decodedToken.user_id}`),
+        axios.get(`${API_BASE_URL}/rider`),
+        axios.get(`${API_BASE_URL}/register/admins/${decodedToken.user_id}`),
       ]);
   
       if (riderResponse.status === 'fulfilled' && riderResponse.value.status === 200) {

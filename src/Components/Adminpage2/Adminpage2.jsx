@@ -7,10 +7,13 @@ import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Managerlinkmodal from "../Copymanagermodal/Managerlinkmodal";
 import { Button } from "react-bootstrap";
+import config from '../../config';
+
+const API_BASE_URL = `${config.API_BASE_URL}`;
 
 const Adminpage2 = () => {
 
-  const apiHostname = process.env.REACT_APP_API_HOSTNAME;
+ 
   const [loading, setLoading] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [riderData, setRiderData] = useState([]);
@@ -44,7 +47,7 @@ const Adminpage2 = () => {
     const fetchData = async () => {
       try {
         console.log('trying to get riders')
-        const riderResponse = await axios.get(`${apiHostname}/rider/`);
+        const riderResponse = await axios.get(`${API_BASE_URL}/rider/`);
 
         if (riderResponse.status === 200) {
           setRiderData(riderResponse.data);
@@ -57,7 +60,7 @@ const Adminpage2 = () => {
     };
 
     fetchData();
-  }, [apiHostname]);
+  }, [API_BASE_URL]);
 
   const handleChange = (e) => {
     console.log('Getting and Setting riders')
@@ -91,7 +94,7 @@ const Adminpage2 = () => {
       formDataE.rider = selectedRider.id;
     }
 
-    const responseE = await axios.post(`${apiHostname}/establishment/create/`, formDataE);
+    const responseE = await axios.post(`${API_BASE_URL}/establishment/create/`, formDataE);
     console.log(responseE.data);
 
     if (responseE.status === 201) {
@@ -109,10 +112,10 @@ const Adminpage2 = () => {
       
         // Use the establishment ID from the response or any other relevant data for the order creation
          // Assuming responseE.data has the establishment ID
-        const responseO = await axios.post(`${apiHostname}/order/create/`, updatedFormDataO);
+        const responseO = await axios.post(`${API_BASE_URL}/order/create/`, updatedFormDataO);
   
         if (responseO.status === 201) {
-          console.log("Order data sent successfully!!");
+         // console.log("Order data sent successfully!!");
           toast.success("Order data sent successfully!!");
           setShowModal(true);
         } else {

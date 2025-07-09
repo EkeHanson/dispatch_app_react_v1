@@ -8,6 +8,11 @@ import { jwtDecode } from 'jwt-decode';
 import { Link } from 'react-router-dom';
 import OwnerpageTable from "../Tables/OwnerpageTable";
 
+import config from '../../config';
+
+const API_BASE_URL = `${config.API_BASE_URL}`;
+const WEB_PAGE__URL = `${config.WEB_PAGE__URL}`;
+
 const Ownerslog = () => {
   const [userType, setUserType] = useState("");
   const [user_id, setUser_id] = useState();
@@ -19,7 +24,6 @@ const Ownerslog = () => {
   const [numberOfItemsYesterday, setNumberOfItemsYesterday] = useState("");
   const [isLoading, setIsLoading] = useState(true);
 
-  const apiHostname = process.env.REACT_APP_API_HOSTNAME;
 
   useEffect(() => {
     const fetchData = async () => {
@@ -28,10 +32,10 @@ const Ownerslog = () => {
         const decodedToken = jwtDecode(authToken);
         setUser_id(decodedToken.user_id);
 
-        const orderResponse = await axios.get(`${apiHostname}/order/`);
-        const invoiceResponse = await axios.get(`${apiHostname}/invoice/`);
-        const establishmentResponse = await axios.get(`${apiHostname}/establishment/`);
-        const response2 = await axios.get(`${apiHostname}/register/owners/${decodedToken.user_id}`);
+        const orderResponse = await axios.get(`${API_BASE_URL}/order/`);
+        const invoiceResponse = await axios.get(`${API_BASE_URL}/invoice/`);
+        const establishmentResponse = await axios.get(`${API_BASE_URL}/establishment/`);
+        const response2 = await axios.get(`${API_BASE_URL}/register/owners/${decodedToken.user_id}`);
         
         if (orderResponse.status === 200) {
           setUserType(response2.data.user_type);

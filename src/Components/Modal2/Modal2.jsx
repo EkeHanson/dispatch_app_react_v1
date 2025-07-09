@@ -3,9 +3,12 @@ import { Modal, Card } from 'react-bootstrap';
 import { BsThreeDotsVertical } from 'react-icons/bs';
 import axios from 'axios';
 
+import config from '../../config';
+
+const API_BASE_URL = `${config.API_BASE_URL}`;
+const WEB_PAGE__URL = `${config.WEB_PAGE__URL}`;
+
 function Examplem({ riderId, first_name, last_name, phone }) {
-  const apiHostname = process.env.REACT_APP_API_HOSTNAME;
-  const apiHostname2 = process.env.REACT_APP_API_HOSTNAME2;
   const [showModal, setShowModal] = useState(false);
   const [copyFlashMessage, setCopyFlashMessage] = useState({ text: '', color: '' });
   const [deleteFlashMessage, setDeleteFlashMessage] = useState({ text: '', color: '' });
@@ -14,7 +17,7 @@ function Examplem({ riderId, first_name, last_name, phone }) {
     const riderData = { id: riderId, first_name: first_name, last_name: last_name, phone: phone };
     const queryParams = new URLSearchParams(riderData).toString();
     // const riderPageLink = `https://dispatch-app-react-v1-ekehanson.vercel.app/Login?${queryParams}`;
-    const riderPageLink = `${apiHostname2}/Login?${queryParams}`;
+    const riderPageLink = `${WEB_PAGE__URL}/Login?${queryParams}`;
     navigator.clipboard.writeText(riderPageLink)
       .then(() => {
         setCopyFlashMessage({ text: 'Enlace copiado correctamente', color: 'blue' });
@@ -34,7 +37,7 @@ function Examplem({ riderId, first_name, last_name, phone }) {
   const handleDeleteRider = async () => {
     if (riderId) {
       try {
-        const response = await axios.delete(`${apiHostname}/rider/${riderId}`);
+        const response = await axios.delete(`${API_BASE_URL}/rider/${riderId}`);
         if (response.status === 204) {
           setDeleteFlashMessage({ text: 'Repartidor eliminado correctamente.', color: 'red' });
           setTimeout(() => {
